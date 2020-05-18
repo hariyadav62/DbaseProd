@@ -1,0 +1,68 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Apply Leave</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding> 
+  <form (ngSubmit)="applyLeave()"> 
+    <ion-item>
+      <ion-label>Type of Leave</ion-label>
+      <ion-select placeholder="Select" [(ngModel)]="leaveType" name="leaveType" (ionChange)="LoadInputs()">
+        <ion-option value="Casual Leave">Casual Leave</ion-option>
+        <ion-option value="Sick Leave">Sick Leave</ion-option>
+        <ion-option value="Half Day">Half Day</ion-option>
+        <ion-option value="Permission">Permission</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item> 
+      <ion-label>From Date</ion-label>
+      <ion-datetime (ionChange)="calTotalDays()" displayFormat="MMM DD, YYYY" pickerFormat="MMM DD, YYYY" [(ngModel)]="startingDate" name="startingDate"></ion-datetime>
+    </ion-item>
+    <span *ngIf = "!permission && !halfday">
+      <ion-item>
+        <ion-label>To Date</ion-label>
+        <ion-datetime (ionChange)="calTotalDays()" displayFormat="MMM DD, YYYY" pickerFormat="MMM DD, YYYY" [(ngModel)]="endingDate" name="endingDate" [min]="startingDate"></ion-datetime>
+      </ion-item>
+    </span>
+    <span *ngIf = "permission">
+      <ion-item>
+        <ion-label>From Time</ion-label>
+        <ion-datetime (ionChange)="calTotalhrs()" displayFormat="HH:mm" pickerFormat="HH mm" [(ngModel)]="permissionStartTime" name="permissionStartTime"></ion-datetime>
+      </ion-item>
+      <ion-item>
+        <ion-label>To Time</ion-label>
+        <ion-datetime (ionChange)="calTotalhrs()" displayFormat="HH:mm" pickerFormat="HH mm" [(ngModel)]="permissionEndTime" name="permissionEndTime" [min]="permissionStartTime"></ion-datetime>
+      </ion-item>
+    </span>
+    <ion-list radio-group [(ngModel)]="session" name="session" *ngIf = "halfday">
+      <ion-item>
+        <ion-label>AN</ion-label>
+        <ion-radio value="AN"></ion-radio>
+      </ion-item>
+      <ion-item>
+        <ion-label>FN</ion-label>
+        <ion-radio value="FN"></ion-radio>
+      </ion-item>
+    </ion-list>
+    <!-- <ion-item *ngIf = "halfday"> 
+      <ion-label>Select Session</ion-label>
+      <ion-select placeholder="Select" [(ngModel)]="ANFN" name="ANFN">
+        <ion-option value="AN">AN</ion-option>
+        <ion-option value="FN">FN</ion-option>
+      </ion-select>
+    </ion-item> -->
+    <ion-item *ngIf = "this.days">
+      <ion-label>Total Days</ion-label>
+      <ion-input type="text" [(ngModel)]="totalDays" name="totalDays" disabled></ion-input>
+    </ion-item>
+    <ion-item *ngIf = "this.totalhrs">
+      <ion-label>Total Minutes</ion-label>
+      <ion-input type="text" [(ngModel)]="hrs" name="hrs" disabled></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-textarea placeholder="Reason for Leave" [(ngModel)]="leaveReason" name="leaveReason"></ion-textarea>
+    </ion-item>
+    <button ion-button type="submit" block>Submit</button>
+  </form>
+</ion-content>

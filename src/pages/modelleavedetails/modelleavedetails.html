@@ -1,0 +1,49 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Leave Details</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <ion-list>
+        <ion-item>
+            Employee Code
+            <span item-end>{{EmpCode}}</span>
+          </ion-item>
+        <ion-item>
+            Employee Name
+          <span item-end>{{EmpName}}
+          </span>
+        </ion-item>
+        <ion-item>
+          Leave Type
+        <span item-end>{{LType}}
+        </span>
+      </ion-item>
+        <ion-item>
+            Leave From
+          <span item-end>{{LFrom}}
+          </span>
+        </ion-item>
+        <ion-item>
+            Leave To
+          <span item-end>{{Lto}}
+          </span>
+        </ion-item>
+        <ion-item>
+          Remarks
+          <span item-end>{{Remarks}}</span>
+        </ion-item>
+        <ion-item>
+          L_status
+          <span item-end>{{L_status}}</span>
+        </ion-item>
+      </ion-list>
+
+      <button *ngIf = "currentuser.UserType == 'MANAGER' && L_status == 'Pending' " ion-button color="secondary" outline (click)="respondToLeave('Accepted by Manager')">Accept</button>
+      <button *ngIf = "currentuser.UserType == 'MANAGER' && L_status == 'Accepted by Manager' " ion-button color="secondary" outline> Approved</button>
+      <button *ngIf = "currentuser.UserType == 'TEAMLEADER' && L_status == 'Pending' " ion-button color="secondary" outline (click)="respondToLeave('Accepted by Team Leader')">Accept</button>
+      <button *ngIf = "currentuser.UserType == 'TEAMLEADER' && L_status == 'Accepted by Team Leader' " ion-button color="secondary" outline> Approved</button>
+      <button *ngIf = "currentuser.UserType == 'ADMIN'" ion-button color="secondary" outline (click)="respondToLeave('Accepted')">Grant</button>
+      <button ion-button color="danger" outline (click)="respondToLeave('Rejected')" style="float:right">Reject</button> 
+</ion-content>

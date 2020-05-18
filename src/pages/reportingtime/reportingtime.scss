@@ -1,0 +1,36 @@
+page-reportingtime {
+    .approve-border{
+        border-left: 4px solid #4CAF50;
+    }
+    .rejected-border{
+        border-left: 4px solid red;
+    }
+    .pending-border{
+        border-left: 4px solid #ffffff;
+    }
+    .recheckin-border{
+        border-left: 4px solid #ffb300;
+    }
+    .approve{
+        background: #efffdb
+    }
+    .rejected{
+        background: #ffdbdb
+    }
+    .recheckin{
+        background: #fffbd7
+    }
+    .pending{
+        background: #ffffff
+    }
+    .no-data{
+        background-color: #fce8e6;
+        border-radius: 50px;
+        padding: 10px;
+        text-align: center;
+    }
+    .roundiconbtns{
+        border-radius: 15px;
+    }
+
+}

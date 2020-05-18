@@ -1,0 +1,107 @@
+page-credits {
+    
+    .no-data{
+        background-color: #fce8e6;
+        border-radius: 50px;
+        padding: 10px;
+        text-align: center; 
+    }
+    .credit{
+        color: #11b916
+    }
+    .debit{
+        color: #b90000
+    }
+    table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+      }
+      th, td {
+        padding: 5px;
+        text-align: left;    
+      }
+    .green{
+        color: #11b916
+    }
+
+    // vcard
+    .transtype{
+        position: absolute;
+        top: -22px;
+        left: 0;
+        z-index: 5;
+        color: white;
+        padding: 5px 10px;
+        margin-left: 10px;
+        //border-radius: 8px;
+        box-shadow: 0 0 4px rgba(18, 18, 18, 0.58);
+    }
+    .transtype.Voucher{
+        background: #e13838;
+    }
+    .transtype.Credit{
+        background: #00aa38;
+    }
+    .transtype.Transfer{
+        background: #fd8066;
+    }
+    .transtype.Salary{
+        background: #0b6b2b;
+    }
+    .transtype.Advance{
+        background: #38abe1;
+    }
+    .transtype.Advance.Repayment{
+        background: #38abe1;
+    }
+    .amountVoucher,.amountAdvance.Repayment,.amountTransfer{
+        color:#e13838;
+        &:before{
+            content: '-';
+        }
+    }
+    .amountCredit,.amountAdvance{
+        color:#00aa38;
+        &:before{
+            content: '+';
+        }
+    }
+    ion-card.open{
+        border-radius: 5px;
+        border: 1px solid rgb(255, 143, 108);
+        box-shadow: 0 -2px 7px 0px rgb(255, 143, 108)!important;
+        transition: all 0.2s ease-in; 
+    }
+    .vcardholder{
+        position: relative;
+    }
+    .tcard{
+        position: relative;
+        margin-bottom: 20px;  
+        ion-item{
+            background: rgba(18, 18, 18, 0);  
+            padding-left: 0; 
+        }    
+    }
+    .tcard .moredetails,.tcard .vimg,.verifybtn{
+        width: 0;
+        transition: all 0.2s ease-in; 
+    }
+    .tcard.open .moredetails,.tcard.open .vimg,.tcard.open .verifybtn{
+        width: 100%;
+    }
+
+    .outstand.item-md.item-block .item-inner{
+        border-bottom: none;
+    }
+    .outstand{
+        p[item-end]{
+            background: #f29860;
+            color: white;
+            padding: 5px;
+            border-radius: 5px;
+            box-shadow: 0px 1px 3px rgba(0,0,0,0.3);
+        }
+    }
+
+}

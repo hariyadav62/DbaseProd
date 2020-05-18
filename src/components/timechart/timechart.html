@@ -1,0 +1,41 @@
+<div class="chartcard" [ngClass]="{'active': activeCard}">
+  <div class="charts" (click)="!activeCard? showReports() : hideReports()">
+    <div style="padding-bottom: 6px;">
+      {{empId}} - {{empName}}
+      <span style="float:right">{{checkinpercentage}}%</span> 
+    </div>
+    <div class="customchart">
+      <div class="mainbar"></div>
+      <div class="totcheckinbar" [style.width.%]="totalCheckinPer"></div>
+      <div class="intimebar" [style.width.%]="intimeCheckinPer"></div> 
+      <div class="notimebar" [style.width.%]="notimeCheckinPer"></div> 
+      <!-- <span class="scale">{{maxCheckins}}</span> -->
+      <span class="scale1">Total - {{totcheckins}}</span>
+      <span class="scale2">Intime - {{intimeins}}</span>
+      <span class="scale3">Notime - {{notimeins}}</span> 
+    </div> 
+    <!-- <div style="display: block;">
+      <canvas #Canvas height="60px"></canvas>
+    </div> -->
+  </div>
+  <div class="monthreports" *ngIf="monthReports">
+    <ion-item>
+      <ion-label>Month</ion-label>
+      <ion-select placeholder="Select" [(ngModel)]="Month" name="Month" (ionChange)="LoadTimingMonthData()">
+        <ion-option *ngFor="let month of timingMonths" value="{{month.DATE}}">{{month.DATE}}</ion-option>
+      </ion-select>
+    </ion-item> 
+    <table style="width: 100%">
+      <tr>
+        <th text-center>Date</th> 
+        <th text-center>InTime</th>
+        <th text-center>OutTime</th>
+      </tr>
+      <tr *ngFor = "let item of timingMonthData">
+        <td text-center><span *ngIf = "item.DATE" >{{item.DATE}}</span></td>
+        <td text-center ><span *ngIf = "item.INTIME" class="credit">{{item.INTIME}}</span></td>
+        <td text-center><span *ngIf = "item.OUTTIME" class="debit">{{item.OUTTIME}}</span></td>
+      </tr>
+    </table>
+  </div>
+</div>

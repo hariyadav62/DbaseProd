@@ -1,0 +1,93 @@
+// http://ionicframework.com/docs/theming/
+
+
+// App Global Sass
+// --------------------------------------------------
+// Put style rules here that you want to apply globally. These
+// styles are for the entire app and not just one component.
+// Additionally, this file can be also used as an entry point
+// to import other Sass files to be included in the output CSS.
+//
+// Shared Sass variables, which can be used to adjust Ionic's
+// default Sass variables, belong in "theme/variables.scss".
+//
+// To declare rules for a specific mode, create a child rule
+// for the .md, .ios, or .wp mode classes. The mode class is
+// automatically applied to the <body> element in the app.
+.toolbar-background{
+    background: linear-gradient(220deg, #ffd86f, #fc6262);
+    background-color: white;
+}
+.toolbar-title{ 
+    color: white;
+}
+.peach-gradient {
+    background: linear-gradient(40deg,#ffd86f,#fc6262) !important;
+}
+.searchhead{
+    font-size: 1.8rem;
+}
+.alert-title{
+    color: rgb(240, 30, 30);
+} 
+.red{
+    color: rgb(240, 30, 30)!important;
+}
+.green{
+    color: rgb(28, 199, 71)!important;
+}
+.dropdown-popover .popover-content{
+    width: 48%;
+    border-radius: 8px;
+}
+.announcement-popover .popover-content{
+    //box-shadow: none;
+    overflow: visible;
+    background: rgba(0,0,0,0);
+}
+// ion-content.content{ 
+//     background-color: lightyellow;
+// }
+
+.select-popover{
+    .item-md:nth-child(1){
+        .label.label-md {
+            &:before{
+                content: url(../assets/imgs/cash.svg);
+                vertical-align: middle;
+            }
+        }
+    }
+    .item-md:nth-child(2){
+        .label.label-md {
+            &:before{
+                content: url(../assets/imgs/phonepe.svg);
+                vertical-align: middle;
+            }
+        }
+    }
+    .item-md:nth-child(3){
+        .label.label-md {
+            &:before{
+                content: url(../assets/imgs/paytm.svg);
+                vertical-align: middle;
+            }
+        }
+    }
+    .item-md:nth-child(4){
+        .label.label-md {
+            &:before{
+                content: url(../assets/imgs/gpay.svg);
+                vertical-align: middle;
+            }
+        }
+    }
+    .item-md:nth-child(5){
+        .label.label-md {
+            &:before{
+                content: url(../assets/imgs/Banktransfer.svg);
+                vertical-align: middle;
+            }
+        }
+    }
+}

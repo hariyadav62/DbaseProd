@@ -1,0 +1,17 @@
+dropdown {
+    ion-list{
+        margin-bottom: 0 !important;
+        padding-left: 8px;  
+        button{
+            padding-left: 0!important;
+        }
+        .dropdwnicon{
+            width: 12%;
+            vertical-align: bottom;
+            margin-right: 5px;
+        }
+        .label-md{
+            font-size: 1.5rem;
+        }
+    }
+}

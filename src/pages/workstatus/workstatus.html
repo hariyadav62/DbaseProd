@@ -1,0 +1,72 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Work Report</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <div *ngIf="reportForm">
+    <form (ngSubmit)="reportWork()">
+      <ion-item>
+        <ion-select placeholder="Select Client-1" [(ngModel)]="client1" name="client1">
+          <ion-option *ngFor="let client of restCall.clientList"
+            value="{{client.Client_Name}}-{{client.Client_Project}}-{{client.Client_Type}}">
+            {{client.Client_Name}}({{client.Client_Project}})</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-select placeholder="Service Type" [(ngModel)]="serviceType" name="serviceType">
+          <ion-option value="In-House">In-House</ion-option>
+          <ion-option value="On-Site">On-Site</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-textarea type="text" (input)="adjustTextarea($event);" placeholder="Enter work report"
+          [(ngModel)]="workdescription" name="workdescription"></ion-textarea>
+      </ion-item>
+
+      <button ion-button type="submit" block>Submit</button>
+    </form>
+  </div>
+  <div class="filters">
+    <ion-item class="employeeSelect" *ngIf="restCall.currentuser.UserType=='ADMIN'">
+      <ion-select placeholder="Employee" [(ngModel)]="empcode" name="empcode" (ionChange)="SearchByCode()">
+        <ion-option value="All">All Employees</ion-option>
+        <ion-option *ngFor="let employee of restCall.employeeList" value="{{employee.EmpCode}}">{{employee.EmpCode}}
+          {{employee.EmpName}}</ion-option>
+      </ion-select>
+    </ion-item>
+    <div class="dateFilter" *ngIf="restCall.loadCheckinYearMonth">
+      <span *ngIf="restCall.loadCheckinYearMonth.length != 0">
+      <ion-item class="search_date"> 
+        <ion-datetime (ionChange)="SearchByYearMonth()" displayFormat="MMM YYYY" pickerFormat="MMM YYYY"
+          [(ngModel)]="selectedMonth" name="selectedMonth" min="{{restCall.mindate}}" max="{{restCall.maxdate}}" placeholder="Search by month"></ion-datetime> 
+      </ion-item>
+      <ion-item class="search_day"> 
+        <ion-select class="selDay" (ionChange)="SearchByYearMonthDay()" placeholder="Day" [(ngModel)]="selDay" name="selDay" style="padding: 5px 3px;">
+          <ion-option *ngFor="let day of restCall.loadCheckinDates" value="{{day.DAY}}">{{day.DAY}}</ion-option>
+        </ion-select>
+      </ion-item>
+    </span>
+    </div>
+  </div>
+  <h2 class="searchhead">{{searchHead}} Work Reports</h2> 
+  <div *ngFor="let item of restCall.workReports; let i = index">
+    <span *ngIf="i != 0">
+      <h5 *ngIf="item.ReportingDate.substring(0, 10) != restCall.workReports[i-1].ReportingDate.substring(0, 10)">
+        ReportingDate: {{item.ReportingDate.substring(0, 10)}}</h5>
+    </span>
+    <span *ngIf="i == 0">
+      <h5>ReportingDate: {{item.ReportingDate.substring(0, 10)}}</h5>
+    </span>
+    <ion-card style="border-left: 4px solid red;" [ngClass]="{'approved': item.WStatus == 'Approved', 'rejected': item.WStatus == 'Rejected'}">
+      <ion-card-content>
+        <h2 *ngIf="restCall.currentuser.UserType=='ADMIN'">{{item.StaffId}} - {{item.EmpName}}</h2>
+        <h2>Client_Project: {{item.Client_Project}}</h2>
+        <h2>Project_Name: {{item.Project_Name}}</h2>
+        <h2 class="service_type" [ngClass]="{'inhouse': item.Service_Type == 'In-House','onsite': item.Service_Type == 'On-Site'}">{{item.Service_Type}}</h2>
+        <h2>WDescription: {{item.WDescription}}</h2>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

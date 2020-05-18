@@ -1,0 +1,65 @@
+timechart {
+    .monthreports{
+        padding-top: 16px;
+    }
+    .chartcard{
+        box-shadow: 0px 0px 3px 0 rgba(182, 182, 182, 0.4), 0px 2px 5px 0 rgba(0, 0, 0, 0.12);
+        padding: 5px;
+        border-radius: 6px;
+        padding-bottom: 25px;
+    }
+    .chartcard.active{
+        border: 1px solid #f29860;
+        box-shadow: 0 0 8px #f2986078;
+    }
+    .customchart{
+        position: relative;
+        width: 100%;
+        margin-bottom:25px;
+        .mainbar{
+            top: 0;
+            left: 0;
+            position: absolute;
+            width: 100%;
+            border: 1px solid #555;
+            height: 25px;
+        }
+        .totcheckinbar{
+            top: 0;
+            left: 0;
+            position: absolute; 
+            background: rgba(68, 160, 255, 0.62);
+            height: 25px;
+        }
+        .intimebar{
+            top: 0;
+            left: 0;
+            position: absolute; 
+            background: rgb(255, 151, 189); 
+            height: 25px;
+        }
+        .notimebar{
+            top: 0;
+            left: 0;
+            position: absolute; 
+            background: rgb(255, 52, 52); 
+            height: 6px;
+        }
+        .scale,.scale1,.scale2,.scale3{
+            position: relative;
+            text-align: center;
+            display: inline-block;
+            top: 30px;
+            width: 30%;
+        }
+        .scale1{
+            color: #36a2eb;
+        }
+        .scale2{
+            color: #ff6384;
+        }
+        .scale3{
+            color: red;
+        }
+    }
+}

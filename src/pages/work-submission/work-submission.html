@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Employee Work Submission</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <div *ngFor = "let item of restCall.submittedWorks; let i = index">
+        <span *ngIf="item.length != 0">
+          <div *ngFor = "let wrk of item; let x = index">
+            <ion-item *ngIf="x == 0" text-center> 
+              <div item-start>
+                <h5>{{wrk.StaffId}} 
+                  <span *ngIf="restCall.employeeList">
+                    <span *ngFor="let name of restCall.employeeList">
+                      <span *ngIf="wrk.StaffId == name.EmpCode">{{name.EmpName}}</span>
+                    </span>
+                  </span>
+                </h5> 
+              </div>
+              <div item-end>
+                <h5 *ngIf="item.length != 0">{{item[item.length-1].ReportingDate.substring(11, 19)}}</h5>
+              </div>
+              <!-- <div item-end>
+                <button ion-button outline color="secondary" (click)="ApproveWorkStatus(item)">Approve</button>
+              </div> -->
+            </ion-item>
+            <ion-card [ngClass]="{'approved': wrk.WStatus == 'Approved', 'rejected': wrk.WStatus == 'Rejected'}">
+              <ion-card-content>
+                <h2>Client: {{wrk.Client_Project}}</h2> 
+                <h2>Project: {{wrk.Project_Name}}</h2> 
+                <h2 class="service_type" [ngClass]="{'inhouse': wrk.Service_Type == 'In-House','onsite': wrk.Service_Type == 'On-Site'}">{{wrk.Service_Type}}</h2>
+                <h2>Description: {{wrk.WDescription}}</h2> 
+                <h2>Work Date: {{wrk.WDate.substring(0,10)}}</h2> 
+                <button ion-button icon-only color="secondary" class="Wrkbtn approve" (click)="ApproveWorkStatus(wrk)" *ngIf="wrk.WStatus != 'Approved'"><ion-icon name="checkmark"></ion-icon></button>
+                <button ion-button icon-only color="danger" (click)="RejectWorkStatus(wrk)" class="Wrkbtn reject" *ngIf="wrk.WStatus != 'Rejected'"><ion-icon name="close"></ion-icon></button>
+              </ion-card-content>
+            </ion-card>
+          </div>
+        </span>
+    </div>
+    <div *ngIf = "restCall.submittedWorks">
+      <p *ngIf = "restCall.submittedWorks.length == 0" class="no-data"> No Works to Show </p>
+    </div>
+</ion-content>

@@ -1,0 +1,56 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Transfer Money</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-card>
+    <ion-item> 
+      <p item-start>Cash In Hand</p> 
+      <p item-end class="green" *ngFor="let cash of restCall.cashinhand" [ngClass]="{'green':cash.CASHINHAND > 0,'red':cash.CASHINHAND < 0}">{{cash.CASHINHAND}}</p> 
+    </ion-item>
+  </ion-card> 
+  <form (ngSubmit)="TransferAmount()">  
+    <ion-item>
+      <ion-select placeholder="Transfer To*" [(ngModel)]="RecieverEmpId" name="RecieverEmpId" required (ionChange)="LoadEmpbyStatus()"> 
+        <span *ngFor="let employee of restCall.empListWithMaxTransferAmount, let i = index">
+          <ion-option *ngIf="employee.EMPID != restCall.currentuser.EmpCode" value="{{employee.EMPID}}_{{employee.MaxTransferAmount}}">{{employee.EMPID}} {{employee.EmpName}}</ion-option>
+        </span>
+      </ion-select>
+    </ion-item>
+    <p class="info" text-center *ngIf="RecieverEmpId"><ion-icon name="information-circle"></ion-icon> Maximum {{RecieverEmpId.substring(5)}} can be transferred</p>
+    <ion-item>
+      <ion-label>Amount*</ion-label>
+      <ion-input type="tel" [(ngModel)]="amount" name="amount" required (ionBlur)="AmountValidation()"></ion-input>
+    </ion-item>
+    <p class="warning" text-center *ngIf="amountValidation"><ion-icon name="alert"></ion-icon> Amount is greater than cash in hand</p>
+
+    <ion-item *ngIf="restCall.currentuser.UserType=='ADMIN' || restCall.currentuser.UserType=='ACCOUNTANT'"> 
+      <ion-label>Salary</ion-label>
+      <ion-checkbox color="primary" name="isSalary" [(ngModel)]="isSalary" checked="false"></ion-checkbox>
+    </ion-item>
+    <ion-item *ngIf="restCall.currentuser.UserType=='ADMIN' || restCall.currentuser.UserType=='ACCOUNTANT'"> 
+      <ion-label>Advance</ion-label>
+      <ion-checkbox color="primary" name="isAdvance" [(ngModel)]="isAdvance" checked="false"></ion-checkbox>
+    </ion-item>
+    <ion-item *ngIf="restCall.currentuser.UserType !='ADMIN' && enableRepayment"> 
+      <ion-label>Advance Repayment</ion-label>
+      <ion-checkbox color="primary" name="isAdvanceRepay" [(ngModel)]="isAdvanceRepay" checked="false"></ion-checkbox>
+    </ion-item>
+    <ion-item>
+      <ion-label>Transaction Mode *</ion-label>
+      <ion-select placeholder="Select" [(ngModel)]="TransferType" name="TransferType" required class="transfer" interface="popover">
+        <ion-option value="By Cash"><img src="../../assets/imgs/cash.svg" alt=""> By Cash</ion-option>
+        <ion-option value="PhonePay"><img src="../../assets/imgs/phonepe.png" alt=""> PhonePay</ion-option>
+        <ion-option value="Paytm"><img src="../../assets/imgs/paytm.svg" alt=""> Paytm</ion-option>
+        <ion-option value="Google Pay"><img src="../../assets/imgs/gpay.png" alt=""> Google Pay</ion-option>
+        <ion-option value="Bank Transfer"><img src="../../assets/imgs/cash.svg" alt=""> Bank Transfer</ion-option>
+      </ion-select>
+    </ion-item>
+    <!-- <ion-item>
+      <ion-textarea placeholder="Remarks*" [(ngModel)]="remarks" name="remarks" required></ion-textarea>
+    </ion-item> -->
+    <button ion-button type="submit" block>Send</button>
+  </form>
+</ion-content>

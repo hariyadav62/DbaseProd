@@ -1,0 +1,62 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Total Team Reports</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <div class="filters">
+    <ion-item class="employeeSelect">
+      <ion-select placeholder="Employee" [(ngModel)]="empcode" name="empcode" (ionChange)="SearchByCode()">
+        <ion-option value="All">All Employees</ion-option>
+        <span *ngFor="let employee of restCall.employeeList">
+          <ion-option *ngIf="employee.RequestTo == restCall.currentuser.Designation" value="{{employee.EmpCode}}">{{employee.EmpCode}}
+            {{employee.EmpName}}</ion-option>
+        </span>
+      </ion-select>
+    </ion-item>
+    <span *ngIf="restCall.mindate">
+      <div class="dateFilter" *ngIf="restCall.loadCheckinYearMonth">
+        <span *ngIf="restCall.loadCheckinYearMonth.length != 0">
+          <ion-item class="search_date"> 
+            <ion-datetime (ionChange)="SearchByYearMonth()" displayFormat="MMM YYYY" pickerFormat="MMM YYYY"
+              [(ngModel)]="selectedMonth" name="selectedMonth" min="{{restCall.mindate}}" max="{{restCall.maxdate}}" placeholder="Search by month"></ion-datetime> 
+          </ion-item>
+          <ion-item class="search_day">
+            <ion-select class="selDay" (ionChange)="SearchByYearMonthDay()" placeholder="Day" [(ngModel)]="selDay" name="selDay" style="padding: 5px 3px;">
+              <ion-option *ngFor="let day of restCall.loadCheckinDates" value="{{day.DAY}}">{{day.DAY}}</ion-option>
+            </ion-select>
+          </ion-item>
+        </span>
+      </div>
+    </span>
+  </div>
+
+
+    <h2>{{searchHead}} Work Reports</h2>
+    
+  <div *ngFor = "let item of restCall.submittedWorks; let i = index">
+    <span *ngIf="item.length != 0">
+      <div *ngFor = "let wrk of item; let x = index">
+        <ion-item *ngIf="x == 0" text-center> 
+          <div item-start>
+            <h5 class="date" *ngIf="wrk.WDate">{{wrk.WDate.substring(0, 10)}}</h5> 
+          </div>
+        </ion-item>
+        <ion-card [ngClass]="{'approved': wrk.WStatus == 'Approved', 'rejected': wrk.WStatus == 'Rejected'}">
+          <ion-card-content>
+            <h2>{{wrk.StaffId}}</h2>
+            <h2>{{wrk.EmpName}}</h2>
+            <h2>Client_Project: {{wrk.Client_Project}}</h2> 
+            <h2>Project_Name: {{wrk.Project_Name}}</h2> 
+            <h2 class="service_type" [ngClass]="{'inhouse': wrk.Service_Type == 'In-House','onsite': wrk.Service_Type == 'On-Site'}">{{wrk.Service_Type}}</h2>
+            <h2>WDescription: {{wrk.WDescription}}</h2> 
+          </ion-card-content>
+        </ion-card>
+      </div>
+    </span>
+  </div>
+  <div *ngIf = "restCall.submittedWorks">
+    <p *ngIf = "restCall.submittedWorks.length == 0" class="no-data"> No Works to Show </p>
+  </div>
+</ion-content>

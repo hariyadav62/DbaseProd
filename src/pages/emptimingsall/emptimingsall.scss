@@ -1,0 +1,20 @@
+page-emptimingsall {
+    .intime-border{
+        border-left: 4px solid #4CAF50;
+    }
+    .late-border{
+        border-left: 4px solid red;
+    }
+    .intime{
+        background: #efffdb
+    }
+    .late{
+        background: #ffdbdb
+    }
+    .no-data{
+        background-color: #fce8e6;
+        border-radius: 50px;
+        padding: 10px;
+        text-align: center;
+    }
+}

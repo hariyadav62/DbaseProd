@@ -1,0 +1,52 @@
+<ion-header>
+    <ion-navbar>
+      <ion-title>Voucher Details</ion-title>
+      <ion-buttons end>
+        <button ion-button (click)="closeModal()">
+          Close
+        </button>
+      </ion-buttons>
+    </ion-navbar>
+  </ion-header>
+<ion-content padding>
+    <ion-list>
+      <ion-item>
+        Amount
+        <span item-end>{{Amount}}</span>
+      </ion-item>
+      <ion-item>
+        Date
+        <span *ngIf="Date" item-end>{{Date.substring(0, 10)}}</span>
+      </ion-item>
+      <ion-item>
+          Description
+        <span item-end>{{VDescription}}
+        </span>
+      </ion-item>
+      <img [src]="fname" alt="" *ngIf="fname" style="padding-top: 10px">
+    </ion-list>
+
+
+
+    <ion-card *ngIf="updateForm">
+      <ion-card-content>
+        <ion-item >
+          <ion-label>Enter Updated Amount</ion-label>
+          <ion-input type="tel" [(ngModel)]="updateAmount" name="updateAmount"></ion-input>
+        </ion-item> 
+        <button ion-button clear color="primary" (click)="UpdateVoucher()">
+          Update
+        </button>    
+      </ion-card-content>
+    </ion-card>
+
+    <button *ngIf="restCall.currentuser.UserType == 'ACCOUNTANT' && TransType =='VOUCHER' && !updateForm" ion-button clear color="primary" (click)="UpdateForm()">
+      Update
+    </button>
+
+
+
+
+
+
+</ion-content>

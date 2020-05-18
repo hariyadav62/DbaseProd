@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Previous Requests</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>  
+    <div *ngIf = "restCall.currentuser.UserType == 'TEAMLEADER' || restCall.currentuser.UserType == 'MANAGER'">
+    <ion-card class="card-details" style="border-left: 4px solid red;" *ngFor = "let leave of restCall.myTeamLeaves"> 
+        <ion-item> 
+          <h2 class="card-point">{{leave.EmpName}}</h2>
+        </ion-item>
+          <ion-item>
+          <h2 class="card-point">{{leave.LType}}</h2>
+
+          <p *ngIf = "leave.LFrom"> {{leave.LFrom.substring(0, 10)}}</p> 
+          
+          <div item-end text-center>  
+              <button ion-button outline class="card-point" (click)="UpdateStatus(leave)">{{leave.L_status}}</button>
+              <p *ngIf = "leave.Lto"> {{leave.Lto.substring(0, 10)}}</p>
+          </div>
+        </ion-item>
+      </ion-card>
+      </div>
+      <div *ngIf = "restCall.currentuser.UserType == 'ADMIN'">
+    <ion-card class="card-details" style="border-left: 4px solid red;" *ngFor = "let leave of restCall.respondedLeaves"> 
+        <ion-item> 
+          <h2 class="card-point">{{leave.EmpName}}</h2>
+        </ion-item>
+          <ion-item>
+          <h2 class="card-point">{{leave.LType}}</h2>
+
+          <p *ngIf = "leave.LFrom"> {{leave.LFrom.substring(0, 10)}}</p> 
+          
+          <div item-end text-center>  
+              <button ion-button outline class="card-point" (click)="UpdateStatus(leave)">{{leave.L_status}}</button>
+              <p *ngIf = "leave.Lto"> {{leave.Lto.substring(0, 10)}}</p>
+          </div>
+        </ion-item>
+      </ion-card>
+      </div>
+</ion-content>

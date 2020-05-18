@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Employee List</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-content>
+    <ion-item>
+      <ion-label>Status</ion-label>
+      <ion-select placeholder="Select" (ionChange)="LoadEmpbyStatus()" [(ngModel)]="EmpStatus" name="EmpStatus">
+        <ion-option value="Y">Active</ion-option>
+        <ion-option value="N">Inactive</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-list>
+      <ion-item *ngFor="let emp of restCall.employeeList" (click)="openModal(emp)">
+        <ion-icon name="person" item-start></ion-icon>
+          {{emp.EmpName}}
+        <p item-end>{{emp.EmpCode}}</p>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-content>

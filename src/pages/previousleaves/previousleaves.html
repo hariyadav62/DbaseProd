@@ -1,0 +1,69 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Previous Leaves</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <!-- <ion-item>
+    <ion-label>Search by month</ion-label>
+    <ion-datetime (ionChange)="LeavesByMonth()" displayFormat="MMM DD, YYYY" pickerFormat="MMM DD, YYYY" [(ngModel)]="selectedMonth" name="selectedMonth"></ion-datetime>
+  </ion-item> -->
+  <div class="filters">
+    <ion-item class="employeeSelect" *ngIf="restCall.currentuser.UserType=='ADMIN'">
+      <ion-select placeholder="Employee" [(ngModel)]="empcode" name="empcode" (ionChange)="SearchByCode()">
+        <ion-option value="All">All Employees</ion-option>
+        <ion-option *ngFor="let employee of restCall.employeeList" value="{{employee.EmpCode}}">{{employee.EmpCode}}
+          {{employee.EmpName}}</ion-option>
+      </ion-select> 
+    </ion-item>
+    <!-- <div class="dateFilter" *ngIf="restCall.loadCheckinYearMonth">
+      <span *ngIf="restCall.loadCheckinYearMonth.length != 0">
+      <ion-item class="search_date"> 
+        <ion-datetime (ionChange)="SearchByYearMonth()" displayFormat="MMM YYYY" pickerFormat="MMM YYYY"
+          [(ngModel)]="selectedMonth" name="selectedMonth" min="{{restCall.mindate}}" max="{{restCall.maxdate}}" placeholder="Search by month"></ion-datetime> 
+      </ion-item>
+      <ion-item class="search_day"> 
+        <ion-select (ionChange)="SearchByYearMonthDay()" class="selDay" placeholder="Day" [(ngModel)]="selDay" name="selDay" style="padding: 5px 3px;">
+          <ion-option *ngFor="let day of restCall.loadCheckinDates" value="{{day.DAY}}">{{day.DAY}}</ion-option>
+        </ion-select>
+      </ion-item>
+    </span>
+    </div> -->
+    <div class="dateFilter" *ngIf="restCall.datesLeave">
+      <span *ngIf="restCall.datesLeave.length != 0">
+      <ion-item class="search_date"> 
+        <ion-select (ionChange)="SearchByYear()" placeholder="Year" [(ngModel)]="selectedYear" name="selectedYear" style="padding: 5px 3px;">
+          <ion-option *ngFor="let year of years" value="{{year.DATES}}">{{year.DATES}}</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item class="search_date"> 
+        <ion-select (ionChange)="SearchByMonth()" placeholder="Month" [(ngModel)]="selectedMonth" name="selectedMonth" style="padding: 5px 3px;">
+          <ion-option *ngFor="let month of months" value="{{month.DATES}}">{{month.DATES}}</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item class="search_day">
+        <ion-select (ionChange)="SearchByDay()" placeholder="Day" [(ngModel)]="selDay" name="selDay" style="padding: 5px 3px;">
+          <ion-option *ngFor="let day of days" value="{{day.DATES}}">{{day.DATES}}</ion-option>
+        </ion-select>
+      </ion-item>
+    </span>
+    </div>
+  </div>
+  <h2 class="searchhead">{{searchHead}} Leaves</h2>
+  <ion-card class="card-details" [ngClass]="{'approved': item.L_status == 'Accepted', 'rejected': item.L_status.substring(0,8) == 'Rejected'}" *ngFor = "let item of restCall.leaves">
+    <ion-item>
+      <h2 class="card-point">{{item.LType}}</h2>
+
+                <p *ngIf = "item.LFrom">{{item.LFrom.substring(0, 10)}}</p> 
+                <div item-end text-right>  
+                <h2 class="itemcategory" *ngIf="item.L_status.substring(0,8) == 'Rejected'" (click)="respondToLeave(item,'Reapplied')">{{item.L_status}}</h2> 
+                <h2 class="itemcategory" *ngIf="item.L_status.substring(0,8) == 'Accepted' || item.L_status == 'Pending'">{{item.L_status}}</h2> 
+                <h2 class="itemcategory" *ngIf="item.L_status == 'Reapplied'">Pending</h2> 
+                <p *ngIf="item.LType == 'Casual Leave' || item.LType == 'Sick Leave'"> {{item.Lto.substring(0, 10)}}</p>
+                <p *ngIf="item.LType == 'Half Day' || item.LType == 'Permission'">{{item.PTime}}</p>
+                </div>
+    </ion-item> 
+  </ion-card>
+ 
+</ion-content> 

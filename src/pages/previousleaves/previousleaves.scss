@@ -1,0 +1,61 @@
+page-previousleaves {
+    ion-select {
+        max-width: 100%;
+        width: 100%;
+    }
+    .selDay .select-text{
+        text-align: center;
+    }
+    .filters{
+        border-radius: 15px;
+        box-shadow: 2px 2px 5px 0 #d5faff, 0 2px 10px 0 rgba(0,0,0,0.12);
+    }
+    .dateFilter{
+        border-bottom-left-radius: 15px;
+        border-bottom-right-radius: 15px;
+    }
+    .employeeSelect{
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+        padding-left: 0;
+        border-bottom: 1px solid #b9b9b9;
+    }
+    .search_date,.search_day {
+        display: inline-block;
+        width: 35%;
+        padding: 0;
+    }
+    .search_date{
+        border-bottom-left-radius: 15px;
+    }
+    .search_day{
+        float: right;
+        width: 20%;
+        border-left: 1px solid #b9b9b9;
+        border-bottom-right-radius: 15px;
+    }
+    .item-inner{
+        border-bottom: none!important;
+    }
+    ion-select {
+        max-width: 100%; 
+        width: 100%;
+    }
+    .select-text{
+        text-align: center;
+    }
+    .item-inner{
+        border-bottom: none!important;
+    }
+    .approved{
+        .item-md{
+            background-color: #cbffda;
+
+        }
+    }
+    .rejected{
+        .item-md{
+        background-color: #ffdcd9;
+        }
+    }
+}

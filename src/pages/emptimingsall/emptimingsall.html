@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Everyday Employee Timings</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-item>
+    <ion-label>Search by Date</ion-label>
+    <ion-datetime (ionChange)="TimeByDate()" displayFormat="YYYY-MM-DD" pickerFormat="YYYY-MM-DD" [(ngModel)]="selectedDay" name="selectedDay"></ion-datetime>
+  </ion-item>
+  <ion-item>
+    <ion-label>Employee</ion-label>
+    <ion-select placeholder="Select" [(ngModel)]="empCode" name="empCode" (ionChange)="TimeByDate()">
+      <ion-option *ngFor="let employee of restCall.employeeList" value="{{employee.EmpCode}}">{{employee.EmpName}}</ion-option>
+    </ion-select>
+  </ion-item>
+  <ion-card class="card-details"[ngClass]="{
+    'intime-border': item.INTIME+':00'<='09:40:00',
+    'late-border': item.INTIME+':00'>'09:40:00'
+ }" *ngFor = "let item of restCall.employeeTimingsByDate">
+    <ion-item [ngClass]="{
+      'intime': item.INTIME+':00'<='09:40:00',
+      'late': item.INTIME+':00'>'09:40:00'
+   }">
+      <h2 text-center class="card-point">{{item.EmpName}}</h2>
+      <div item-start text-center>  
+        <p *ngIf = "item.OUTTIME">{{item.INTIME}}</p> 
+      </div>
+      <div item-end text-center>  
+        <p *ngIf = "item.OUTTIME">{{item.OUTTIME}}</p> 
+      </div>
+    </ion-item> 
+  </ion-card>
+  <div *ngIf = "restCall.employeeTimingsByDate">
+    <p *ngIf = "restCall.todayEmployeeTimings" class="no-data"> No Data to Show </p>
+  </div>
+</ion-content>

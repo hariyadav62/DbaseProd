@@ -1,0 +1,116 @@
+page-invoice {
+    .bill-details{
+        height: 0;
+        transition: all 0.3s ease-in;
+    }
+    .open .bill-details{
+        height: 200px;
+    }
+    th{
+        width:25%;
+        font-weight:500;
+        padding: 5px;
+    }
+    ion-card.open{
+        border-radius: 5px;
+        border: 1px solid rgb(255, 143, 108);
+        box-shadow: 0 -2px 7px 0px rgb(255, 143, 108)!important;
+        transition: all 0.2s ease-in;
+    }
+    ion-card-content h2{
+        // font-weight: 500!important;
+        font-size: 1.5rem!important;
+     }
+     h5{
+         font-size: 1.6rem; 
+     }
+     .service_type{
+         position: absolute;
+         top: -2px;
+         left: -20px;
+         height: 100%;
+         background: #29592b;
+         background: #3a6484;
+         z-index: 2;
+         color: white;
+         padding: 5px;
+         text-align: center;
+         font-size: 1.2rem!important;
+         writing-mode: vertical-rl;
+          box-shadow: 4px 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12);
+     }
+     ion-card{
+         overflow: visible;
+         position: relative;
+     }
+     .item-md{
+        font-size: 1.5rem;
+        .bold{
+            font-weight: 500;
+        } 
+     }
+    .item-md [item-end],.item-md [item-start] {
+        margin: 0px 8px 0px 0;
+    }
+    .item-block{
+        min-height: 2.4rem!important;
+    }
+    .GrandTotal{
+        color: #4CAF50;
+        font-weight: 600;
+        font-size: 1.8rem;
+    }
+
+
+// filters
+ion-select {
+    max-width: 100%;
+    width: 100%;
+}
+.selDay .select-text{
+    text-align: center;
+}
+.filters{
+    border-radius: 15px;
+    box-shadow: 2px 2px 5px 0 #d5faff, 0 2px 10px 0 rgba(0,0,0,0.12);
+}
+.dateFilter{
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+.employeeSelect{
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    padding-left: 0;
+    border-bottom: 1px solid #b9b9b9;
+}
+.search_date,.searchClient {
+    display: inline-block;
+    padding: 0;
+}
+.search_date{ 
+    border-bottom-left-radius: 15px;
+    ion-select{
+        padding: 13px 8px 13px 16px;
+    }
+}
+.search_day{
+    float: right;
+    width: 20%;
+    border-left: 1px solid #b9b9b9;
+    border-bottom-right-radius: 15px;
+}
+.item-inner{
+    border-bottom: none!important;
+}
+.searchClient{
+    padding: 0;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    ion-select{
+        padding: 13px 8px 13px 16px;
+    }
+}
+
+    
+}

@@ -1,0 +1,108 @@
+
+<ion-header>
+  <ion-navbar>
+    <ion-title>Leave Requests</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  
+  <div *ngIf = "restCall.currentuser.UserType == 'TEAMLEADER' || restCall.currentuser.UserType == 'MANAGER'">
+      <div class="filters"> 
+        <ion-item class="employeeSelect" >
+          <ion-select placeholder="Employee" [(ngModel)]="empcode" name="empcode" (ionChange)="SearchByCode()">
+            <ion-option value="All">All Employees</ion-option>
+            <span *ngFor="let employee of restCall.employeeList">
+              <ion-option *ngIf="employee.RequestTo == restCall.currentuser.Designation" value="{{employee.EmpCode}}">{{employee.EmpCode}}
+                {{employee.EmpName}}</ion-option>
+            </span>
+          </ion-select>
+        </ion-item>
+        <div class="dateFilter" *ngIf="restCall.datesLeave">
+          <span *ngIf="restCall.datesLeave.length != 0">
+          <ion-item class="search_date"> 
+            <ion-select (ionChange)="SearchByYear()" placeholder="Year" [(ngModel)]="selectedYear" name="selectedYear" style="padding: 5px 3px;">
+              <ion-option *ngFor="let year of years" value="{{year.DATES}}">{{year.DATES}}</ion-option>
+            </ion-select>
+          </ion-item>
+          <ion-item class="search_date"> 
+            <ion-select (ionChange)="SearchByMonth()" placeholder="Month" [(ngModel)]="selectedMonth" name="selectedMonth" style="padding: 5px 3px;">
+              <ion-option *ngFor="let month of months" value="{{month.DATES}}">{{month.DATES}}</ion-option>
+            </ion-select>
+          </ion-item>
+          <ion-item class="search_day">
+            <ion-select (ionChange)="SearchByDay()" placeholder="Day" [(ngModel)]="selDay" name="selDay" style="padding: 5px 3px;">
+              <ion-option *ngFor="let day of days" value="{{day.DATES}}">{{day.DATES}}</ion-option>
+            </ion-select>
+          </ion-item>
+        </span>
+        </div>
+      </div>
+      <h2>{{searchHead}} Leaves</h2>
+      
+    <ion-card class="card-details" [ngClass]="{'approved': leave.L_status == 'Accepted', 'rejected': leave.L_status.substring(0,8) == 'Rejected'}" style="border-left: 4px solid red;" *ngFor = "let leave of restCall.leaves" style="position: relative;"> 
+      <ion-item *ngIf = "leave.EmpCode != restCall.currentuser.EmpCode" (click)="LeaveReason(leave)">
+        <h2 class="card-point">{{leave.EmpName}}</h2>
+        <h2 class="card-point">{{leave.LType}}</h2>
+        <p> {{leave.LFrom.substring(0, 10)}}</p>  
+        <p *ngIf="leave.LType == 'Casual Leave' || leave.LType == 'Sick leave'"> {{leave.Lto.substring(0, 10)}}</p>
+        <p *ngIf="leave.LType == 'Half Day' || leave.LType == 'Permission'">{{leave.PTime}}</p>
+      </ion-item>
+      <div item-end text-right class="over-btn">  
+        <button class="btns" *ngIf = "(leave.L_status == 'Pending' || (leave.L_status == 'Rejected by '+restCall.currentuser.Designation))" ion-button icon-only color="secondary" (click)="respondToLeave(leave,'Accepted by '+restCall.currentuser.Designation)"><ion-icon name="checkmark"></ion-icon></button>
+        
+
+        <button class="btns" ion-button icon-only color="danger" *ngIf = "(leave.L_status != 'Rejected by '+restCall.currentuser.Designation && leave.L_status != 'Rejected' && leave.L_status != 'Accepted')" (click)="respondToLeave(leave,'Rejected by '+restCall.currentuser.Designation)"><ion-icon name="close"></ion-icon></button> 
+        <p> {{leave.L_status}}</p> 
+      </div>
+    </ion-card>
+  </div> 
+  <div *ngIf = "restCall.currentuser.UserType == 'ADMIN'">
+    <div class="filters">
+      <ion-item class="employeeSelect" *ngIf="restCall.currentuser.UserType=='ADMIN'">
+        <ion-select placeholder="Employee" [(ngModel)]="empcode" name="empcode" (ionChange)="SearchByEmpCode()">
+          <ion-option value="All">All Employees</ion-option>
+          <ion-option *ngFor="let employee of restCall.employeeList" value="{{employee.EmpCode}}">{{employee.EmpCode}}
+            {{employee.EmpName}}</ion-option>
+        </ion-select>
+      </ion-item>
+      <div class="dateFilter" *ngIf="restCall.datesLeave">
+        <span *ngIf="restCall.datesLeave.length != 0">
+        <ion-item class="search_date"> 
+          <ion-select (ionChange)="SearchByYear()" placeholder="Year" [(ngModel)]="selectedYear" name="selectedYear" style="padding: 5px 3px;">
+            <ion-option *ngFor="let year of years" value="{{year.DATES}}">{{year.DATES}}</ion-option>
+          </ion-select>
+        </ion-item>
+        <ion-item class="search_date"> 
+          <ion-select (ionChange)="SearchByMonth()" placeholder="Month" [(ngModel)]="selectedMonth" name="selectedMonth" style="padding: 5px 3px;">
+            <ion-option *ngFor="let month of months" value="{{month.DATES}}">{{month.DATES}}</ion-option>
+          </ion-select>
+        </ion-item>
+        <ion-item class="search_day">
+          <ion-select (ionChange)="SearchByDay()" placeholder="Day" [(ngModel)]="selDay" name="selDay" style="padding: 5px 3px;">
+            <ion-option *ngFor="let day of days" value="{{day.DATES}}">{{day.DATES}}</ion-option>
+          </ion-select>
+        </ion-item>
+      </span>
+      </div>
+    </div>
+      <h2>{{searchHead}} Leaves</h2>
+       
+      <div>
+      <ion-card class="card-details" [ngClass]="{'approved': leave.L_status == 'Accepted', 'rejected': leave.L_status.substring(0,8) == 'Rejected'}" *ngFor = "let leave of restCall.leaves" style="position: relative;"> 
+          <ion-item (click)="LeaveReason(leave)">
+            <h2 class="card-point">{{leave.EmpName}}</h2>
+            <h2 class="card-point">{{leave.LType}}</h2>
+            <p *ngIf="leave.LFrom"> {{leave.LFrom.substring(0, 10)}}</p> 
+            <p *ngIf="leave.LType == 'Casual Leave' || leave.LType == 'Sick leave'"> {{leave.Lto.substring(0, 10)}}</p>
+            <p *ngIf="leave.LType == 'Half Day' || leave.LType == 'Permission'">{{leave.PTime}}</p>
+          </ion-item>
+          <div item-end text-right class="over-btn"> 
+            <button class="btns" *ngIf = "leave.L_status != 'Accepted'" ion-button icon-only color="secondary" (click)="respondToLeave(leave,'Accepted')"><ion-icon name="checkmark"></ion-icon></button>
+            <button class="btns" ion-button color="danger" *ngIf = "leave.L_status.substring(0,8) != 'Rejected'" icon-only (click)="respondToLeave(leave,'Rejected')"><ion-icon name="close"></ion-icon></button> 
+            <p *ngIf = "leave.L_status != 'Rejected' && leave.L_status != 'Accepted'"> {{leave.L_status}}</p> 
+          </div>
+        </ion-card>
+      </div>
+  </div>
+</ion-content>

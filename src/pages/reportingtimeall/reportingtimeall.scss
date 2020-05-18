@@ -1,0 +1,109 @@
+page-reportingtimeall {
+    .approve-border{
+        border-left: 4px solid #4CAF50;
+    }
+    .rejected-border{
+        border-left: 4px solid red;
+    }
+    .pending-border{
+        border-left: 4px solid #ffffff;
+    }
+    .recheckin-border{
+        border-left: 4px solid #ffb300;
+    }
+    .approve{
+        background: #efffdb
+    }
+    .rejected{
+        background: #ffdbdb
+    }
+    .pending{
+        background: #ffffff
+    }
+    .recheckin{
+        background: #fffbd7
+    }
+    .no-data{
+        background-color: #fce8e6;
+        border-radius: 50px;
+        padding: 10px;
+        text-align: center;
+    }
+    .item-md.item-block .item-inner{
+        border-bottom: none;
+    }
+    .no-data{
+       background-color: #fce8e6;
+       border-radius: 50px;
+       padding: 10px;
+       text-align: center;
+   }
+   .approved{
+       background-color: #cbffda;
+   }
+   .rejected{
+       background-color: #ffdcd9;
+   }
+   .filters{
+       border-radius: 15px;
+       box-shadow: 2px 2px 5px 0 #d5faff, 0 2px 10px 0 rgba(0,0,0,0.12);
+   }
+   .dateFilter{
+       border-bottom-left-radius: 15px;
+       border-bottom-right-radius: 15px;
+   }
+   .employeeSelect{
+       border-top-left-radius: 15px;
+       border-top-right-radius: 15px;
+       padding-left: 0;
+       border-bottom: 1px solid #b9b9b9;
+   }
+   .search_date,.search_day {
+       display: inline-block;
+       width: 35%;
+       padding: 0;
+   }
+   .search_date{
+       border-bottom-left-radius: 15px;
+   }
+   .search_day{
+       float: right;
+       width: 20%;
+       border-left: 1px solid #b9b9b9;
+       border-bottom-right-radius: 15px;
+   }
+   .item-inner{
+       border-bottom: none!important;
+   }
+   ion-select {
+       max-width: 100%; 
+       width: 100%;
+   }
+   .checkin-date{
+        display: inline-block;
+        background: rgb(95, 130, 158);
+        color: white;
+        padding: 2px 10px;
+        margin-bottom: -3px;
+        margin-left: 10px;
+        z-index: 2;
+        font-size: 1.3rem; 
+        font-weight: lighter;
+        border-bottom-right-radius: 10px;
+        position: relative;
+        border-top-right-radius: 10px;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.7);
+    }
+    .select-text{
+        text-align: center;
+    }
+   .checkin-card{
+        margin-top: 0;
+        ion-item{
+            h2{
+                margin-top: 0 !important;
+                font-size: 1.3rem;
+            }
+        }
+   }
+}

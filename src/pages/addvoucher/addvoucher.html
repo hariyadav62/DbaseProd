@@ -1,0 +1,119 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Add Voucher</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-card>
+    <ion-item> 
+      <p item-start>Cash In Hand</p> 
+      <p item-end class="green" *ngFor="let cash of restCall.cashinhand" [ngClass]="{'green':cash.CASHINHAND > 0,'red':cash.CASHINHAND < 0}">{{cash.CASHINHAND}}</p> 
+    </ion-item>
+  </ion-card> 
+  <form> 
+    <ion-item>
+      <ion-label>Amount</ion-label>
+      <ion-input type="numeric" [(ngModel)]="amount" name="amount"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-textarea placeholder="Reason for Voucher" [(ngModel)]="voucherReason" name="voucherReason"></ion-textarea>
+    </ion-item>
+    <img *ngIf="uploadVoucher" [src]="uploadVoucher" style="padding-top:15px"/>
+    <p class="selectedfile" *ngIf="selectedfile">Selected File: {{selectedfile.name}}</p>
+    <div style="display: flex;">
+     
+    <input type="file" (change)="onFileSelected($event)" id="fileInput" style="display: none;">
+    <label for="fileInput" ion-button icon-only >
+      <ion-icon name="image"></ion-icon>
+    </label> 
+    <button ion-button icon-only (click)="UploadCameraVoucher()"><ion-icon name="camera"></ion-icon></button>
+    <button ion-button (click)="UploadVoucher()" style="flex-grow: 2;">Submit</button>
+  </div>
+  </form>
+
+  <div *ngIf="restCall.currentuser.UserType=='ACCOUNTANT' || restCall.currentuser.UserType=='ADMIN'">
+    <div class="filters" style="padding-top:15px;">
+      <div class="dateFilter" *ngIf="restCall.AllTransactionDates">
+          <ion-item class="search_date"> 
+            <ion-select (ionChange)="SearchByYear()" class="" placeholder="Search by Year" [(ngModel)]="selectedYear" name="selectedYear" style="padding: 5px 3px;">
+              <ion-option value="All">All</ion-option>
+              <ion-option *ngFor="let year of restCall.FYears " value="{{year.FINANCIALYEAR}}">{{year.FINANCIALYEAR}}</ion-option>
+            </ion-select>
+          </ion-item>
+          <ion-item class="Search_Month"> 
+            <ion-select (ionChange)="SearchByMonth()" class="" placeholder="Search by Month" [(ngModel)]="selectedMonth" name="selectedMonth" style="padding: 5px 3px;">
+              <ion-option *ngFor="let month of selMonths" value="{{month}}">{{month}}</ion-option>
+            </ion-select>
+          </ion-item>
+      </div>
+    </div>
+  <span *ngIf = "unverifiedVouchers && unverifiedVouchers.length!=0">
+    <h5 class="uvvou">Unverified Vouchers</h5>
+    <div class="vcardholder" *ngFor = "let item of unverifiedVouchers, let x = index">
+      <!-- <p class="transtype {{item.IsVerified}}">Verified</p>  -->
+        <ion-card class="card-details tcard unverified"> 
+          <ion-card-content (click)="VoucherDetails(item,x)">
+            <ion-item >
+              <div>  
+                <p class="debit" style="padding-left:35px;">{{item.EmpId}}</p>
+              </div>
+              <div item-end>  
+                <p *ngIf = "item.Amount" class="debit">{{item.Amount}}</p>
+              </div>
+              <div item-start>  
+                  <p *ngIf = "item.Date">{{item.Date.substring(0, 10)}}</p>
+                  <!-- <p *ngIf = "item.Date">{{item.Date.substring(11)}}</p> -->
+              </div>
+            </ion-item> 
+            <div *ngIf="item.VDescription">{{item.VDescription}}</div>
+          </ion-card-content>
+          <div class="moredetails">
+            <img class="vimg" *ngIf="item.fname && item.fname != ''" src="http://app.dbasesolutions.in/Image/{{item.fname}}" alt="">
+            <div class="verifybtn"> 
+              <ion-input type="numeric" [(ngModel)]="this.updateamount" name="this.updateamount" class="updateamount"></ion-input>
+              <!-- <button *ngIf="restCall.currentuser.UserType=='ADMIN'" ion-button color="danger" clear (click)="DeleteVoucher(item)">
+                Delete
+              </button> -->
+              <button ion-button color="primary" clear (click)="VerifyVoucher(item)">
+                Verify
+              </button>
+            </div>
+          </div>
+        </ion-card> 
+    </div>
+  </span>
+  <span *ngIf = "verifiedVouchers && verifiedVouchers.length!=0">
+    <h5 class="vvou" margin-top>Verified Vouchers</h5>
+    <div class="vcardholder" *ngFor = "let item of verifiedVouchers, let x = index">
+      <!-- <p class="transtype {{item.IsVerified}}">Verified</p>  -->
+        <ion-card class="card-details tcard verified"> 
+          <ion-card-content (click)="VerifiedVoucherDetails(item,x)"> 
+            <ion-item >
+              <div>  
+                <p class="debit" style="padding-left:35px;">{{item.EmpId}}</p>
+              </div>
+              <div item-end>  
+                <p *ngIf = "item.Amount" class="debit">{{item.Amount}}</p>
+              </div>
+              <div item-start>  
+                  <p *ngIf = "item.Date">{{item.Date.substring(0, 10)}}</p>
+                  <!-- <p *ngIf = "item.Date">{{item.Date.substring(11)}}</p> -->
+              </div>
+            </ion-item> 
+            <div *ngIf="item.VDescription">{{item.VDescription}}</div>
+          </ion-card-content>
+          <div class="moredetails">
+            <img class="vimg" *ngIf="item.fname && item.fname != ''" src="http://app.dbasesolutions.in/Image/{{item.fname}}" alt="">
+            <div class="verifybtn"> 
+              <ion-input type="numeric" [(ngModel)]="this.updateamount" name="this.updateamount" class="updateamount"></ion-input>
+              <button style="float:right;" ion-button color="primary" clear (click)="VerifyVoucher(item)">
+                Update
+              </button>
+            </div>
+          </div>
+        </ion-card> 
+    </div>
+  </span>
+  </div> 
+</ion-content>

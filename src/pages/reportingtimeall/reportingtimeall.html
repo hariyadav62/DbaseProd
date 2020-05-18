@@ -1,0 +1,116 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Everyday Reportings</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  
+
+  <div class="filters">
+    <ion-item class="employeeSelect" *ngIf="restCall.currentuser.UserType=='ADMIN'">
+      <ion-select placeholder="Employee" [(ngModel)]="empCode" name="empCode" (ionChange)="SearchByCode()">
+        <ion-option value="All">All Employees</ion-option>
+        <ion-option *ngFor="let employee of restCall.employeeList" value="{{employee.EmpCode}}">{{employee.EmpCode}}
+          {{employee.EmpName}}</ion-option>
+      </ion-select>
+    </ion-item>
+    <div class="dateFilter" *ngIf="restCall.loadCheckinDates">
+      <span *ngIf="restCall.loadCheckinDates.length != 0">
+      <ion-item class="search_date"> 
+        <ion-select (ionChange)="SearchByYear()" placeholder="Year" [(ngModel)]="selectedYear" name="selectedYear" style="padding: 5px 3px;">
+          <ion-option *ngFor="let year of Years" value="{{year.DATES}}">{{year.DATES}}</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item class="search_date"> 
+        <ion-select (ionChange)="SearchByYearMonth()" placeholder="Month" [(ngModel)]="selectedMonth" name="selectedMonth" style="padding: 5px 3px;">
+          <ion-option *ngFor="let month of Months" value="{{month.DATES}}">{{month.DATES}}</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item class="search_day">
+        <ion-select (ionChange)="SearchByYearMonthDay()" placeholder="Day" [(ngModel)]="selDay" name="selDay" style="padding: 5px 3px;">
+          <ion-option *ngFor="let day of Days" value="{{day.DATES}}">{{day.DATES}}</ion-option>
+        </ion-select>
+      </ion-item>
+    </span>
+    </div>
+  </div>
+
+  
+<h2 class="searchhead">{{searchHead}} Check-ins</h2>
+<span *ngIf = "restCall.loadCheckins">
+  <span *ngFor = "let item of restCall.loadCheckins;let i = index">
+    <span *ngIf="i==0">
+      <h5 class="checkin-date">{{item.Date.substring(0,10)}}</h5>
+    </span>
+    <span *ngIf="i != 0">
+      <h5 class="checkin-date" *ngIf="restCall.loadCheckins[i-1].Date != restCall.loadCheckins[i].Date">{{item.Date.substring(0,10)}}</h5>
+    </span>
+    <span *ngIf="item.Report_Staus == 'Recheckin'">
+      <ion-card class="card-details checkin-card"[ngClass]="{'approve-border': item.Report_Staus == 'Approved', 'rejected-border': item.Report_Staus == 'Rejected','pending-border': item.Report_Staus == 'Pending'}" >
+        <ion-item [ngClass]="{'approve': item.Report_Staus == 'Approved', 'rejected': item.Report_Staus == 'Rejected','pending': item.Report_Staus == 'Pending'}"> 
+          <h2 text-center class="card-point">{{item.Emp_Name}}</h2>
+          <div item-start text-center>  
+            <p *ngIf = "item.Time">{{item.Time}}</p> 
+          </div>
+          <div item-end text-center>  
+            <button ion-button color="secondary" clear (click)="UpdateStatus(item)">Approved</button>
+          </div>
+          <div item-end text-center>   
+            <button ion-button color="danger" clear (click)="UpdateStatus(item)">Rejected</button>  
+          </div>
+        </ion-item> 
+      </ion-card>
+    </span>
+    <span *ngIf="item.Report_Staus == 'Pending'">
+      <ion-card class="card-details checkin-card"[ngClass]="{'approve-border': item.Report_Staus == 'Approved', 'rejected-border': item.Report_Staus == 'Rejected','pending-border': item.Report_Staus == 'Pending','recheckin-border': item.Report_Staus == 'Recheckin'}" >
+        <ion-item [ngClass]="{'approve': item.Report_Staus == 'Approved', 'rejected': item.Report_Staus == 'Rejected','pending': item.Report_Staus == 'Pending','recheckin': item.Report_Staus == 'Recheckin'}"> 
+          <h2 text-center class="card-point">{{item.Emp_Name}}</h2>
+          <div item-start text-center>  
+            <p *ngIf = "item.Time">{{item.Time}}</p> 
+          </div>
+          <div item-end text-center *ngIf = "item.Report_Staus == 'Pending'">  
+            <button ion-button color="warning" clear (click)="UpdateStatus(item)">Pending</button>
+          </div>
+        </ion-item> 
+      </ion-card>
+    </span>
+    <span *ngIf="item.Report_Staus == 'Approved' || item.Report_Staus == 'Rejected'">
+      <ion-card class="card-details checkin-card"[ngClass]="{'approve-border': item.Report_Staus == 'Approved', 'rejected-border': item.Report_Staus == 'Rejected','pending-border': item.Report_Staus == 'Pending'}" >
+        <ion-item [ngClass]="{'approve': item.Report_Staus == 'Approved', 'rejected': item.Report_Staus == 'Rejected','pending': item.Report_Staus == 'Pending'}"> 
+          <h2 text-center class="card-point">{{item.Emp_Name}}</h2>
+          <div item-start text-center>  
+            <p *ngIf = "item.Time">{{item.Time}}</p> 
+          </div>
+          <div item-end text-center *ngIf = "item.Report_Staus == 'Approved'">  
+            <button ion-button color="secondary" clear (click)="UpdateStatus(item)">Approved</button>
+          </div>
+          <div item-end text-center *ngIf = "item.Report_Staus == 'Rejected'">   
+            <button ion-button color="danger" clear (click)="UpdateStatus(item)">Rejected</button>  
+          </div>
+        </ion-item> 
+      </ion-card>
+    </span>
+    <!-- <ion-card class="card-details checkin-card"[ngClass]="{'approve-border': item.Report_Staus == 'Approved', 'rejected-border': item.Report_Staus == 'Rejected','pending-border': item.Report_Staus == 'Pending'}" >
+      <ion-item [ngClass]="{'approve': item.Report_Staus == 'Approved', 'rejected': item.Report_Staus == 'Rejected','pending': item.Report_Staus == 'Pending'}"> 
+        <h2 text-center class="card-point">{{item.Emp_Name}}</h2>
+        <div item-start text-center>  
+          <p *ngIf = "item.Time">{{item.Time}}</p> 
+        </div>
+        <div item-end text-center *ngIf = "item.Report_Staus == 'Approved'">  
+          <button ion-button color="secondary" clear (click)="UpdateStatus(item)">Approved</button>
+        </div>
+        <div item-end text-center *ngIf = "item.Report_Staus == 'Rejected'">   
+          <button ion-button color="danger" clear (click)="UpdateStatus(item)">Rejected</button>  
+        </div>
+        <div item-end text-center *ngIf = "item.Report_Staus == 'Pending'">  
+          <button ion-button color="warning" clear (click)="UpdateStatus(item)">Pending</button>
+        </div>
+      </ion-item> 
+    </ion-card> -->
+  </span>
+</span>
+  <div *ngIf = "restCall.loadCheckins">
+    <p *ngIf = "restCall.loadCheckins.length == 0" class="no-data"> No Data to Show </p>
+  </div>
+</ion-content>

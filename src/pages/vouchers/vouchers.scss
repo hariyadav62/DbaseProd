@@ -1,0 +1,39 @@
+page-vouchers {
+    ion-card{
+        ion-icon{
+            padding-top: 20px;
+            color: #165579;
+            font-size: 26px;
+        }
+    }
+    .card-title-md{
+        font-size: 1.6rem;
+    }
+    .card-content {
+        padding: 0px 12px 10px 12px;
+        font-size: 1.4rem;
+        line-height: 1.5;
+    }
+    .card .home-card-p {
+        margin: 0 0 2px;
+        padding-top: 15px;
+        font-size: 3rem;
+        font-weight: lighter;
+        line-height: 1.5;
+        color: #222;
+    }
+    ion-card.card-details{
+        padding: 15px 5px;
+        border-radius: 5px;
+    }
+    
+    .card-details ion-label h2{
+        padding-bottom: 5px;
+    }
+    .card-details ion-item p{
+        font-size: 1.1rem;
+    }
+    .green{
+        color: #11b916
+    }
+}

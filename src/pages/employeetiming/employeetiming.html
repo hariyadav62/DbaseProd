@@ -1,0 +1,57 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Employee Timings</ion-title>
+  </ion-navbar>
+</ion-header> 
+
+<ion-content padding>
+  <div [ngClass]="{'hide':restCall.currentuser.UserType == 'ADMIN'}">
+    <div class="pieComp" style="display: block;" text-center>
+      <canvas #doughnutCanvas></canvas>
+    </div>
+    <div>
+      <ion-card class="card-details toptable-card" style="border-radius: 10px;">
+        <ion-card-content style="padding: 0">
+          <table class="toptable" style="width: 100%">
+              <tr>
+                <th text-center>Total Checkins</th>
+                <th text-center>Intime Checkins</th>
+                <th text-center style="border-right: none;">%</th> 
+              </tr>
+              <tr >
+                <td text-center>
+                  <span *ngIf = "totcheck != null && totcheck != undefined" >{{totcheck}}</span>
+                  <span *ngIf = "totcheck == null || totcheck == undefined" >0</span>
+                </td>
+                <td text-center >
+                  <span *ngIf = "incheck != null && incheck != undefined" class="credit">{{incheck}}</span>
+                  <span *ngIf = "incheck == null || incheck == undefined" class="credit">0</span>
+                </td>
+                <td text-center style="border-right: none;">
+                  <span *ngIf = "totalpie != null && totalpie != undefined" class="debit">{{totalpie}}</span>
+                  <span *ngIf = "totalpie == null || totalpie == undefined" class="debit">0</span>
+                </td>
+              </tr>
+          </table>
+        </ion-card-content>
+      </ion-card>
+    </div> 
+  </div>
+<ion-slides [slidesPerView]="4">
+  <ion-slide *ngFor="let piedataset of pieChartData1" (click)="LoadEmpBars(piedataset[2])" [ngClass]="{'active': piedataset[2] == activeyear}">
+    <piechartcomp [piedataset]="piedataset"></piechartcomp>
+  </ion-slide>
+</ion-slides>
+
+
+
+<div text-center style="padding-top:10px">
+</div>
+<span *ngIf="restCall.barChart">
+  <div *ngFor="let dataset of restCall.barChart" style="padding-top: 12px;"> 
+    <timechart [dataset]="dataset" [Year]="Year"></timechart>
+  </div>
+</span>
+
+
+</ion-content>

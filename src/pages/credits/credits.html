@@ -1,0 +1,114 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Transactions</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-card>
+    <ion-item *ngFor="let cash of restCall.cashinhand" > 
+      <p item-start>{{cash.EmpName}}</p> 
+      <p item-end class="green" [ngClass]="{'green':cash.CASHINHAND > 0,'red':cash.CASHINHAND < 0}">{{cash.CASHINHAND}}</p> 
+    </ion-item>
+  </ion-card> 
+  <span *ngIf="restCall">
+      <!-- <ion-card class="card-details" *ngIf = "transType=='all'">
+        <ion-card-content style="padding: 0">
+          <table style="width: 100%">
+              <tr>
+                <th text-center>Date</th>
+                <th text-center>Credits</th>
+                <th text-center>Debits</th>
+              </tr>
+              <tr *ngFor = "let item of restCall.transactions">
+                <td text-center><span *ngIf = "item.Date" >{{item.Date.substring(0, 10)}}</span></td>
+                <td text-center ><span *ngIf = "item.Credits" class="credit">{{item.Credits}}</span></td>
+                <td text-center><span *ngIf = "item.Debits" class="debit">{{item.Debits}}</span></td>
+              </tr>
+          </table>
+        </ion-card-content>
+      </ion-card> -->
+<div>
+  <div class="filters" style="padding-top:15px;">
+    <ion-item>
+      <ion-label>Transaction Type</ion-label>
+      <ion-select placeholder="Select" [(ngModel)]="transType" name="transType" (ionChange)="LoadTransactions()">
+        <ion-option value="All">All</ion-option>
+        <ion-option value="Credit">Credits</ion-option>
+        <ion-option value="Debit">Debits</ion-option>
+        <ion-option value="Salary">Salary</ion-option>
+        <ion-option value="Advances">Advances</ion-option>
+      </ion-select>
+    </ion-item>
+    <div class="dateFilter" *ngIf="!adv">
+        <ion-item class="search_date"> 
+          <ion-select (ionChange)="SearchByYear()" class="" placeholder="Search by Year" [(ngModel)]="selectedYear" name="selectedYear" style="padding: 5px 3px;">
+            <ion-option value="All">All</ion-option>
+            <ion-option *ngFor="let year of restCall.FYears " value="{{year.FINANCIALYEAR}}">{{year.FINANCIALYEAR}}</ion-option>
+          </ion-select>
+        </ion-item>
+        <ion-item class="Search_Month"> 
+          <ion-select (ionChange)="SearchByMonth()" class="" placeholder="Search by Month" [(ngModel)]="selectedMonth" name="selectedMonth" style="padding: 5px 3px;">
+            <ion-option value="All">All</ion-option>
+            <ion-option *ngFor="let month of selMonths" value="{{month}}">{{month}}</ion-option>
+          </ion-select>
+        </ion-item>
+    </div>
+  </div>
+  <span *ngIf="!adv"> 
+    <div class="vcardholder" *ngFor = "let item of restCall.loadEmpAllTransactions, let x = index">
+      <p class="transtype {{item.TRANSACTIONTYPE}}">{{item.TRANSACTIONTYPE}}</p> 
+        <ion-card class="card-details tcard" (click)="VoucherDetails(x)"> 
+          <ion-card-content>
+            <ion-item >
+              <div item-end>  
+                <p *ngIf = "item.AMOUNT" class="amount{{item.TRANSACTIONTYPE}}">{{item.AMOUNT}}</p> 
+              </div>
+              <div item-start>  
+                  <p *ngIf = "item.DATE">{{item.DATE.substring(0, 10)}}</p>
+                  <!-- <p *ngIf = "item.DATE">{{item.DATE.substring(11)}}</p> -->
+              </div>
+            </ion-item> 
+            <div *ngIf="item.TRANSACTIONTYPE == 'Voucher'">{{item.REMARKS}}</div>
+            <div *ngIf="item.TRANSACTIONTYPE == 'Advance Repayment'">Sent to - {{item.SENDER}} {{item.EMPNAME}}</div>
+            <div *ngIf="item.SENDER != '' && item.TRANSACTIONTYPE != 'Advance Repayment'">Sender - {{item.SENDER}} {{item.EMPNAME}}</div>
+          </ion-card-content>
+          <span class="moredetails" *ngIf="item.TRANSACTIONTYPE == 'Voucher'">
+            <img class="vimg" *ngIf="item.FNAME && item.FNAME != ''" src="http://app.dbasesolutions.in/Image/{{item.FNAME}}" alt="">
+            <button *ngIf="restCall.currentuser.UserType == 'ADMIN'" ion-button clear color="primary" (click)="DeleteVoucher(item.ID)">
+              Delete
+            </button>
+          </span>
+        </ion-card> 
+    </div>
+  </span>
+  <span *ngIf="adv"> 
+
+<ion-item class="outstand">
+  <p item-start> Outstanding</p>
+  <p item-end *ngIf="restCall.transactions.length != 0"> {{restCall.transactions[0].OUTSTANDING}}</p>
+  <p item-end *ngIf="restCall.transactions.length == 0"> 0</p>
+</ion-item>
+
+    <ion-card class="card-details">
+      <ion-card-content style="padding: 0">
+        <table style="width: 100%">
+            <tr>
+              <th text-center>Date</th>
+              <th text-center>Advance</th>
+              <th text-center>Repayment</th>
+            </tr>
+            <tr *ngFor = "let item of restCall.transactions">
+              <td text-center><span *ngIf = "item.DATE" >{{item.DATE.substring(0, 10)}}</span></td>
+              <td text-center ><span *ngIf = "item.ADVANCE" class="credit">{{item.ADVANCE}}</span></td>
+              <td text-center><span *ngIf = "item.REPAYMENT" class="debit">{{item.REPAYMENT}}</span></td>
+            </tr>
+        </table>
+      </ion-card-content>
+    </ion-card>
+  </span>
+</div>
+
+ 
+  </span>
+</ion-content>

@@ -1,0 +1,88 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Invoices</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <div class="filters">
+    <ion-item class="employeeSelect">
+      <ion-select placeholder="Financial Year" [(ngModel)]="FinancialYear" name="FinancialYear" (ionChange)="SearchByFyear()">
+        <ion-option value="All">All</ion-option>
+        <ion-option *ngFor="let year of restCall.FYears" value="{{year.FINANCIALYEAR}}">{{year.FINANCIALYEAR}}</ion-option>
+      </ion-select>
+    </ion-item>
+    <div class="dateFilter">
+      <div class="dateFilter" *ngIf="restCall.FMonths && isFMonths">
+      <ion-item class="search_date"> 
+        <ion-select placeholder="Month" [(ngModel)]="selectedFMonth" name="selectedFMonth" (ionChange)="SearchByFYearMonth()">
+          <ion-option value="All">All</ion-option>
+          <ion-option *ngFor="let month of restCall.FMonths" value="{{month}}">{{month}}</ion-option>
+        </ion-select>
+      </ion-item>
+    </div>
+    <ion-item class="searchClient"> 
+      <ion-select (ionChange)="SearchByFYearMonth()" class="" placeholder="Client" [(ngModel)]="selectedClient" name="selectedClient">
+        <ion-option value="All">All</ion-option>
+        <ion-option *ngFor="let client of restCall.FClients" value="{{client}}">{{client}}</ion-option>
+      </ion-select>
+    </ion-item>
+  </div>
+  </div>
+  <ion-card style="border: 2px solid rgb(11, 151, 6);" *ngFor = "let item of restCall.Fbill;">
+    <ion-card-content>
+      <ion-item>
+        <div item-start>Amount</div>
+        <div item-end>{{item.TA}}</div>
+      </ion-item>
+      <ion-item>
+        <div item-start>CGST</div>
+        <div item-end>{{item.CA}}</div>
+      </ion-item>
+      <ion-item>
+        <div item-start>SGST</div>
+        <div item-end>{{item.SA}}</div>
+      </ion-item>
+       <ion-item>
+        <div item-start>GST </div>
+        <div item-end>{{item.CA + item.SA}}</div>
+      </ion-item>
+      <ion-item>
+        <div item-start class="bold">GRAND TOTAL </div>
+        <div item-end class="GrandTotal">{{item.GT}}</div>
+      </ion-item>
+  
+    </ion-card-content>
+  </ion-card>
+
+
+
+<ion-card style="border-left: 4px solid red;" *ngFor = "let item of restCall.bills;">
+  <ion-card-content>
+    <ion-item>
+      <div item-start class="bold">Innvoice No: {{item.INVOICENO}}</div>
+      <div item-end class="bold">Date: {{item.InvoiceDt.substring(0, 10)}}</div>
+    </ion-item>
+    <ion-item>
+      <div item-start>Client: {{item.CLIENT}}</div>
+      <!-- <div item-end>({{item.WorkType}})</div> -->
+    </ion-item>
+    
+    <ion-item>
+      <div item-start>Amount</div>
+      <div item-end>{{item.TOTALAMOUNT}}</div>
+    </ion-item>
+     <ion-item>
+      <div item-start>GST {{item.CGST_AMOUNT}} x 2</div>
+      <div item-end>{{item.SGST_AMOUNT + item.CGST_AMOUNT}}</div>
+    </ion-item>
+    <ion-item>
+      <div item-start class="bold">Invoice Amount </div>
+      <div item-end class="GrandTotal">{{item.GRANDTOTAL}}</div>
+    </ion-item>
+
+  </ion-card-content>
+</ion-card>
+
+
+</ion-content>

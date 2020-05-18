@@ -1,0 +1,9 @@
+<ion-list>
+  <button ion-item text-center (click)="Settings()" *ngIf = "user == 'ADMIN'">
+    <img src="../../assets/imgs/settings.svg" alt="Announcements" class="dropdwnicon">Settings
+  </button>
+  <button ion-item text-center (click)="Announcements()" *ngIf = "user != 'ADMIN'">
+    <img src="../../assets/imgs/announcement.svg" alt="Announcements" class="dropdwnicon">Announcements
+  </button>
+  <button ion-item text-center (click)="logOut()"><img src="../../assets/imgs/logout.svg" alt="Announcements" class="dropdwnicon">Logout</button>
+</ion-list>

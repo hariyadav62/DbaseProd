@@ -1,0 +1,166 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>More Details</ion-title>
+    <ion-buttons end>
+      <button ion-button (click)="closeModal()">
+        Close
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <div *ngIf="restCall.currentuser.UserType == 'ADMIN'">
+    <div *ngIf="changePassword">
+      <ion-list>
+        <ion-item>
+          <ion-label floating>Old Password</ion-label>
+          <ion-input type="text" [(ngModel)]="oldPassword"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label floating>New Password</ion-label>
+          <ion-input type="text" [(ngModel)]="newpassword"></ion-input>
+        </ion-item>
+      </ion-list>
+      <button ion-button color="primary" (click)="ChangePassword()">Change</button>
+      <button ion-button color="danger" (click)="closeChangePassword()">close</button>
+    </div>
+  </div>
+  <span *ngIf="!updateform">
+    <div>
+      <button *ngIf="restCall.currentuser.UserType == 'ADMIN'" ion-button clear color="primary" (click)="editCandidateForm()">
+        Edit
+      </button>
+      <div *ngIf="!changePassword" style="display: inline;">
+        <button style="float:right;" *ngIf="(restCall.currentuser.UserType == 'ADMIN') && EmpCode == '1501'" ion-button color="primary" clear (click)="ShowChangePassword()">
+          Change Password
+        </button>
+      </div>
+      <ion-list>
+        <ion-item>
+          Employee Code
+          <span item-end>{{EmpCode}}</span>
+        </ion-item>
+        <ion-item>
+          Employee Name
+          <span item-end>{{EmpName}}
+          </span>
+        </ion-item>
+        <ion-item>
+          Designation
+          <span item-end>{{Designation}}
+          </span>
+        </ion-item>
+        <ion-item>
+          Joing Date
+          <span item-end>{{DOJ}}
+          </span>
+        </ion-item>
+        <ion-item>
+          Mobile
+          <span item-end>{{Mobile}}
+          </span>
+        </ion-item>
+        <ion-item>
+          Email
+          <span item-end>{{Email}}</span>
+        </ion-item>
+        <ion-item>
+          Maximum Credit Amount
+          <span item-end>{{MaximumTransferAmount}}</span>
+        </ion-item>
+        <ion-item>
+          Request To
+          <span item-end>{{RequestTo}}</span>
+        </ion-item>
+
+        <ion-item *ngIf="restCall.currentuser.UserType == 'ADMIN'">
+          <ion-label>Status</ion-label>
+          <ion-select placeholder="Select" (ionChange)="ChangeStatus()" [(ngModel)]="isActive" name="isActive">
+            <ion-option value="Y">Active</ion-option>
+            <ion-option value="N">Inactive</ion-option>
+          </ion-select>
+        </ion-item>
+
+      </ion-list>
+    </div>
+    <div *ngIf="restCall.currentuser.UserType == 'ADMIN'">
+      <button ion-button color="primary" (click)="Employeeleaves(EmpCode)">
+        Leaves
+      </button>
+      <button ion-button color="primary" (click)="EmployeeTime(EmpCode)">
+        Timings
+      </button>
+      <button ion-button color="danger" (click)="EmployeeWorkReports(EmpCode)" style="float:right">
+        Work Reports
+      </button>
+    </div>
+    <span *ngIf="restCall.currentuser.UserType != 'ADMIN'">
+      <div *ngIf="changePassword">
+        <ion-list>
+          <ion-item>
+            <ion-label floating>Old Password</ion-label>
+            <ion-input type="text" [(ngModel)]="oldPassword"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label floating>New Password</ion-label>
+            <ion-input type="text" [(ngModel)]="newpassword"></ion-input>
+          </ion-item>
+        </ion-list>
+        <button ion-button color="primary" (click)="ChangePassword()">Change</button>
+        <button ion-button color="primary" (click)="ShowChangePassword = !ShowChangePassword">close</button>
+      </div>
+    </span>
+    <span *ngIf="restCall.currentuser.UserType != 'ADMIN'">
+      <div *ngIf="!changePassword">
+        <button ion-button color="primary" (click)="ShowChangePassword()">
+          Change Password
+        </button>
+      </div>
+    </span>
+  </span>
+  <form *ngIf="updateform" (ngSubmit)="UpdateEmployeeData(isActive)">
+    <ion-item>
+      <ion-label>Employee Code</ion-label>
+      <ion-input type="text" [(ngModel)]="EmpCode" name="EmpCode"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Employee Name</ion-label>
+      <ion-input [(ngModel)]="EmpName" name="EmpName"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Designation</ion-label>
+      <ion-input type="text" [(ngModel)]="Designation" name="Designation"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Joing Date</ion-label>
+      <ion-input type="text" [(ngModel)]="DOJ" name="DOJ"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Mobile</ion-label>
+      <ion-input [(ngModel)]="Mobile" name="Mobile"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Email</ion-label>
+      <ion-input [(ngModel)]="Email" name="Email"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Request To</ion-label>
+      <ion-select placeholder="Select" [(ngModel)]="RequestTo" name="RequestTo">
+        <ion-option *ngFor="let designation of restCall.designationList" value="{{designation}}">{{designation}}</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item *ngIf="restCall.currentuser.UserType == 'ADMIN'">
+      <ion-label>Status</ion-label>
+      <ion-select placeholder="Select" (ionChange)="ChangeStatus()" [(ngModel)]="isActive" name="isActive">
+        <ion-option value="Y">Active</ion-option>
+        <ion-option value="N">Inactive</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label>Maximum Credit Amount</ion-label>
+      <ion-input [(ngModel)]="MaximumTransferAmount" name="MaximumTransferAmount"></ion-input>
+    </ion-item>
+    <button ion-button type="submit" block>Update Data</button>
+  </form>
+</ion-content>

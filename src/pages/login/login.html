@@ -1,0 +1,26 @@
+<!-- <ion-header>
+  <ion-navbar>
+    <ion-title>DBase Solution</ion-title>
+  </ion-navbar>
+</ion-header> -->
+
+<ion-content padding class="footer-bg"> 
+  <div style="text-align: center">
+    <img src="../../assets/imgs/dbaselogo.png" alt=""> 
+    <br> 
+    <br> 
+    <img src="../../assets/imgs/DBSHead.png" alt="" width="70%">  
+  </div>
+    <ion-list>
+      <ion-item>
+        <ion-label floating>Username</ion-label>
+        <ion-input type="text" [(ngModel)]="username"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Password</ion-label>
+        <ion-input type="password" [(ngModel)]="password"></ion-input>
+      </ion-item>
+    </ion-list>
+  
+  <button ion-button block (click)="login()" >sign in</button>
+</ion-content>

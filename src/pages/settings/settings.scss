@@ -1,0 +1,29 @@
+page-settings {
+    .home-buttons{
+        img{
+            margin-top: 0;
+            padding-top: 15px;
+            box-shadow: none;
+            filter: none;
+        }
+        .shadow{
+            box-shadow:0 10px 11px 0 rgb(253, 155, 104), 0 4px 15px 0 rgba(0,0,0,0.15)!important;
+        }
+    }
+    ion-card img {
+        width: 20%;
+        display: inline-block;
+        position: relative;
+        margin-top: -20px;
+        -webkit-filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.5));
+        filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.5));
+    }
+    .card-content {
+        padding: 0px 12px 10px 12px;
+        font-size: 1.4rem;
+        line-height: 1.5;
+    }
+    .card-title-md {
+        font-size: 1.6rem;
+    }
+}

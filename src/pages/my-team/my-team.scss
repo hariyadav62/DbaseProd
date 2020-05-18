@@ -1,0 +1,39 @@
+page-my-team {
+    .notifications{
+        position: absolute;
+        display: inline-block;
+        top: -5px;
+        right: 10%;
+        font-size: 2rem;
+        color: #1265c3;
+        font-weight: 500;     
+    }
+    .home-buttons{
+        img{
+            margin-top: 0;
+            padding-top: 15px;
+            box-shadow: none;
+            filter: none;
+        }
+        .shadow{
+            box-shadow:0 10px 11px 0 rgb(253, 155, 104), 0 4px 15px 0 rgba(0,0,0,0.15)!important;
+        }
+    }
+    ion-card{
+        ion-icon{
+            padding-top: 20px;
+            color: #165579;
+            font-size: 26px;
+        }
+        img{
+            width: 20%;
+            display: inline-block;
+            position: relative;
+            margin-top: -20px;
+            filter: drop-shadow(0 0 2px rgba(0,0,0, 0.5));
+        }
+    }
+    .card-title-md{
+        font-size: 1.6rem;
+    }
+}

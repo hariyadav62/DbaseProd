@@ -1,0 +1,7 @@
+{
+  "name": "dbase",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular"
+}

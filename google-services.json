@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "925396536856",
+    "firebase_url": "https://dbasenotify.firebaseio.com",
+    "project_id": "dbasenotify",
+    "storage_bucket": "dbasenotify.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:925396536856:android:f1ea9c40dffab4e1",
+        "android_client_info": {
+          "package_name": "com.dbase.management"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "925396536856-jm4ko7hfif5dfg7ggda3r185ufkh50tm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCEx_QSbPW63x9ZkSK0yEED7-hdSidemTk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "925396536856-jm4ko7hfif5dfg7ggda3r185ufkh50tm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

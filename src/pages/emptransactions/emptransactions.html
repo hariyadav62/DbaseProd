@@ -1,0 +1,15 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Employee Transactions</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <ion-card *ngFor="let cash of restCall.cashinhand" (click)="EmployeeTransById(cash.EMPID)">
+      <ion-item [ngClass]="{'negative': cash.CASHINHAND < 0, 'positive': cash.CASHINHAND > 0}">
+        <p item-start>{{cash.EMPID}}</p> 
+        <p item-start>{{cash.EmpName}}</p> 
+        <p item-end  [ngClass]="{'green':cash.CASHINHAND > 0,'red':cash.CASHINHAND < 0}">{{cash.CASHINHAND}}</p> 
+      </ion-item> 
+    </ion-card> 
+</ion-content>

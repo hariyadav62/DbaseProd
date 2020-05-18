@@ -1,0 +1,50 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>MyTeam</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-grid>
+    <ion-row class="home-buttons">
+      <ion-col col-6 text-center>
+        <ion-card style="border-radius: 10px;" class="shadow" (click)="EmpWorkReport()">
+          <img src="../../assets/imgs/TeamReport.svg" alt="Team Report">
+          <ion-card-content>
+            <ion-card-title>
+              Work Reports
+            </ion-card-title>
+          </ion-card-content>
+        </ion-card>
+        <span *ngIf="restCall.notifications">
+          <span *ngIf="restCall.notifications[0].Status != 0">
+          <p class="notifications" >{{restCall.notifications[0].Status}}</p>
+          </span>
+        </span>
+      </ion-col>
+      <ion-col col-6 text-center>
+        <ion-card style="border-radius: 10px;" class="shadow" (click)="leaveRequests()">
+          <img src="../../assets/imgs/teamleaves.svg" alt="">
+          <ion-card-content>
+            <ion-card-title>
+              Team Leaves
+            </ion-card-title>
+          </ion-card-content>
+        </ion-card>
+        <span *ngIf="restCall.notifications">
+          <span *ngIf="restCall.notifications[1].Status != 0">
+            <p class="notifications" >{{restCall.notifications[1].Status}}</p>
+          </span>
+        </span>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-list *ngIf="restCall.myTeam">
+    <ion-item *ngFor="let emp of restCall.myTeam">
+      <ion-icon name="person" item-start></ion-icon>
+      {{emp.EmpName}}
+      <p item-end>{{emp.EmpCode}}</p>
+    </ion-item>
+  </ion-list>
+  
+</ion-content>
