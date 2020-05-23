@@ -1,6 +1,6 @@
 import { RestcallsProvider } from './../../providers/restcalls/restcalls';
 import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, Content } from 'ionic-angular';
 import Chart from 'chart.js';
 //import Chart from 'chart.js';
 
@@ -10,6 +10,7 @@ import Chart from 'chart.js';
 })
 export class EmployeetimingPage { 
   @ViewChild("doughnutCanvas") doughnutCanvas: ElementRef;
+  @ViewChild(Content) content: Content;
   public doughnutChartLabels:string[] = ['Total Checkins', 'Ontime Checkins'];
   public doughnutChartColor:string[] = ["#36A2EB","#FF6384"];
   public doughnutChartData:number[] ;
@@ -31,13 +32,9 @@ export class EmployeetimingPage {
   async ionViewWillEnter(){
     await this.restCall.LoadHomeTimingChart().then(()=>{
       this.restCall.pieChart.forEach(el => { 
-        // this.totcheck = this.totcheck + el.TOTALCHECKINS ;
-        // this.incheck = this.incheck + el.INTIMECHECKINS ;
         this.pieChartData1.push([el.TOTALCHECKINS, el.INTIMECHECKINS, el.YEAR, el.CHECKINPERCENTAGE]); 
       }); 
     });
-    
-    //this.totalpie = +((this.incheck/this.totcheck)*100).toFixed(2);
     this.doughnutChartData = [this.totcheck-this.incheck, this.incheck];
     this.yolo(this.totcheck,this.incheck); 
     this.Year= this.restCall.pieChart[0].YEAR;
@@ -61,9 +58,7 @@ export class EmployeetimingPage {
     await this.restCall.LoadEmpTimingBarChart('All',this.restCall.pieChart[0].YEAR,0);
 
   }
-  chartClicked(event){
-
-  } 
+ 
   async LoadEmpBars(year){
     this.Year= year;
     this.activeyear = year;
@@ -103,10 +98,10 @@ export class EmployeetimingPage {
           label: "Checkins",
           data: [totcheck-incheck, incheck],
           backgroundColor: [
-            "#36A2EB",
-            "#FF6384"
+            "rgba(255, 0, 0, 0.9)",
+            "rgb(76, 195, 92)"
           ],
-          hoverBackgroundColor: ["#36A2EB", "#FF6384"]
+         // hoverBackgroundColor: ["#36A2EB", "#FF6384"]
         },
       ]
     },
@@ -119,4 +114,10 @@ export class EmployeetimingPage {
     }
   });
  }
+ chartClicked(element:string) {
+    this.content.resize();
+    let yOffset = document.getElementById(this.restCall.currentuser.EmpCode).offsetTop;
+    console.log(document.getElementById(this.restCall.currentuser.EmpCode));
+    this.content.scrollTo(0, yOffset, 1000)
+  }
 }

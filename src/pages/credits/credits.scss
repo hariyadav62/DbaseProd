@@ -103,5 +103,14 @@ page-credits {
             box-shadow: 0px 1px 3px rgba(0,0,0,0.3);
         }
     }
+    .verified{
+        background: rgba(0, 255, 10, 0.21);
+    }
+    .deleted{
+        background: rgba(250, 0, 0, 0.2);
+    }
+    .updated{
+        background: rgba(255, 238, 0, 0.3);
+    }
 
 }

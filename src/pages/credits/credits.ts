@@ -32,21 +32,21 @@ export class CreditsPage {
       });
     }
   }
-  DeleteVoucher(id){
-    console.log(id); 
-    this.restCall.DeleteVoucher(id).then(()=>{
-      this.restCall.LoadEmpAllTransactions(this.empcode,this.selectedYear,this.selectedMonth,this.transType);
-    });  
-  }
   VoucherDetails(x: string | number){ 
     let list = this.elmenetRef.nativeElement.querySelectorAll('.tcard')
     console.log(list);
     for(let i =0;i<list.length; i++){
-      if(list[i].classList.contains('open')){
-        list[i].classList.remove('open')
+      if(i != x){
+        if(list[i].classList.contains('open')){
+          list[i].classList.remove('open')
+        }
       }
     }
-    list[x].classList.add('open');
+    if(list[x].classList.contains('open')){
+      list[x].classList.remove('open')
+    }else{
+      list[x].classList.add('open');
+    }
   }
   ionViewWillEnter(){
     this.currentuser = this.restCall.currentuser;

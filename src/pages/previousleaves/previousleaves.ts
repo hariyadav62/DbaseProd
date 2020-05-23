@@ -49,14 +49,26 @@ export class PreviousleavesPage {
     this.month[11] = "December";
   }
   async ionViewWillEnter(){
-    this.restCall.LoadAllLeaves(this.currentuser,'',0,0,0 );
     this.restCall.LoadDatesForLeaves(this.currentuser,'',0,'0').then(()=>{
       this.years = this.restCall.datesLeave;
+      if(this.restCall.datesLeave.length != 0){
+        this.selectedYear = this.restCall.datesLeave[0].DATES;
+        this.restCall.LoadDatesForLeaves(this.currentuser,'',this.selectedYear,'0').then(()=>{
+          this.months = this.restCall.datesLeave;
+          if(this.restCall.datesLeave.length != 0){
+            this.selectedMonth = this.restCall.datesLeave[0].DATES;
+            this.restCall.LoadAllLeaves(this.currentuser,'',this.selectedYear,this.selectedMonth,0 );
+            this.searchHead = this.selectedMonth +' '+this.selectedYear;
+            this.restCall.LoadDatesForLeaves(this.currentuser,'',this.selectedYear,this.selectedMonth).then(()=>{
+              this.days = this.restCall.datesLeave;
+            });
+          }
+        });
+      }
+      else{
+        this.restCall.leaves = [];
+      }
     });
-    this.searchHead = "Top 50";
-    this.selDay = null;
-    this.selectedMonth = null;
-    this.restCall.loadCheckinDates = null;
   }
   // async SearchByCode(){ 
   //   this.restCall.LoadAllLeaves(this.currentuser,'',0,0,0 ); 
@@ -96,7 +108,9 @@ export class PreviousleavesPage {
     this.restCall.LoadDatesForLeaves(this.currentuser,'',this.selectedYear,this.selectedMonth).then(()=>{
       this.days = this.restCall.datesLeave;
     });
-    this.searchHead = this.selectedMonth+" "+ this.selectedYear;
+    if(this.selectedMonth != null && this.selectedYear != null){
+      this.searchHead = this.selectedMonth+" "+ this.selectedYear;
+    }
     this.selDay = null;
   }
   SearchByDay(){
@@ -106,7 +120,6 @@ export class PreviousleavesPage {
 
 
   respondToLeave(leavedata:any,x:string){
-    
     const confirm = this.alertCtrl.create({ 
       title: 'Leave Reapply',
       message: 'Do you want to Reapply?',

@@ -63,6 +63,7 @@ currentuser:any;
     });
     this.restCall.LoadEmpAllTransactions('1509','All','All','Advances').then(()=>{
     });
+    
   }
   Announcements(){
     this.navCtrl.push(AnnouncementsPage);

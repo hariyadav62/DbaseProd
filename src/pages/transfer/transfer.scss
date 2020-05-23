@@ -38,5 +38,19 @@ page-transfer {
     .alert-title{
         color: rgb(240, 30, 30);
     } 
+    .item.item-md .checkbox-md{
+        margin-right: 15px;
+    }
+    .outstanding{
+        display: inline-block;
+        font-size: 1.4rem;
+        background: #ef3535;
+        color: white;
+        border-radius: 4px;
+        padding: 2px 3px;
+        margin-left: 5px;
+        margin-bottom: 5px;
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+    }
     
 }

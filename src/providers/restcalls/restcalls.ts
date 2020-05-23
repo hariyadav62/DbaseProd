@@ -6,11 +6,11 @@ import { FCM } from '@ionic-native/fcm';
 import { Storage } from '@ionic/storage';
 @Injectable() 
 export class RestcallsProvider {   
-  //  _HOST2 : string =	"http://app.dbasesolutions.in/api/dbaseapi";  
-  _HOST2: string = "http://localhost:21249/api/dbaseapi"; 
+   _HOST2 : string =	"http://app.dbasesolutions.in/api/dbaseapi";  
+  // _HOST2: string = "http://localhost:21249/api/dbaseapi"; 
   //  _HOST2 : string =	"http://5c82eea8.ngrok.io/api/dbaseapi";         
   userLoggedIn: boolean = false;
-  isAdmin: boolean = false;
+  isAdmin: boolean = false; 
   totalPendingLeaves: any = [];
   respondedLeaves: any = [];
   leaves: any = [];
@@ -62,7 +62,6 @@ export class RestcallsProvider {
   empAnnouncements: any;
   datesLeave: any;
   constructor(public http: HttpClient, public _TOAST: ToastController, public app: App, platform: Platform, private fcm: FCM, private storage: Storage, public loadingController: LoadingController,public alertCtrl: AlertController) {
-
     storage.get('id').then((id) => {
       if (id != null) {
         storage.get('pass').then((pass) => {
@@ -71,6 +70,7 @@ export class RestcallsProvider {
       }
     });
     platform.ready().then(() => {
+      setTimeout(() => {
       //Notifications  
       fcm.subscribeToTopic('all');
       fcm.getToken().then(token=>{
@@ -79,9 +79,10 @@ export class RestcallsProvider {
       })
       fcm.onNotification().subscribe(data=>{
         if(data.wasTapped){
+          console.log('data');
           this.LoadNotificationsCount(this.currentuser.EmpCode);
         } else {
-          //alert("New "+data.notifyType+" Notification");
+          //alert("New Notification");
           const confirm = this.alertCtrl.create({ 
             title: data.notifyType+" Notification",
             message: data.notifyBody,
@@ -93,7 +94,8 @@ export class RestcallsProvider {
                    this.CheckEmpReporting(this.currentuser.EmpCode,'2020-05-02');
                 }
               }
-            ]
+            ],
+            cssClass: 'NotificationPop'
           });
           confirm.present();
         };
@@ -102,13 +104,15 @@ export class RestcallsProvider {
         this.deviceId = token;
         console.log(this.deviceId + "refreshtoken");
       });
+    }, 100);
       // end notifications.
     });
     console.log('Restcall Provider');
     this.retrieveEmployee();
     //this.TodayEmployeeOnLeave();
-
   }
+
+ 
   SetToday() {
     let date = new Date();
     this.today = date.getFullYear() + '-' + (("0" + (date.getMonth() + 1)).slice(-2)) + '-' + (("0" + date.getDate()).slice(-2));
@@ -209,6 +213,7 @@ export class RestcallsProvider {
     loader.present();
     this.http.post(this._HOST2 + '/UploadImage', fd).subscribe((data) => {
       console.log(fd);
+      this.AllVoucherTransactions('All','All','');
       this.displayNotification('Voucher Applied Successfully');
       loader.dismiss();
     },
@@ -339,7 +344,7 @@ export class RestcallsProvider {
     loader.present();
     let promise = new Promise((resolve, reject) => {
       this.http.get(this._HOST2 + '/AllVoucherTransaction?empid=' + empid + '&year=' + year + '&month=' + month).subscribe((data: any) => {
-        this.allVoucherTransactions = data;
+        this.allVoucherTransactions = JSON.parse(data.toString());
         loader.dismiss();
         resolve();
       },
@@ -390,13 +395,13 @@ export class RestcallsProvider {
     });
     return promise;
   }
-  LoadInvoiceClients() {
+  LoadInvoiceClients(fyear,fmonth) {
     let loader = this.loadingController.create({
       content: "Loading.."
     });
     loader.present();
     let promise = new Promise((resolve, reject) => {
-      this.http.get(this._HOST2 + '/LoadInvoiceClients').subscribe((data: any) => {
+      this.http.get(this._HOST2 + '/LoadInvoiceClients?fyear='+fyear+'&fmonth='+fmonth).subscribe((data: any) => {
         this.FClients = data;
         console.log(this.FClients)
         loader.dismiss();
@@ -775,7 +780,6 @@ export class RestcallsProvider {
       .subscribe((data: any) => {
         this.leaves = data;
         loader.dismiss();
-        console.log(this.leaves);
       },
         (error: any) => {
           console.dir(error);
@@ -846,7 +850,6 @@ export class RestcallsProvider {
         .subscribe((data: any) => {
           this.datesLeave = data;
           loader.dismiss();
-          console.log(this.datesLeave);
           resolve();
         },
           (error: any) => {
@@ -1096,11 +1099,15 @@ export class RestcallsProvider {
       .subscribe((data: any) => {
         this.displayNotification('Money Transffered');
         loader.dismiss();
+        let credittype = '';
+        if(credit.SALorAdv != 'Credit'){
+          credittype = credit.SALorAdv;
+        }
         let notify = {
           SendTo: credit.RecieverEmpId,
           Title: "Money Credited",
           type:'Transaction',
-          Body:`You have Recieved an amount of Rs${credit.Amount}/- from ${this.currentuser.EmpCode} ${this.currentuser.EmpName} through ${credit.TransferType}`
+          Body:`You have Recieved ${credittype} amount of Rs${credit.Amount}/- from ${this.currentuser.EmpCode} ${this.currentuser.EmpName} through ${credit.TransferType}`
         }
         this.sendNotification(notify);
         this.retrieveCashInHand(this.currentuser.EmpCode)
@@ -1717,7 +1724,7 @@ export class RestcallsProvider {
           let notify = {
             SendTo: voucher.EmpId,
             Title: "Voucher updated",
-            type:'Voucher Report',
+            type:'Voucher Update',
             Body: "Voucher ("+voucher.Date.substring(0,10)+") has been updated"
           }
           this.sendNotification(notify);

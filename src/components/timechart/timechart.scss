@@ -28,21 +28,22 @@ timechart {
             top: 0;
             left: 0;
             position: absolute; 
-            background: rgba(68, 160, 255, 0.62);
+            background: rgba(255, 0, 0, 0.9);
             height: 25px;
         }
         .intimebar{
             top: 0;
             left: 0;
             position: absolute; 
-            background: rgb(255, 151, 189); 
+            background: rgb(76, 195, 92); 
+            // background: rgb(255, 151, 189); 
             height: 25px;
         }
         .notimebar{
             top: 0;
             left: 0;
             position: absolute; 
-            background: rgb(255, 52, 52); 
+            background: #1d74b9; 
             height: 6px;
         }
         .scale,.scale1,.scale2,.scale3{
@@ -53,13 +54,14 @@ timechart {
             width: 30%;
         }
         .scale1{
-            color: #36a2eb;
+            color: rgba(255, 0, 0, 0.658);
         }
         .scale2{
-            color: #ff6384;
+            // color: #ff6384;
+            color: rgba(0, 143, 19, 0.75);
         }
         .scale3{
-            color: red;
+            color: #36a2eb;
         }
     }
 }

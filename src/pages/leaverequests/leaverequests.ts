@@ -54,38 +54,69 @@ export class LeaverequestsPage {
     }
   }
   async ionViewWillEnter() { 
-    this.searchHead = "Top 50";
     if(this.restCall.currentuser.UserType == 'ADMIN'){
-      this.restCall.LoadAllLeaves(this.empcode,'',0,0,0 );
       this.restCall.LoadDatesForLeaves(this.empcode,'',0,'0').then(()=>{
         this.years = this.restCall.datesLeave;
+        if(this.restCall.datesLeave.length != 0){
+          this.selectedYear = this.restCall.datesLeave[0].DATES;
+          this.restCall.LoadDatesForLeaves(this.empcode,'',this.selectedYear,'0').then(()=>{
+            this.months = this.restCall.datesLeave;
+            if(this.restCall.datesLeave.length != 0){
+              this.selectedMonth = this.restCall.datesLeave[0].DATES;
+              this.restCall.LoadAllLeaves(this.empcode,'',this.selectedYear,this.selectedMonth,0 );
+              this.searchHead = this.selectedMonth +' '+this.selectedYear;
+              this.restCall.LoadDatesForLeaves(this.empcode,'',this.selectedYear,this.selectedMonth).then(()=>{
+                this.days = this.restCall.datesLeave;
+              });
+            }
+          });
+        }
+        else{
+          this.restCall.leaves = [];
+        }
       });
     }
     if(this.restCall.currentuser.UserType == 'TEAMLEADER' || this.restCall.currentuser.UserType == 'MANAGER'){
-      this.restCall.LoadAllLeaves(this.empcode,this.restCall.currentuser.Designation,0,0,0 );
       this.restCall.LoadDatesForLeaves(this.empcode,this.restCall.currentuser.Designation,0,'0').then(()=>{
         this.years = this.restCall.datesLeave;
+        if(this.restCall.datesLeave.length != 0){
+          this.selectedYear = this.restCall.datesLeave[0].DATES;
+          this.restCall.LoadDatesForLeaves(this.empcode,this.restCall.currentuser.Designation,this.selectedYear,'0').then(()=>{
+            this.months = this.restCall.datesLeave;
+            if(this.restCall.datesLeave.length != 0){
+              this.selectedMonth = this.restCall.datesLeave[0].DATES;
+              this.restCall.LoadAllLeaves(this.empcode,this.restCall.currentuser.Designation,this.selectedYear,this.selectedMonth,0 );
+              this.searchHead = this.selectedMonth +' '+this.selectedYear;
+              this.restCall.LoadDatesForLeaves(this.empcode,this.restCall.currentuser.Designation,this.selectedYear,this.selectedMonth).then(()=>{
+                this.days = this.restCall.datesLeave;
+              });
+            }
+          });
+        }
+        else{
+          this.restCall.leaves = [];
+        }
       });
     }
-    this.selectedYear = null;
-    this.selDay = null;
-    this.selectedMonth = null;
-    this.restCall.loadCheckinDates = null;
+    // this.selectedYear = null;
+    // this.selDay = null;
+    // this.selectedMonth = null;
+    // this.restCall.loadCheckinDates = null;
   }
-
-  async SearchByCode(){ 
-    if(this.restCall.currentuser.UserType == 'ADMIN'){
-      this.restCall.LoadAllLeaves(this.empcode,'',0,0,0 );
-      await this.restCall.LoadLeavesYearMonth(this.empcode,''); 
-    }
-    if(this.restCall.currentuser.UserType == 'TEAMLEADER' || this.restCall.currentuser.UserType == 'MANAGER'){
-      this.restCall.LoadAllLeaves(this.empcode, this.restCall.currentuser.Designation,0,0,0);
-      await this.restCall.LoadLeavesYearMonth(this.empcode,this.restCall.currentuser.Designation); 
-    }
-    this.searchHead = "Top 50";
-    this.selectedMonth = null;
-    this.selDay = null;
-  }
+ 
+  // async SearchByCode(){ 
+  //   if(this.restCall.currentuser.UserType == 'ADMIN'){
+  //     this.restCall.LoadAllLeaves(this.empcode,'',0,0,0 );
+  //     await this.restCall.LoadLeavesYearMonth(this.empcode,''); 
+  //   }
+  //   if(this.restCall.currentuser.UserType == 'TEAMLEADER' || this.restCall.currentuser.UserType == 'MANAGER'){
+  //     this.restCall.LoadAllLeaves(this.empcode, this.restCall.currentuser.Designation,0,0,0);
+  //     await this.restCall.LoadLeavesYearMonth(this.empcode,this.restCall.currentuser.Designation); 
+  //   }
+  //   this.searchHead = "Top 50";
+  //   this.selectedMonth = null;
+  //   this.selDay = null;
+  // }
   async SearchByYearMonth(){
     if(this.selectedMonth != null){
       let date = new Date(this.selectedMonth.toString());
@@ -124,12 +155,13 @@ export class LeaverequestsPage {
         this.years = this.restCall.datesLeave;
       });
     }
-    this.selectedYear = null;
+    this.selectedYear = 0;
     this.searchHead = "Top 50";
     this.selectedMonth = null;
     this.months = [];
     this.days = [];
     this.selDay = null;
+    console.log(this.searchHead);
   }
   SearchByYear(){
     if(this.restCall.currentuser.UserType == 'ADMIN'){
@@ -162,7 +194,9 @@ export class LeaverequestsPage {
         this.days = this.restCall.datesLeave;
       });
     }
-    this.searchHead = this.selectedMonth+" "+ this.selectedYear;
+    if(this.selectedMonth != null && this.selectedYear != null){
+      this.searchHead = this.selectedMonth+" "+ this.selectedYear;
+    }
     this.selDay = null;
   }
   SearchByDay(){

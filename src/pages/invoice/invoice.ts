@@ -21,7 +21,7 @@ export class InvoicePage {
     this.isFMonths = false;
     this.restCall.LoadBills(this.FinancialYear,this.selectedFMonth,this.selectedClient);  
     this.restCall.LoadFyears(); 
-    this.restCall.LoadInvoiceClients();
+    this.restCall.LoadInvoiceClients(this.FinancialYear,this.selectedFMonth);
     this.restCall.LoadBillSmry(this.FinancialYear,this.selectedFMonth,this.selectedClient); 
   }
   
@@ -36,12 +36,15 @@ export class InvoicePage {
     list[x].classList.add('open');
   }
   SearchByFyear(){
+    this.selectedClient = '';
     this.isFMonths = true;
     this.restCall.LoadFMonths(this.FinancialYear);
     this.restCall.LoadBillSmry(this.FinancialYear,this.selectedFMonth,this.selectedClient);
     this.restCall.LoadBills(this.FinancialYear,this.selectedFMonth,this.selectedClient);  
+    this.restCall.LoadInvoiceClients(this.FinancialYear,this.selectedFMonth);
   }
   SearchByFYearMonth(){
+    this.selectedClient = '';
     if(this.selectedClient == 'All' && this.selectedFMonth == 'All'){
       this.restCall.LoadBillSmry(this.FinancialYear,'','');
       this.restCall.LoadBills(this.FinancialYear,'','');  
@@ -55,7 +58,22 @@ export class InvoicePage {
       this.restCall.LoadBillSmry(this.FinancialYear,'',this.selectedClient);
       this.restCall.LoadBills(this.FinancialYear,'',this.selectedClient);  
     } 
-
+    this.restCall.LoadInvoiceClients(this.FinancialYear,this.selectedFMonth);
+  }
+  SearchByClient(){
+    if(this.selectedClient == 'All' && this.selectedFMonth == 'All'){
+      this.restCall.LoadBillSmry(this.FinancialYear,'','');
+      this.restCall.LoadBills(this.FinancialYear,'','');  
+    }else if(this.selectedClient != 'All' && this.selectedFMonth != 'All'){
+      this.restCall.LoadBillSmry(this.FinancialYear,this.selectedFMonth,this.selectedClient);
+      this.restCall.LoadBills(this.FinancialYear,this.selectedFMonth,this.selectedClient);  
+    } else if(this.selectedClient == 'All' && this.selectedFMonth != 'All'){
+      this.restCall.LoadBillSmry(this.FinancialYear,this.selectedFMonth,'');
+      this.restCall.LoadBills(this.FinancialYear,this.selectedFMonth,'');  
+    } else if(this.selectedClient != 'All' && this.selectedFMonth == 'All'){
+      this.restCall.LoadBillSmry(this.FinancialYear,'',this.selectedClient);
+      this.restCall.LoadBills(this.FinancialYear,'',this.selectedClient);  
+    } 
   }
   
 }

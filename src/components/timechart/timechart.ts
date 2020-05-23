@@ -19,8 +19,8 @@ export class TimechartComponent implements OnInit {
  checkinpercentage: any; 
  monthReports:boolean = false;
   timingMonths: any;
-//  _HOST2 : string =	"http://4b127e45.ngrok.io/api/dbaseapi";    
-_HOST2 : string =	"http://app.dbasesolutions.in/api/dbaseapi";
+  // _HOST2: string = "http://localhost:21249/api/dbaseapi"; 
+  _HOST2 : string =	"http://app.dbasesolutions.in/api/dbaseapi";
   timingMonthData: any;
   Month:any;
   maxCheckins: any;

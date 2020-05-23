@@ -45,8 +45,7 @@
         </ion-item>
         <ion-card [ngClass]="{'approved': wrk.WStatus == 'Approved', 'rejected': wrk.WStatus == 'Rejected'}">
           <ion-card-content>
-            <h2>{{wrk.StaffId}}</h2>
-            <h2>{{wrk.EmpName}}</h2>
+            <h2>{{wrk.StaffId}} - {{wrk.EmpName}}</h2>
             <h2>Client_Project: {{wrk.Client_Project}}</h2> 
             <h2>Project_Name: {{wrk.Project_Name}}</h2> 
             <h2 class="service_type" [ngClass]="{'inhouse': wrk.Service_Type == 'In-House','onsite': wrk.Service_Type == 'On-Site'}">{{wrk.Service_Type}}</h2>

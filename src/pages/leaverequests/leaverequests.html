@@ -10,7 +10,7 @@
   <div *ngIf = "restCall.currentuser.UserType == 'TEAMLEADER' || restCall.currentuser.UserType == 'MANAGER'">
       <div class="filters"> 
         <ion-item class="employeeSelect" >
-          <ion-select placeholder="Employee" [(ngModel)]="empcode" name="empcode" (ionChange)="SearchByCode()">
+          <ion-select placeholder="Employee" [(ngModel)]="empcode" name="empcode" (ionChange)="SearchByEmpCode()">
             <ion-option value="All">All Employees</ion-option>
             <span *ngFor="let employee of restCall.employeeList">
               <ion-option *ngIf="employee.RequestTo == restCall.currentuser.Designation" value="{{employee.EmpCode}}">{{employee.EmpCode}}
@@ -38,14 +38,15 @@
         </span>
         </div>
       </div>
-      <h2>{{searchHead}} Leaves</h2>
+      <h2 *ngIf="searchHead != 0">{{searchHead}} Leaves</h2>
+      <h2 *ngIf="searchHead == 0">Top 50 Leaves</h2>
       
     <ion-card class="card-details" [ngClass]="{'approved': leave.L_status == 'Accepted', 'rejected': leave.L_status.substring(0,8) == 'Rejected'}" style="border-left: 4px solid red;" *ngFor = "let leave of restCall.leaves" style="position: relative;"> 
       <ion-item *ngIf = "leave.EmpCode != restCall.currentuser.EmpCode" (click)="LeaveReason(leave)">
         <h2 class="card-point">{{leave.EmpName}}</h2>
         <h2 class="card-point">{{leave.LType}}</h2>
         <p> {{leave.LFrom.substring(0, 10)}}</p>  
-        <p *ngIf="leave.LType == 'Casual Leave' || leave.LType == 'Sick leave'"> {{leave.Lto.substring(0, 10)}}</p>
+        <p *ngIf="leave.LType == 'Casual Leave' || leave.LType == 'Sick Leave'"> {{leave.Lto.substring(0, 10)}}</p>
         <p *ngIf="leave.LType == 'Half Day' || leave.LType == 'Permission'">{{leave.PTime}}</p>
       </ion-item>
       <div item-end text-right class="over-btn">  
@@ -86,7 +87,9 @@
       </span>
       </div>
     </div>
-      <h2>{{searchHead}} Leaves</h2>
+      <h2 *ngIf="searchHead != 0">{{searchHead}} Leaves</h2>
+      <h2 *ngIf="searchHead == 0">Top 50 Leaves</h2>
+
        
       <div>
       <ion-card class="card-details" [ngClass]="{'approved': leave.L_status == 'Accepted', 'rejected': leave.L_status.substring(0,8) == 'Rejected'}" *ngFor = "let leave of restCall.leaves" style="position: relative;"> 
@@ -94,7 +97,7 @@
             <h2 class="card-point">{{leave.EmpName}}</h2>
             <h2 class="card-point">{{leave.LType}}</h2>
             <p *ngIf="leave.LFrom"> {{leave.LFrom.substring(0, 10)}}</p> 
-            <p *ngIf="leave.LType == 'Casual Leave' || leave.LType == 'Sick leave'"> {{leave.Lto.substring(0, 10)}}</p>
+            <p *ngIf="leave.LType == 'Casual Leave' || leave.LType == 'Sick Leave'"> {{leave.Lto.substring(0, 10)}}</p>
             <p *ngIf="leave.LType == 'Half Day' || leave.LType == 'Permission'">{{leave.PTime}}</p>
           </ion-item>
           <div item-end text-right class="over-btn"> 

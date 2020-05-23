@@ -28,8 +28,8 @@
   <span *ngFor = "let item of restCall.todayEmployeeReportings">
     <span *ngIf="item.Report_Staus == 'Recheckin'">
       <ion-card class="card-details checkin-card recheckin-border" >
-        <ion-item class="recheckin ">  
-          <h2 text-center class="card-point">{{item.Emp_Name}}</h2>
+        <ion-item class="recheckin" style="padding-left: 5px;">  
+          <h2 text-center class="card-point" style="margin: 0;font-size: 1.4rem;">{{item.Emp_Name}}</h2>
           <div item-start text-center>  
             <p *ngIf = "item.Time">{{item.Time}}</p> 
           </div>
@@ -43,12 +43,11 @@
   </span>
 
   <h5 *ngIf="pendin">Pending</h5>
-
   <span *ngFor = "let item of restCall.todayEmployeeReportings">
     <span *ngIf="item.Report_Staus == 'Pending'">
       <ion-card class="card-details checkin-card pending-border" >
-        <ion-item class="pending"> 
-          <h2 text-center class="card-point">{{item.Emp_Name}}</h2>
+        <ion-item class="pending" style="padding-left: 5px;"> 
+          <h2 text-center class="card-point" style="margin: 0;font-size: 1.4rem;">{{item.Emp_Name}}</h2>
           <div item-start text-center>  
             <p *ngIf = "item.Time">{{item.Time}}</p> 
           </div>
@@ -62,12 +61,11 @@
   </span>
 
   <h5 *ngIf="respond">Responded</h5>
-
   <span *ngFor = "let item of restCall.todayEmployeeReportings">
     <span *ngIf="item.Report_Staus == 'Approved' ||item.Report_Staus == 'Rejected'">
       <ion-card class="card-details checkin-card" [ngClass]="{'approve-border': item.Report_Staus == 'Approved', 'rejected-border': item.Report_Staus == 'Rejected'}">
-        <ion-item [ngClass]="{'approve': item.Report_Staus == 'Approved', 'rejected': item.Report_Staus == 'Rejected'}"> 
-          <h2 text-center class="card-point">{{item.Emp_Name}}</h2>
+        <ion-item [ngClass]="{'approve': item.Report_Staus == 'Approved', 'rejected': item.Report_Staus == 'Rejected'}" style="padding-left: 5px;"> 
+          <h2 text-center class="card-point" style="margin: 0;font-size: 1.4rem;">{{item.Emp_Name}}</h2>
           <div item-start text-center>  
             <p *ngIf = "item.Time">{{item.Time}}</p> 
           </div>

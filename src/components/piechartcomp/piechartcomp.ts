@@ -27,10 +27,10 @@ export class PiechartcompComponent {
             label: "Checkins",
             data: [this.piedataset[0]-this.piedataset[1],this.piedataset[1]],
             backgroundColor: [
-              "#36A2EB",
-              "#FF6384"
+              "rgba(255, 0, 0, 0.9)",
+              "rgb(76, 195, 92)"
             ],
-            hoverBackgroundColor: ["#36A2EB", "#FF6384"]
+            //hoverBackgroundColor: ["#36A2EB", "#FF6384"]
           },
         ]
       },

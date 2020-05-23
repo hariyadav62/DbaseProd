@@ -8,7 +8,7 @@ import { RestcallsProvider } from '../../providers/restcalls/restcalls';
 })
 export class ReportingtimeallPage {
   empCode:any;
-  selDay: any;
+  selDay: any=0;
   selectedMonth: string | number | Date;
   searchHead: any = "Top 50";
   month= new Array();
@@ -38,11 +38,26 @@ export class ReportingtimeallPage {
     this.month[11] = "December";
   }
   async SearchByCode(){
-    this.restCall.LoadCheckIns(this.empCode,0,0,0);
-    this.searchHead = 'Top 50';
     this.restCall.LoadCheckInDates(this.empCode,0,0).then((data)=>{
       this.Years = this.restCall.loadCheckinDates;
-    });   
+      if(this.restCall.loadCheckinDates.length != 0){
+        this.selectedYear = this.restCall.loadCheckinDates[0].DATES;
+        this.restCall.LoadCheckInDates(this.empCode,this.selectedYear,0).then(()=>{
+          this.Months = this.restCall.loadCheckinDates;
+          if(this.restCall.loadCheckinDates.length != 0){
+            this.selectedMonth = this.restCall.loadCheckinDates[0].DATES;
+            this.restCall.LoadCheckIns(this.empCode,this.selectedYear,this.selectedMonth,0);
+            this.searchHead = this.selectedMonth +' '+this.selectedYear;
+            this.restCall.LoadCheckInDates(this.empCode,this.selectedYear,this.selectedMonth).then((data)=>{
+              this.Days = this.restCall.loadCheckinDates;
+            }); 
+          }
+        });
+      }
+      else{
+        this.restCall.loadCheckins = [];
+      }
+    }) 
   }
   async SearchByYear(){
     this.restCall.LoadCheckIns(this.empCode,this.selectedYear,0,0);
@@ -55,15 +70,17 @@ export class ReportingtimeallPage {
     this.restCall.LoadCheckIns(this.empCode,this.selectedYear,this.selectedMonth,0);
     this.restCall.LoadCheckInDates(this.empCode,this.selectedYear,this.selectedMonth).then((data)=>{
       this.Days = this.restCall.loadCheckinDates;
-    });    
-    this.searchHead = this.selectedMonth+","+this.selectedYear; 
+    });  
+    if(this.selectedMonth != null && this.selectedYear != null){  
+      this.searchHead = this.selectedMonth+","+this.selectedYear; 
+    }
   }
   async SearchByYearMonthDay(){
     this.restCall.LoadCheckIns(this.empCode,this.selectedYear,this.selectedMonth,this.selDay);
     this.searchHead = `${this.selDay} ${this.selectedMonth},${this.selectedYear}`; 
   }
 
-  UpdateStatus(report:any) {
+  async UpdateStatus(report:any) {
     let alert = this.alertCtrl.create();
     alert.setTitle('Update Status');
 
@@ -84,9 +101,13 @@ export class ReportingtimeallPage {
       handler: data => {
         report.Report_Staus = data;
         if(data == 'Approved'){
-          this.restCall.ApproveReport(report);
+          this.restCall.ApproveReport(report).then(()=>{
+            this.restCall.LoadCheckIns(this.empCode,this.selectedYear,this.selectedMonth,this.selDay );
+          });
         }else{
-          this.restCall.respondToReport(report);
+          this.restCall.respondToReport(report).then(()=>{
+            this.restCall.LoadCheckIns(this.empCode,this.selectedYear,this.selectedMonth,this.selDay );
+          });
         }
       }
     });
@@ -100,18 +121,25 @@ export class ReportingtimeallPage {
     }else{
       this.empCode = this.restCall.currentuser.EmpCode;
     }
-    await this.restCall.LoadCheckIns(this.empCode,0,0,0);
     this.restCall.LoadCheckInDates(this.empCode,0,0).then((data)=>{
       this.Years = this.restCall.loadCheckinDates;
-    });  
-    
-    this.searchHead = "Top 50";
-    this.selectedYear= null;
-    this.selDay = null;
-    this.selectedMonth = null;
-  }
-  ApproveReport(report:any,x:string){
-    report.Report_Staus = x;
-    this.restCall.ApproveReport(report);
+      if(this.restCall.loadCheckinDates.length != 0){
+        this.selectedYear = this.restCall.loadCheckinDates[0].DATES;
+        this.restCall.LoadCheckInDates(this.empCode,this.selectedYear,0).then(()=>{
+          this.Months = this.restCall.loadCheckinDates;
+          if(this.restCall.loadCheckinDates.length != 0){
+            this.selectedMonth = this.restCall.loadCheckinDates[0].DATES;
+            this.restCall.LoadCheckIns(this.empCode,this.selectedYear,this.selectedMonth,0 );
+            this.searchHead = this.selectedMonth +' '+this.selectedYear;
+            this.restCall.LoadCheckInDates(this.empCode,this.selectedYear,this.selectedMonth).then((data)=>{
+              this.Days = this.restCall.loadCheckinDates;
+            }); 
+          }
+        });
+      }
+      else{
+        this.restCall.loadCheckins = [];
+      }
+    }); 
   }
 }

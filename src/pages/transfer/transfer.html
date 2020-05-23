@@ -19,7 +19,7 @@
         </span>
       </ion-select>
     </ion-item>
-    <p class="info" text-center *ngIf="RecieverEmpId"><ion-icon name="information-circle"></ion-icon> Maximum {{RecieverEmpId.substring(5)}} can be transferred</p>
+    <span *ngIf="RecieverEmpId"><p class="info" text-center *ngIf="RecieverEmpId.substring(0,4) != '1501' && RecieverEmpId.substring(0,4) != '1531'"><ion-icon name="information-circle"></ion-icon> Maximum {{RecieverEmpId.substring(5)}} can be transferred</p></span>
     <ion-item>
       <ion-label>Amount*</ion-label>
       <ion-input type="tel" [(ngModel)]="amount" name="amount" required (ionBlur)="AmountValidation()"></ion-input>
@@ -34,9 +34,9 @@
       <ion-label>Advance</ion-label>
       <ion-checkbox color="primary" name="isAdvance" [(ngModel)]="isAdvance" checked="false"></ion-checkbox>
     </ion-item>
-    <ion-item *ngIf="restCall.currentuser.UserType !='ADMIN' && enableRepayment"> 
-      <ion-label>Advance Repayment</ion-label>
-      <ion-checkbox color="primary" name="isAdvanceRepay" [(ngModel)]="isAdvanceRepay" checked="false"></ion-checkbox>
+    <ion-item class="advrepayment" *ngIf="restCall.currentuser.UserType !='ADMIN' && enableRepayment && outstanding != 0 && outstanding != '' && outstanding != null && outstanding != undefined"> 
+      <ion-label>Advance Repayment <span class="outstanding" *ngIf="outstanding != 0 && outstanding != '' && outstanding != null && outstanding != undefined">Bal: {{outstanding}}</span> </ion-label>
+      <ion-checkbox color="primary" name="isAdvanceRepay" [(ngModel)]="isAdvanceRepay" checked="false" (ionChange)="toggleAdvRepay()"></ion-checkbox>
     </ion-item>
     <ion-item>
       <ion-label>Transaction Mode *</ion-label>

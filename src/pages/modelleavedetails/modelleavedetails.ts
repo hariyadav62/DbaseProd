@@ -35,7 +35,7 @@ export class ModelleavedetailsPage {
         this.EmpName = this.navParams.data.record.EmpName; 
         this.leaveType = this.navParams.data.record.leaveType;
         this.LFrom = this.navParams.data.record.LFrom.substring(0, 10);
-        this.Lto = this.navParams.data.record.Lto.substring(0, 10);
+        this.Lto = this.navParams.data.record.Lto.substring(0, 10); 
         this.Remarks = this.navParams.data.record.Remarks;
         this.LType = this.navParams.data.record.LType;
         this.L_status = this.navParams.data.record.L_status;

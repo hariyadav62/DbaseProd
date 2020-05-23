@@ -91,3 +91,42 @@
         }
     }
 }
+
+
+.NotificationPop{
+    ion-backdrop{
+        opacity: 0.7!important;
+    }
+    .alert-wrapper {
+        border-radius: 10px;
+        background-color: #202020;
+        box-shadow: -1px -2px 20px rgba(242, 152, 96, 0.1);
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+    .alert-title {
+        color: #df8c58;
+        font-size: 18px!important;
+    }
+    .alert-message{
+        color: white!important;
+        padding: 15px!important;
+        padding-bottom: 30px!important;
+        padding-left: 25px!important;
+    }
+    .alert-head{
+        padding: 10px 10px 12px!important;
+        text-align: center!important;
+        background: #252424!important;
+    }
+    .alert-button{
+        color: #202020;
+        background-color: #f29860;
+        margin: 0 8px 0 0;
+        padding: 3px 20px;
+    }
+    .alert-button-group{
+        justify-content: space-between;
+    }
+    
+}

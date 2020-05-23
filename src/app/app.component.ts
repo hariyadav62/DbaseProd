@@ -19,20 +19,20 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
 
       //Notifications
-      // fcm.subscribeToTopic('all');
-      // fcm.getToken().then(token=>{
-      //     console.log(token);
-      // })
-      // fcm.onNotification().subscribe(data=>{
-      //   if(data.wasTapped){
-      //     console.log("Received in background");
-      //   } else { 
-      //     //alert("New Notification");
-      //   };
-      // })
-      // fcm.onTokenRefresh().subscribe(token=>{
-      //   console.log(token + "refreshtoken");
-      // });
+      fcm.subscribeToTopic('all');
+      fcm.getToken().then(token=>{
+          console.log(token);
+      })
+      fcm.onNotification().subscribe(data=>{
+        if(data.wasTapped){
+          console.log("Received in background");
+        } else { 
+          //alert("New Notification");
+        };
+      })
+      fcm.onTokenRefresh().subscribe(token=>{
+        console.log(token + "refreshtoken");
+      });
       //end notifications.
       statusBar.styleDefault();
       splashScreen.hide();

@@ -22,7 +22,7 @@
       </ion-item>
     </div>
     <ion-item class="searchClient"> 
-      <ion-select (ionChange)="SearchByFYearMonth()" class="" placeholder="Client" [(ngModel)]="selectedClient" name="selectedClient">
+      <ion-select (ionChange)="SearchByClient()" class="" placeholder="Client" [(ngModel)]="selectedClient" name="selectedClient">
         <ion-option value="All">All</ion-option>
         <ion-option *ngFor="let client of restCall.FClients" value="{{client}}">{{client}}</ion-option>
       </ion-select>

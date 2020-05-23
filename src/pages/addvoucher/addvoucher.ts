@@ -67,19 +67,7 @@ export class AddvoucherPage {
     this.selMonths = null;
   }
   LoadAllVoucherTransactions(){
-    this.restCall.AllVoucherTransactions('All',this.selectedYear,'').then(()=>{
-      this.unverifiedVouchers=[];
-      this.verifiedVouchers=[];
-      this.restCall.allVoucherTransactions.forEach(x => {
-        if(x.IsVerified == "Y"){
-          this.verifiedVouchers.push(x);
-        }else{
-          this.unverifiedVouchers.push(x); 
-        }
-      });
-      console.log(this.unverifiedVouchers); 
-      console.log(this.verifiedVouchers);
-    });
+    this.restCall.AllVoucherTransactions('All',this.selectedYear,'')
   }
 
   SearchByYear(){
@@ -181,38 +169,42 @@ export class AddvoucherPage {
     }
   }
   VerifiedVoucherDetails(item:any,x: string | number){ 
-    let list = this.elmenetRef.nativeElement.querySelectorAll('.tcard.verified')
+    let list = this.elmenetRef.nativeElement.querySelectorAll('.tcard.verified');
+    let z= 0;
+    console.log(x);
+    console.log(list);
     for(let i =0;i<list.length; i++){
-      if(i != x){
+      if(!list[i].classList.contains(x)){
         if(list[i].classList.contains('open')){ 
           list[i].classList.remove('open')
         }
       }
+      else{
+        z=i;
+      }
     }
     this.updateamount = item.Amount;
-    if(list[x].classList.contains('open')){
-      list[x].classList.remove('open')
+    if(list[z].classList.contains('open')){
+      list[z].classList.remove('open')
     }else{
-      list[x].classList.add('open');
+      list[z].classList.add('open');
     }
   }
   VerifyVoucher(item:any){
-    if(item.Amount != this.updateamount){
+    console.log(item.Amount+'',this.updateamount);
+    item.IsVerified = "Y";
+    if(item.Amount+'' != this.updateamount){
       item.Amount = this.updateamount
+      item.IsVerified = "U";
+      console.log(item.Amount+'',this.updateamount);
     }
     item.Amount = this.updateamount
-    item.IsVerified = "Y";
+    console.log(item.Amount+'',this.updateamount,item.IsVerified);
     this.restCall.UpdateVoucherAmount(item,'notice').then(()=>{
       this.ionViewWillEnter();
     });
   }
-  // DeleteVoucher(item){
-  //   console.log(item); 
-  //   this.restCall.DeleteVoucher(item).then(()=>{
-  //     this.LoadAllVoucherTransactions();  
-  //   });  
-  // }
-
+  
   getBlob (b64Data) {
     let loader = this.loadingController.create({
       content: "B64 to BLOB.."

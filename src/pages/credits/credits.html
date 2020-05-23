@@ -35,7 +35,8 @@
       <ion-select placeholder="Select" [(ngModel)]="transType" name="transType" (ionChange)="LoadTransactions()">
         <ion-option value="All">All</ion-option>
         <ion-option value="Credit">Credits</ion-option>
-        <ion-option value="Debit">Debits</ion-option>
+        <ion-option value="Transfer">Debits</ion-option>
+        <ion-option value="Debit">Vouchers</ion-option>
         <ion-option value="Salary">Salary</ion-option>
         <ion-option value="Advances">Advances</ion-option>
       </ion-select>
@@ -58,7 +59,7 @@
   <span *ngIf="!adv"> 
     <div class="vcardholder" *ngFor = "let item of restCall.loadEmpAllTransactions, let x = index">
       <p class="transtype {{item.TRANSACTIONTYPE}}">{{item.TRANSACTIONTYPE}}</p> 
-        <ion-card class="card-details tcard" (click)="VoucherDetails(x)"> 
+        <ion-card class="card-details tcard" (click)="VoucherDetails(x)" [ngClass]="{'verified':item.TRANSACTIONTYPE == 'Voucher' && item.FPATH == 'Y','updated':(item.TRANSACTIONTYPE == 'Voucher' && item.FPATH == 'U'&& item.AMOUNT != 0),'deleted':item.TRANSACTIONTYPE == 'Voucher' && item.AMOUNT == 0}"> 
           <ion-card-content>
             <ion-item >
               <div item-end>  
@@ -75,9 +76,6 @@
           </ion-card-content>
           <span class="moredetails" *ngIf="item.TRANSACTIONTYPE == 'Voucher'">
             <img class="vimg" *ngIf="item.FNAME && item.FNAME != ''" src="http://app.dbasesolutions.in/Image/{{item.FNAME}}" alt="">
-            <button *ngIf="restCall.currentuser.UserType == 'ADMIN'" ion-button clear color="primary" (click)="DeleteVoucher(item.ID)">
-              Delete
-            </button>
           </span>
         </ion-card> 
     </div>

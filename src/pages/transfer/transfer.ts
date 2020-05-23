@@ -20,23 +20,43 @@ export class TransferPage {
   isAdvanceRepay:boolean = false;
   enableRepayment:boolean = false;
   amountValidation: boolean;
+  outstanding: any;
   constructor(public navCtrl: NavController, public navParams: NavParams, public restCall:RestcallsProvider,public viewCtrl: ViewController,public alertCtrl: AlertController) {
     this.currentuser=this.restCall.currentuser;     
   }
-  LoadEmpbyStatus(){
+  async LoadEmpbyStatus(){ 
     if(this.RecieverEmpId != null && this.RecieverEmpId != undefined){
       console.log(this.RecieverEmpId.substring(0,4));
-      if(this.RecieverEmpId.substring(0,4) == '1501'){
-        this.enableRepayment = true;
+      if(this.RecieverEmpId.substring(0,4) == '1501' || this.RecieverEmpId.substring(0,4) == '1531'){
+        //this.enableRepayment = true;
+       await this.restCall.LoadAdvances(this.restCall.currentuser.EmpCode,'All','All').then(()=>{
+          console.log(this.restCall.transactions.length);
+          if(this.restCall.transactions.length != 0){
+            if(this.restCall.transactions[0].OUTSTANDING != 0){
+              this.enableRepayment = true;
+              this.outstanding = this.restCall.transactions[0].OUTSTANDING
+            }
+          } 
+          this.enableRepayment = true;
+        });
+        console.log(this.restCall.transactions.length);
         console.log(this.enableRepayment)
       }
       else{
         this.enableRepayment = false;
+        this.isAdvanceRepay = false;
       }
     }
     
+  } 
+  toggleAdvRepay(){
+    if(this.isAdvanceRepay){
+      this.amountValidation = false;
+    }
+    else{
+      this.amountValidation = true;
+    }
   }
-  
   async TransferAmount(){
     if(this.amount != undefined && this.amount!= null && this.RecieverEmpId != undefined && this.RecieverEmpId != null && this.TransferType != undefined && this.TransferType != null){
       if(this.isSalary && this.isAdvance){
@@ -62,6 +82,7 @@ export class TransferPage {
             credit.CDescription= "Advance Amount transferred to "+this.RecieverEmpId.substring(0,4)+",through "+this.TransferType;
           }
           if(this.isAdvanceRepay){
+              this.amountValidation = false;
               credit.SALorADV = 'Advance Repayment';
               credit.CDescription= "Advnce Repayment Amount transferred to "+this.RecieverEmpId.substring(0,4)+",through "+this.TransferType;
           }
@@ -74,40 +95,49 @@ export class TransferPage {
             this.viewCtrl.dismiss();
           }
           else{
-           if(this.amount < this.restCall.cashinhand[0].CASHINHAND){
+          if(this.isAdvanceRepay){
             let trans = await this.restCall.TransferAmount(credit);
             this.amount = null;
             this.RecieverEmpId = null;
             this.remarks = null;
             this.TransferType = null;
             this.viewCtrl.dismiss();
-            } 
-            else{
-              const confirm = this.alertCtrl.create({
-                title: 'Warning',
-                message: 'Amount is greater than Cash In Hand, Do you want to Transfer?',
-                buttons: [
-                  {
-                    text: 'Cancel',
-                    handler: () => {
-                      //this.navCtrl.push(EmpCheckInsPage);
-                    }
-                  },
-                  {
-                    text: 'Yes',
-                    handler: () => {
-                      let trans = this.restCall.TransferAmount(credit);
-                      this.amount = null;
-                      this.RecieverEmpId = null;
-                      this.remarks = null;
-                      this.TransferType = null;
-                      this.viewCtrl.dismiss();
-                    }
-                  }
-                ]
-              });
-              confirm.present();
             }
+          else{
+            if(this.amount < this.restCall.cashinhand[0].CASHINHAND){
+              let trans = await this.restCall.TransferAmount(credit);
+              this.amount = null;
+              this.RecieverEmpId = null;
+              this.remarks = null;
+              this.TransferType = null;
+              this.viewCtrl.dismiss();
+              }else{
+                const confirm = this.alertCtrl.create({
+                  title: 'Warning',
+                  message: 'Amount is greater than Cash In Hand, Do you want to Transfer?',
+                  buttons: [
+                    {
+                      text: 'Cancel',
+                      handler: () => {
+                        //this.navCtrl.push(EmpCheckInsPage);
+                      }
+                    },
+                    {
+                      text: 'Yes',
+                      handler: () => {
+                        let trans = this.restCall.TransferAmount(credit);
+                        this.amount = null;
+                        this.RecieverEmpId = null;
+                        this.remarks = null;
+                        this.TransferType = null;
+                        this.viewCtrl.dismiss();
+                      }
+                    }
+                  ]
+                });
+                confirm.present();
+              }
+          }
           }
         }
         else{

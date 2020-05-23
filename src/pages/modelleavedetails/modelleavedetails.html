@@ -1,6 +1,11 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar> 
     <ion-title>Leave Details</ion-title>
+    <ion-buttons end>
+      <button ion-button (click)="closeModal()">
+        Close
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
@@ -13,7 +18,7 @@
         <ion-item>
             Employee Name
           <span item-end>{{EmpName}}
-          </span>
+          </span> 
         </ion-item>
         <ion-item>
           Leave Type
@@ -40,10 +45,9 @@
         </ion-item>
       </ion-list>
 
-      <button *ngIf = "currentuser.UserType == 'MANAGER' && L_status == 'Pending' " ion-button color="secondary" outline (click)="respondToLeave('Accepted by Manager')">Accept</button>
-      <button *ngIf = "currentuser.UserType == 'MANAGER' && L_status == 'Accepted by Manager' " ion-button color="secondary" outline> Approved</button>
-      <button *ngIf = "currentuser.UserType == 'TEAMLEADER' && L_status == 'Pending' " ion-button color="secondary" outline (click)="respondToLeave('Accepted by Team Leader')">Accept</button>
-      <button *ngIf = "currentuser.UserType == 'TEAMLEADER' && L_status == 'Accepted by Team Leader' " ion-button color="secondary" outline> Approved</button>
-      <button *ngIf = "currentuser.UserType == 'ADMIN'" ion-button color="secondary" outline (click)="respondToLeave('Accepted')">Grant</button>
-      <button ion-button color="danger" outline (click)="respondToLeave('Rejected')" style="float:right">Reject</button> 
+      <button *ngIf = "(currentuser.UserType == 'MANAGER' || currentuser.UserType == 'TEAMLEADER') && (L_status == 'Pending' || (L_status == 'Rejected by '+restCall.currentuser.Designation))" ion-button color="secondary" outline (click)="respondToLeave('Accepted by '+restCall.currentuser.Designation)">Accept</button>
+      <button *ngIf = "(currentuser.UserType == 'MANAGER' || currentuser.UserType == 'TEAMLEADER') && (L_status == 'Pending' || (L_status == 'Accepted by '+restCall.currentuser.Designation))" ion-button color="secondary" outline (click)="respondToLeave('Rejected by '+restCall.currentuser.Designation)">Reject</button>
+      
+      <button *ngIf = "currentuser.UserType == 'ADMIN' && (L_status != 'Accepted')" ion-button color="secondary" outline (click)="respondToLeave('Accepted')">Grant</button>
+      <button *ngIf = "currentuser.UserType == 'ADMIN' && (L_status != 'Rejected')" ion-button color="danger" outline (click)="respondToLeave('Rejected')" style="float:right">Reject</button> 
 </ion-content>
