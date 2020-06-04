@@ -4,10 +4,11 @@ import { ApplyleavePage } from './applyleave';
 
 @NgModule({
   declarations: [
-    ApplyleavePage,
+    ApplyleavePage
   ],
   imports: [
     IonicPageModule.forChild(ApplyleavePage),
   ],
+  exports:[]
 })
 export class ApplyleavePageModule {}

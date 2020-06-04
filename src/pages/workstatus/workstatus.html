@@ -8,12 +8,25 @@
   <div *ngIf="reportForm">
     <form (ngSubmit)="reportWork()">
       <ion-item>
+        <ion-label>Select Client</ion-label>
+        <ionic-selectable
+          item-content
+          [(ngModel)]="client1"
+          name= "client1"
+          [items]="clientList"
+          itemValueField="value"
+          itemTextField="text"
+          [canSearch]="true"
+          (onChange)="portChange($event)">
+        </ionic-selectable>
+      </ion-item>
+      <!-- <ion-item>
         <ion-select placeholder="Select Client-1" [(ngModel)]="client1" name="client1">
           <ion-option *ngFor="let client of restCall.clientList"
             value="{{client.Client_Name}}-{{client.Client_Project}}-{{client.Client_Type}}">
             {{client.Client_Name}}({{client.Client_Project}})</ion-option>
         </ion-select>
-      </ion-item>
+      </ion-item> -->
       <ion-item>
         <ion-select placeholder="Service Type" [(ngModel)]="serviceType" name="serviceType">
           <ion-option value="In-House">In-House</ion-option>
@@ -32,6 +45,7 @@
     <ion-item class="employeeSelect" *ngIf="restCall.currentuser.UserType=='ADMIN'">
       <ion-select placeholder="Employee" [(ngModel)]="empcode" name="empcode" (ionChange)="SearchByCode()">
         <ion-option value="All">All Employees</ion-option>
+        <ion-option value="Team">Team Leaders</ion-option>
         <ion-option *ngFor="let employee of restCall.employeeList" value="{{employee.EmpCode}}">{{employee.EmpCode}}
           {{employee.EmpName}}</ion-option>
       </ion-select>
@@ -50,23 +64,72 @@
     </span>
     </div>
   </div>
+  <ion-item *ngIf="restCall.currentuser.UserType=='ADMIN'" style="background-color: rgba(255, 255, 255, 0);"> 
+    <ion-label>Pending</ion-label>
+    <ion-checkbox color="primary" name="isPending" [(ngModel)]="isPending" checked="false" (ionChange)="PendingReports()"></ion-checkbox>
+  </ion-item>
   <h2 class="searchhead">{{searchHead}} Work Reports</h2> 
   <div *ngFor="let item of restCall.workReports; let i = index">
     <span *ngIf="i != 0">
-      <h5 *ngIf="item.ReportingDate.substring(0, 10) != restCall.workReports[i-1].ReportingDate.substring(0, 10)">
+      <h5 class="ReportHead" *ngIf="item.ReportingDate.substring(0, 10) != restCall.workReports[i-1].ReportingDate.substring(0, 10)">
         ReportingDate: {{item.ReportingDate.substring(0, 10)}}</h5>
     </span>
     <span *ngIf="i == 0">
-      <h5>ReportingDate: {{item.ReportingDate.substring(0, 10)}}</h5>
+      <h5 class="ReportHead">ReportingDate: {{item.ReportingDate.substring(0, 10)}}</h5>
     </span>
-    <ion-card style="border-left: 4px solid red;" [ngClass]="{'approved': item.WStatus == 'Approved', 'rejected': item.WStatus == 'Rejected'}">
+    <ion-card class="rateCard" style="border-left: 4px solid red; margin-top: 0;" [ngClass]="{'approved': item.WStatus == 'Approved', 'rejected': item.WStatus == 'Rejected'}">
       <ion-card-content>
         <h2 *ngIf="restCall.currentuser.UserType=='ADMIN'">{{item.StaffId}} - {{item.EmpName}}</h2>
-        <h2>Client_Project: {{item.Client_Project}}</h2>
-        <h2>Project_Name: {{item.Project_Name}}</h2>
+        <h2>{{item.Client_Project}}/{{item.Project_Name}}</h2>
         <h2 class="service_type" [ngClass]="{'inhouse': item.Service_Type == 'In-House','onsite': item.Service_Type == 'On-Site'}">{{item.Service_Type}}</h2>
         <h2>WDescription: {{item.WDescription}}</h2>
+        <!-- <button ion-button icon-only color="secondary" class="Wrkbtn approve" (click)="ApproveWorkStatus(item)" *ngIf="((item.WStatus != 'Approved' && item.RequestTo == 'Director') || (item.WStatus == 'Pending')) && restCall.currentuser.UserType=='ADMIN'"><ion-icon name="checkmark"></ion-icon></button>
+        <button ion-button icon-only color="danger" (click)="RejectWorkStatus(item)" class="Wrkbtn reject" *ngIf="((item.WStatus != 'Rejected' && item.RequestTo == 'Director') || (item.WStatus == 'Pending')) && restCall.currentuser.UserType=='ADMIN'"><ion-icon name="close"></ion-icon></button> -->
+        
+        <div class="rating" *ngIf="restCall.currentuser.UserType=='ADMIN' && (item.AdminRating != 0 && item.AdminRating != undefined && item.AdminRating != null )">
+          <ion-icon name="star" class="star one" [ngClass]="{'rated':item.AdminRating >= 1 }" (click)="rate($event,0,item,i)"></ion-icon>
+          <ion-icon name="star" class="star two" [ngClass]="{'rated':item.AdminRating >= 2 }" (click)="rate($event,1,item,i)"></ion-icon>
+          <ion-icon name="star" class="star three" [ngClass]="{'rated':item.AdminRating >= 3 }" (click)="rate($event,2,item,i)"></ion-icon>
+          <ion-icon name="star" class="star four" [ngClass]="{'rated':item.AdminRating >= 4 }" (click)="rate($event,3,item,i)"></ion-icon>
+          <ion-icon name="star" class="star five" [ngClass]="{'rated':item.AdminRating >= 5 }" (click)="rate($event,4,item,i)"></ion-icon>
+        </div>
+        <div class="rating" *ngIf="restCall.currentuser.UserType=='ADMIN' && (item.AdminRating == 0 || item.AdminRating == undefined || item.AdminRating == null) && (item.TLRating != 0 && item.TLRating != undefined && item.TLRating != null)">
+          <ion-icon name="star" class="star one" [ngClass]="{'rated':item.TLRating >= 1 }" (click)="rate($event,0,item,i)"></ion-icon>
+          <ion-icon name="star" class="star two" [ngClass]="{'rated':item.TLRating >= 2 }" (click)="rate($event,1,item,i)"></ion-icon>
+          <ion-icon name="star" class="star three" [ngClass]="{'rated':item.TLRating >= 3 }" (click)="rate($event,2,item,i)"></ion-icon>
+          <ion-icon name="star" class="star four" [ngClass]="{'rated':item.TLRating >= 4 }" (click)="rate($event,3,item,i)"></ion-icon>
+          <ion-icon name="star" class="star five" [ngClass]="{'rated':item.TLRating >= 5 }" (click)="rate($event,4,item,i)"></ion-icon>
+        </div>
+        <div class="rating" *ngIf="restCall.currentuser.UserType=='ADMIN' && (item.AdminRating == 0 || item.AdminRating == undefined || item.AdminRating == null) && (item.TLRating == 0 || item.TLRating == undefined || item.TLRating == null)">
+          <ion-icon name="star" class="star one" [ngClass]="{'rated':item.TLRating >= 1 }" (click)="rate($event,0,item,i)"></ion-icon>
+          <ion-icon name="star" class="star two" [ngClass]="{'rated':item.TLRating >= 2 }" (click)="rate($event,1,item,i)"></ion-icon>
+          <ion-icon name="star" class="star three" [ngClass]="{'rated':item.TLRating >= 3 }" (click)="rate($event,2,item,i)"></ion-icon>
+          <ion-icon name="star" class="star four" [ngClass]="{'rated':item.TLRating >= 4 }" (click)="rate($event,3,item,i)"></ion-icon>
+          <ion-icon name="star" class="star five" [ngClass]="{'rated':item.TLRating >= 5 }" (click)="rate($event,4,item,i)"></ion-icon>
+        </div>
+        <p class="tlrating" *ngIf="item.TLRating">{{item.TLRating}}</p>
+        <p class="rr" *ngIf="item.RatingRemarks"> {{item.RatingRemarks}}</p>
       </ion-card-content>
+      <div class="remarkForm">
+        <span *ngIf="SingleStar">
+          <ion-item class="activeCheck"> 
+            <ion-label>Too Long</ion-label>
+            <ion-checkbox color="primary" (ionChange)="AddRatingRemark($event,'Too Long')"></ion-checkbox>
+          </ion-item>
+          <ion-item class="activeCheck"> 
+            <ion-label>Failed in Testing</ion-label>
+            <ion-checkbox color="primary" (ionChange)="AddRatingRemark($event,'Failed in Testing')"></ion-checkbox>
+          </ion-item>
+          <ion-item class="activeCheck"> 
+            <ion-label>Task Incomplete</ion-label>
+            <ion-checkbox color="primary" (ionChange)="AddRatingRemark($event,'Task Incomplete')"></ion-checkbox>
+          </ion-item>
+        </span>
+        <ion-item>
+          <ion-textarea placeholder="Other remarks" [(ngModel)]="msg" name="msg" (input)="adjustTextarea($event);"></ion-textarea>
+        </ion-item>
+        <button ion-button (click)="Submit(item,i)" block>Update</button> 
+      </div>
     </ion-card>
   </div>
 </ion-content>

@@ -1,6 +1,11 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Employee Work Submission</ion-title>
+    <ion-buttons left margin-horizontal>
+      <button ion-button icon-only (click)="onClickCancel()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>Team Work Reports</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -8,7 +13,7 @@
     <div *ngFor = "let item of restCall.submittedWorks; let i = index">
         <span *ngIf="item.length != 0">
           <div *ngFor = "let wrk of item; let x = index">
-            <ion-item *ngIf="x == 0" text-center> 
+            <ion-item *ngIf="x == 0" text-center style="height: 2.5rem;min-height: 2.5rem;" class="EmpHead"> 
               <div item-start>
                 <h5>{{wrk.StaffId}} 
                   <span *ngIf="restCall.employeeList">
@@ -25,16 +30,43 @@
                 <button ion-button outline color="secondary" (click)="ApproveWorkStatus(item)">Approve</button>
               </div> -->
             </ion-item>
-            <ion-card [ngClass]="{'approved': wrk.WStatus == 'Approved', 'rejected': wrk.WStatus == 'Rejected'}">
+            <ion-card class="rateCard id{{wrk.WorkId}}" [ngClass]="{'approved': wrk.WStatus == 'Approved', 'rejected': wrk.WStatus == 'Rejected'}" style="margin-top: 0;">
               <ion-card-content>
                 <h2>Client: {{wrk.Client_Project}}</h2> 
                 <h2>Project: {{wrk.Project_Name}}</h2> 
                 <h2 class="service_type" [ngClass]="{'inhouse': wrk.Service_Type == 'In-House','onsite': wrk.Service_Type == 'On-Site'}">{{wrk.Service_Type}}</h2>
                 <h2>Description: {{wrk.WDescription}}</h2> 
-                <h2>Work Date: {{wrk.WDate.substring(0,10)}}</h2> 
-                <button ion-button icon-only color="secondary" class="Wrkbtn approve" (click)="ApproveWorkStatus(wrk)" *ngIf="wrk.WStatus != 'Approved'"><ion-icon name="checkmark"></ion-icon></button>
-                <button ion-button icon-only color="danger" (click)="RejectWorkStatus(wrk)" class="Wrkbtn reject" *ngIf="wrk.WStatus != 'Rejected'"><ion-icon name="close"></ion-icon></button>
+                <!-- <h2>Work Date: {{wrk.WDate.substring(0,10)}}</h2>  -->
+                <!-- <button ion-button icon-only color="secondary" class="Wrkbtn approve" (click)="ApproveWorkStatus(wrk)" *ngIf="wrk.WStatus != 'Approved'"><ion-icon name="checkmark"></ion-icon></button>
+                <button ion-button icon-only color="danger" (click)="RejectWorkStatus(wrk)" class="Wrkbtn reject" *ngIf="wrk.WStatus != 'Rejected'"><ion-icon name="close"></ion-icon></button> -->
+                <div class="rating">
+                  <ion-icon name="star" class="star one" [ngClass]="{'rated':wrk.TLRating >= 1 }" (click)="rate($event,0,wrk)"></ion-icon>
+                  <ion-icon name="star" class="star two" [ngClass]="{'rated':wrk.TLRating >= 2 }" (click)="rate($event,1,wrk)"></ion-icon>
+                  <ion-icon name="star" class="star three" [ngClass]="{'rated':wrk.TLRating >= 3 }" (click)="rate($event,2,wrk)"></ion-icon>
+                  <ion-icon name="star" class="star four" [ngClass]="{'rated':wrk.TLRating >= 4 }" (click)="rate($event,3,wrk)"></ion-icon>
+                  <ion-icon name="star" class="star five" [ngClass]="{'rated':wrk.TLRating >= 5 }" (click)="rate($event,4,wrk)"></ion-icon>
+                </div>
               </ion-card-content>
+              <div class="remarkForm">
+                <span *ngIf="SingleStar">
+                  <ion-item class="activeCheck"> 
+                    <ion-label>Too Long</ion-label>
+                    <ion-checkbox color="primary" (ionChange)="AddRatingRemark($event,'Too Long')"></ion-checkbox>
+                  </ion-item>
+                  <ion-item class="activeCheck"> 
+                    <ion-label>Failed in Testing</ion-label>
+                    <ion-checkbox color="primary" (ionChange)="AddRatingRemark($event,'Failed in Testing')"></ion-checkbox>
+                  </ion-item>
+                  <ion-item class="activeCheck"> 
+                    <ion-label>Task Incomplete</ion-label>
+                    <ion-checkbox color="primary" (ionChange)="AddRatingRemark($event,'Task Incomplete')"></ion-checkbox>
+                  </ion-item>
+                </span>
+                <ion-item>
+                  <ion-textarea placeholder="Other remarks" [(ngModel)]="msg" name="msg" (input)="adjustTextarea($event);"></ion-textarea>
+                </ion-item>
+                <button ion-button (click)="Submit(wrk,i)" block>Update</button> 
+              </div>
             </ion-card>
           </div>
         </span>

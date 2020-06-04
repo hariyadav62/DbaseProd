@@ -17,7 +17,6 @@ export class AnnouncementsPage {
   isActive:boolean;
   active:boolean=true;
   notActive:boolean=false;   
-  empListWithMaxTransferAmount: any;
   allAnnouncements: any;
   createIsAll:boolean = true;
   CreateshowEmplist:boolean;
@@ -28,8 +27,9 @@ export class AnnouncementsPage {
   isAll: boolean;
   createemps: any = ["All"];
   notifyuser: any;
+  employeeList: any;
   constructor(public http: HttpClient, public _TOAST: ToastController,public navCtrl: NavController, public navParams: NavParams,public loadingController: LoadingController, private elmenetRef: ElementRef) {
-    this.EmpListWithMaxTransferAmount(); 
+    this.retrieveEmployee(); 
     this.LoadAllAnnouncements();
   }
   ionViewWillEnter(){
@@ -116,26 +116,31 @@ export class AnnouncementsPage {
     });
     toast.present();
   }
-  EmpListWithMaxTransferAmount() {
+  retrieveEmployee(): void {
     let loader = this.loadingController.create({
       content: "Loading.."
     });
     loader.present();
-    this.http.get(this._HOST2 + '/EmpListWithMaxTransferAmount').subscribe((data)=>{
-      this.empListWithMaxTransferAmount = data;
-      loader.dismiss();
-    },
-    (error: any) => {
-      console.dir(error);
-      loader.dismiss();
-    });
+    this.http
+      .get(this._HOST2 + '/loadEmployee')
+      .subscribe((data: any) => {
+        this.employeeList = data;
+        console.log(this.employeeList);
+        loader.dismiss();
+      },
+        (error: any) => {
+          console.dir(error);
+          loader.dismiss();
+        });
   }
-  UpdateAnnouncement(announce){
+  async UpdateAnnouncement(announce){
     console.log('2');
+    console.log(announce);
     let loader = this.loadingController.create({
       content: "Updating.."
     });
     loader.present();
+    let ids = await announce.EmpIds.split(',');    
     if(announce.IsActive == 'true'){
       announce.IsActive = 'false'
     }else{ 
@@ -143,14 +148,37 @@ export class AnnouncementsPage {
     }
     let headers: any = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' })
     this.http.put(this._HOST2 + '/UpdateAnnouncement', announce, headers)
-      .subscribe((data: any) => {
+      .subscribe(async (data: any) => {
         this.LoadAllAnnouncements();
+        if(ids.includes('All')){
+          let notify = {
+            SendTo: 'All',
+            Title: "New Announcement",
+            Body:`New Announcement from DBase Solutions`
+          }
+          this.sendNotification(notify);
+        }else{
+          let registrationIds = [];
+          await this.employeeList.forEach(x => {
+            if(ids.includes(x.EmpCode)){
+              registrationIds.push(x.DeviceId)
+            }
+          });
+          console.log(registrationIds);
+          let notify = {
+            SendTo: registrationIds,
+            Title: "New Announcement",
+            Body:`New Announcement from DBase Solutions`
+          }
+          this.sendNotification(notify);
+        }
         loader.dismiss();
       },
       (error: any) => {
         console.log(error);
         loader.dismiss();
       });
+    
   }
   
   Announcement(announce) {
@@ -159,34 +187,35 @@ export class AnnouncementsPage {
     });
     loader.present();
     let promise = new Promise((resolve,rejct)=>{
-      let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' })
+    let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' })
     this.http
       .post(this._HOST2 + "/CreateAnnouncement", announce, headers)
-      .subscribe((data: any) => {
+      .subscribe(async (data: any) => {
         this.displayNotification('Announcement Created');
         loader.dismiss();
-
         if(this.createemps.includes('All')){
-          this.empListWithMaxTransferAmount.forEach(element => {
             let notify = {
-              SendTo: element.EmpId,
+              SendTo: 'All',
               Title: "New Announcement",
               Body:`New Announcement from DBase Solutions`
             }
             this.sendNotification(notify);
-          });
         }
         if(!this.createemps.includes('All')){
-          this.createemps.forEach(element => {
-            let notify = {
-              SendTo: element,
-              Title: "New Announcement",
-              Body:`New Announcement from DBase Solutions`
+          let registrationIds = [];
+          await this.employeeList.forEach(x => {
+            if(this.createemps.includes(x.EmpCode)){
+              registrationIds.push(x.DeviceId)
             }
-            this.sendNotification(notify);
           });
+          console.log(registrationIds);
+          let notify = {
+            SendTo: registrationIds,
+            Title: "New Announcement",
+            Body:`New Announcement from DBase Solutions`
+          }
+          this.sendNotification(notify);
         }
-        
         resolve();
       },
       (error: any) => {
@@ -207,23 +236,42 @@ export class AnnouncementsPage {
     return this.notifyuser;
   }
   async sendNotification(notify) {
-    let noted = await this.retrieveEmployeeById(notify.SendTo);
     let promise = new Promise((resolve,reject)=>{
-      let body = {
-        "to": this.notifyuser.DeviceId,
-        "notification": {
-          "title": notify.Title,
-          "body": notify.Body,
-          "sound": "default",
-          "click_action": "FCM_PLUGIN_ACTIVITY",
-          "icon": "fcm_push_icon"
-        },
-        "data": {
-          "notifyType": notify.type,
-          "notifyBody": notify.Body
-        },
-        "priority": "high",
-        "restricted_package_name": ""
+      let body = {};
+      if(notify.SendTo == "All"){
+        body = {
+          "to": "/topics/all",
+          "notification": {
+            "title": notify.Title,
+            "body": notify.Body,
+            "sound": "default",
+            "click_action": "FCM_PLUGIN_ACTIVITY",
+            "icon": "fcm_push_icon"
+          },
+          "data": {
+            "notifyType": notify.type,
+            "notifyBody": notify.Body
+          },
+          "priority": "high",
+          "restricted_package_name": ""
+      }
+    }else{
+        body = {
+          "registration_ids": notify.SendTo,
+          "notification": {
+            "title": notify.Title,
+            "body": notify.Body,
+            "sound": "default",
+            "click_action": "FCM_PLUGIN_ACTIVITY",
+            "icon": "fcm_push_icon"
+          },
+          "data": {
+            "notifyType": notify.type,
+            "notifyBody": notify.Body
+          },
+          "priority": "high",
+          "restricted_package_name": ""
+        }
       }
       let options = new HttpHeaders().set('Content-Type', 'application/json');
       this.http.post("https://fcm.googleapis.com/fcm/send", body, {
@@ -233,7 +281,7 @@ export class AnnouncementsPage {
       });
     });
    return promise;
-  }
+  } 
   LoadAllAnnouncements(){
     let loader = this.loadingController.create({
       content: "Loading.."
@@ -254,7 +302,13 @@ export class AnnouncementsPage {
     });
     return promise;
   }
-  
+  protected adjustTextarea(event: any): void {
+    let textarea: any		= event.target;
+    textarea.style.overflow = 'hidden';
+    textarea.style.height 	= 'auto';
+    textarea.style.height 	= textarea.scrollHeight + 'px';
+    return;
+  } 
   All(event){
     if(event.value){
       this.emps = [];

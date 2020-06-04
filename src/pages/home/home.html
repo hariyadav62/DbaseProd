@@ -93,6 +93,29 @@
                   </ion-card-content>
                 </ion-card>
               </ion-col>
+              <ion-col col-6 text-center>
+                <ion-card style="border-radius: 10px;" (click)="employeeTimings()" class="shadow">
+                   <img src="../../assets/imgs/EmpTimings.svg" alt="">
+                  <ion-card-content>
+                    <ion-card-title>
+                        Timings
+                    </ion-card-title> 
+                  </ion-card-content>
+                </ion-card> 
+              </ion-col> 
+              <ion-col col-6 text-center>
+                <ion-card  class="shadow" style="border-radius: 10px;" (click)="workStatus()">
+                   <img src="../../assets/imgs/workReport.svg" alt="">
+                  <ion-card-content>
+                    <ion-card-title>
+                        Work Report
+                    </ion-card-title> 
+                  </ion-card-content>
+                </ion-card> 
+                <!-- <span *ngIf="notifications">
+                  <p class="notifications" >{{notifications[0].Status}}</p>
+                </span> -->
+              </ion-col> 
             <ion-col col-6 text-center>
               <ion-card  class="shadow" style="border-radius: 10px;" (click)="applyLeave()">
                   <img src="../../assets/imgs/ApplyLeave.svg" alt="">
@@ -102,32 +125,6 @@
                   </ion-card-title> 
                 </ion-card-content>
               </ion-card> 
-            </ion-col> 
-            <ion-col col-6 text-center>
-              <ion-card  class="shadow" style="border-radius: 10px;" (click)="prevLeave()">
-                 <img src="../../assets/imgs/LeavesList2.svg" alt="">
-                <ion-card-content>
-                  <ion-card-title>
-                      Leaves
-                  </ion-card-title>
-                </ion-card-content>
-              </ion-card>
-              <!-- <span *ngIf="notifications">
-                <p class="notifications" >{{notifications[1].Status}}</p>
-              </span> -->
-            </ion-col>
-            <ion-col col-6 text-center>
-              <ion-card  class="shadow" style="border-radius: 10px;" (click)="workStatus()">
-                 <img src="../../assets/imgs/workReport.svg" alt="">
-                <ion-card-content>
-                  <ion-card-title>
-                      Work Report
-                  </ion-card-title> 
-                </ion-card-content>
-              </ion-card> 
-              <!-- <span *ngIf="notifications">
-                <p class="notifications" >{{notifications[0].Status}}</p>
-              </span> -->
             </ion-col> 
             <ion-col col-6 text-center *ngIf = "currentuser.UserType == 'TEAMLEADER' || currentuser.UserType == 'MANAGER'">
               <ion-card style="border-radius: 10px;" (click)="MyTeam()" class="shadow">
@@ -154,19 +151,10 @@
                 </ion-card-content>
               </ion-card>
               <span *ngIf="creditcounts != 0">
-                <p class="notifications credit" >+{{creditcounts}}</p>
+                <p class="notifications credit" >+Rs.{{creditcounts}}/-</p>
               </span>
             </ion-col>
-            <ion-col col-6 text-center>
-              <ion-card style="border-radius: 10px;" (click)="employeeTimings()" class="shadow">
-                 <img src="../../assets/imgs/EmpTimings.svg" alt="">
-                <ion-card-content>
-                  <ion-card-title>
-                      Timings
-                  </ion-card-title> 
-                </ion-card-content>
-              </ion-card> 
-            </ion-col> 
+            
         </ion-row>
       
       <!-- <ion-fab bottom right>
@@ -239,7 +227,7 @@
                       </ion-card-content>
                     </ion-card>
                     <span *ngIf="creditcounts != 0">
-                      <p class="notifications credit" >+{{creditcounts}}</p>
+                      <p class="notifications credit" >+Rs{{creditcounts}}/-</p>
                     </span>
                   </ion-col>
                   <ion-col col-6 text-center *ngIf = "currentuser.UserType == 'ADMIN'">
@@ -251,6 +239,11 @@
                         </ion-card-title>
                       </ion-card-content>
                     </ion-card>
+                    <span *ngIf="restCall.notifications">
+                      <span *ngIf="restCall.notifications[0].Status != 0">
+                        <p class="notifications" >{{restCall.notifications[0].Status}}</p>
+                      </span>
+                    </span>
                   </ion-col>
                   <ion-col col-6 text-center *ngIf = "currentuser.UserType == 'ADMIN'">
                     <ion-card style="border-radius: 10px;" class="shadow" (click)="GoToBills()">
@@ -262,17 +255,6 @@
                       </ion-card-content>
                     </ion-card>
                   </ion-col>
-                  <!-- <ion-col col-6 text-center *ngIf = "currentuser.UserType == 'ADMIN'">
-                    <ion-card style="border-radius: 10px;" class="shadow" (click)="Announcements()">
-                        <img src="../../assets/imgs/announcement.svg" alt="Announcements">
-                      <ion-card-content>
-                        <ion-card-title>
-                          Announcements
-                        </ion-card-title>
-                      </ion-card-content>
-                    </ion-card>
-                  </ion-col> -->
-                 
         </ion-row>
 </ion-content> 
 <ion-footer>

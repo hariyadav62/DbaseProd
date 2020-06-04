@@ -1,7 +1,7 @@
 page-leaverequests {
-ion-footer{
-    display: none;
-}
+    ion-footer{
+        display: none;
+    }
     .approved{
         .item-md{
             background-color: #cbffda;
@@ -74,9 +74,9 @@ ion-footer{
         padding-left: 0;
         border-bottom: 1px solid #b9b9b9;
     }
-    .search_date,.search_day {
+    .search_date{
         display: inline-block;
-        width: 35%;
+        width: 100%;
         padding: 0;
     }
     .search_date{

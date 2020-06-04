@@ -18,9 +18,9 @@
     <ion-checkbox color="primary" (ionChange)="CreateAll($event)" [(ngModel)]="createIsAll" name="createIsAll" checked="true"></ion-checkbox>
   </ion-item> 
   <span *ngIf="CreateshowEmplist">
-    <ion-item class="activeCheck" *ngFor="let employee of empListWithMaxTransferAmount, let i = index"> 
-      <ion-label>{{employee.EMPID}} {{employee.EmpName}}</ion-label>
-      <ion-checkbox color="primary" (ionChange)="CreateAddEmptoShowList($event,employee.EMPID)" checked="false"></ion-checkbox>
+    <ion-item class="activeCheck" *ngFor="let employee of employeeList, let i = index"> 
+      <ion-label>{{employee.EmpCode}} {{employee.EmpName}}</ion-label>
+      <ion-checkbox color="primary" (ionChange)="CreateAddEmptoShowList($event,employee.EmpCode)" checked="false"></ion-checkbox>
     </ion-item>
   </span>
   <!-- <ion-item>
@@ -37,8 +37,8 @@
 
  
 <div>
-  <ion-card style="border-radius: 10px;" class="shadow announcements allanc" #cc *ngFor= "let item of allAnnouncements,let i = index" (click)="ToggleAccrd(item,i)"> 
-    <ion-card-content style="padding-bottom: 0;">
+  <ion-card style="border-radius: 10px;" class="shadow announcements allanc" #cc *ngFor= "let item of allAnnouncements,let i = index"> 
+    <ion-card-content (click)="ToggleAccrd(item,i)">
       <div style="display: flex;align-items: center;justify-content: center;">
         <p style="width: 87%;display: inline-block;text-align: justify;">{{item.Message}}</p>
         <p style="width: 10%; text-align: right;"> 
@@ -49,25 +49,17 @@
     </ion-card-content>
     <div class="EditFrm">
       <ion-item>
-        <ion-textarea placeholder="Message*" [(ngModel)]="msg" name="msg"></ion-textarea>
+        <ion-textarea placeholder="Message*" [(ngModel)]="msg" name="msg" (input)="adjustTextarea($event);"></ion-textarea>
       </ion-item>
-      <!-- <ion-item>
-        <ion-select placeholder="Show to*" [(ngModel)]="emps" name="emps" multiple="true" required (ionChange)="All()"> 
-          <ion-option value="All" (click)="NotAll($event)">All</ion-option>
-          <span *ngFor="let employee of empListWithMaxTransferAmount, let i = index">
-            <ion-option *ngIf="employee.EMPID != '1501'" value="{{employee.EMPID}}">{{employee.EMPID}} {{employee.EmpName}}</ion-option>
-          </span>
-        </ion-select>
-      </ion-item> -->
       <ion-item class="activeCheck"> 
         <ion-label>All</ion-label>
         <ion-checkbox *ngIf="isAll" color="primary" (ionChange)="All($event)" [(ngModel)]="isAll" name="isAll" checked="true"></ion-checkbox>
         <ion-checkbox *ngIf="!isAll" color="primary" (ionChange)="All($event)" [(ngModel)]="isAll" name="isAll" checked="false"></ion-checkbox>
       </ion-item> 
       <span *ngIf="showEmplist">
-        <ion-item class="activeCheck" *ngFor="let employee of empListWithMaxTransferAmount, let i = index"> 
-          <ion-label>{{employee.EMPID}} {{employee.EmpName}}</ion-label>
-          <ion-checkbox color="primary" (ionChange)="AddEmptoShowList($event,employee.EMPID)" [checked]="emps.includes(employee.EMPID)"></ion-checkbox>
+        <ion-item class="activeCheck" *ngFor="let employee of employeeList, let i = index"> 
+          <ion-label>{{employee.EmpCode}} {{employee.EmpName}}</ion-label>
+          <ion-checkbox color="primary" (ionChange)="AddEmptoShowList($event,employee.EmpCode)" [checked]="emps.includes(employee.EmpCode)"></ion-checkbox>
         </ion-item>
       </span>
       <button ion-button (click)="UpdtMsg(item,x)" block>Update</button>

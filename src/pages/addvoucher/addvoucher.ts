@@ -28,38 +28,16 @@ export class AddvoucherPage {
   open: boolean;
   unverifiedVouchers=[];
   verifiedVouchers=[]; 
+  selectedBill=null;
+  uploadedBill: any;
+  voucherImg: string;
+  billImg: string;
+  vamount: any;
+  
   constructor(public navCtrl: NavController, public navParams: NavParams, private elmenetRef: ElementRef, public restCall: RestcallsProvider,private camera: Camera,public _DomSanitizationService: DomSanitizer, public modalCtrl: ModalController,public loadingController: LoadingController ) {
     this.currentuser=this.restCall.currentuser;  
   }
-  onFileSelected(event){
-    this.selectedfile = <File>event.target.files[0];
-    console.log(this.selectedfile)
-  }
-  UploadFromGallery(){
-    const fd = new FormData();
-    fd.append('image',this.selectedfile,this.selectedfile.name);
-    console.log(this.selectedfile)
-    this.restCall.Upload(fd);
-  }
-  UploadCameraVoucher(){
-    this.camera.getPicture(this.options).then((imageData) => {
-     
-      this.uploadVoucher = 'data:image/jpeg;base64,' + imageData;
-     this.uploadImage = this.getBlob(this.uploadVoucher);
-     console.log(this.uploadImage);
-    }, (err) => {
-    });
-  }
- 
-  upload(){
-    const fd = new FormData();
-    if(this.uploadVoucher){
-      fd.append('image',this.uploadImage,this.restCall.currentuser.EmpCode+".png");
-    }else if(this.selectedfile){
-      fd.append('image',this.selectedfile,this.restCall.currentuser.EmpCode+".png");
-    }
-    this.restCall.Upload(fd);
-  }
+
   ionViewWillEnter(){
     this.restCall.retrieveCashInHand(this.restCall.currentuser.EmpCode);
     this.LoadAllVoucherTransactions();   
@@ -69,7 +47,6 @@ export class AddvoucherPage {
   LoadAllVoucherTransactions(){
     this.restCall.AllVoucherTransactions('All',this.selectedYear,'')
   }
-
   SearchByYear(){
     this.restCall.AllVoucherTransactions('All',this.selectedYear,'').then(()=>{
       this.unverifiedVouchers=[];
@@ -103,24 +80,31 @@ export class AddvoucherPage {
       console.log(this.verifiedVouchers);
     }); 
   }
-  
-  applyVoucher(){
-    if(this.amount != undefined && this.voucherReason != undefined && this.amount != null && this.voucherReason != null){
-      let voucher:any ={
-        amount : this.amount,
-        fname: '',
-        fpath:'',
-        // fname: this.uploadVoucher,
-        EmpId: this.currentuser.EmpCode,
-        VDescription:this.voucherReason,
-        VoucherId: '',
-        Date:new Date().toLocaleString()
-      } 
-      this.restCall.ApplyVoucher(voucher);
-      this.amount= null;
-      this.voucherReason = null;
-    }
+  onFileSelected(event){
+    this.selectedfile = <File>event.target.files[0];
+    console.log(this.selectedfile)
   }
+  UploadCameraVoucher(){
+    this.camera.getPicture(this.options).then((imageData) => {
+     this.uploadVoucher = 'data:image/jpeg;base64,' + imageData;
+     this.uploadImage = this.getBlob(this.uploadVoucher);
+     console.log(this.uploadImage);
+    }, (err) => {
+    });
+  }
+  onBillSelected(event){
+    this.selectedBill = <File>event.target.files[0];
+    console.log(this.selectedBill)
+  }
+  BillbyCamera(){
+    this.camera.getPicture(this.options).then((imageData) => {
+     let uploadBill = 'data:image/jpeg;base64,' + imageData;
+     this.uploadedBill = this.getBlob(uploadBill);
+     console.log(this.uploadedBill);
+    }, (err) => {
+    });
+  }
+ 
   UploadVoucher(){
     if((this.amount != undefined && this.voucherReason != undefined) && (this.amount != null && this.voucherReason != null)){
       if(this.uploadImage || this.selectedfile){
@@ -135,12 +119,19 @@ export class AddvoucherPage {
         }else if(this.selectedfile){
           fd.append('image',this.selectedfile,this.restCall.currentuser.EmpCode+".png");
         }
+        if(this.selectedBill){
+          fd.append('Bill',this.selectedBill,this.restCall.currentuser.EmpCode+".png");
+        }else if(this.uploadedBill){
+          fd.append('Bill',this.uploadedBill,this.restCall.currentuser.EmpCode+".png");
+        }
         this.restCall.Upload(fd);
         this.amount= null;
         this.voucherReason = null;
         this.uploadVoucher = null;
         this.uploadImage = null;
         this.selectedfile = null;
+        this.selectedBill = null;
+        this.uploadedBill = null;
         if(this.currentuser.UserTyper == 'ADMIN' || this.currentuser.UserTyper == 'ACCOUNTANT'){
           this.ionViewWillEnter();
         }
@@ -151,6 +142,30 @@ export class AddvoucherPage {
       alert("Both Amount and Voucher reason are required"); 
     }
   }
+  getBlob (b64Data) {
+    let loader = this.loadingController.create({
+      content: "B64 to BLOB.."
+    });
+    loader.present();
+    let contentType = 'image/png';
+    let sliceSize = 512;
+    b64Data = b64Data.replace(/data\:image\/(jpeg|jpg|png)\;base64\,/gi, '');
+    let byteCharacters = atob(b64Data); //decode base64
+    let byteArrays = [];
+    for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+      let slice = byteCharacters.slice(offset, offset + sliceSize);
+      let byteNumbers = new Array(slice.length);
+      for (let i = 0; i < slice.length; i++) {
+          byteNumbers[i] = slice.charCodeAt(i);
+      }
+      let byteArray = new Uint8Array(byteNumbers);
+      byteArrays.push(byteArray);
+    }
+    let blob = new Blob(byteArrays, {type: contentType});
+    loader.dismiss();
+    return (blob);
+  }
+  
   VoucherDetails(item:any,x: string | number){ 
     let list = this.elmenetRef.nativeElement.querySelectorAll('.tcard.unverified')
     console.log(list);
@@ -171,8 +186,6 @@ export class AddvoucherPage {
   VerifiedVoucherDetails(item:any,x: string | number){ 
     let list = this.elmenetRef.nativeElement.querySelectorAll('.tcard.verified');
     let z= 0;
-    console.log(x);
-    console.log(list);
     for(let i =0;i<list.length; i++){
       if(!list[i].classList.contains(x)){
         if(list[i].classList.contains('open')){ 
@@ -191,51 +204,46 @@ export class AddvoucherPage {
     }
   }
   VerifyVoucher(item:any){
-    console.log(item.Amount+'',this.updateamount);
+    let notice = 'approved';
     item.IsVerified = "Y";
-    if(item.Amount+'' != this.updateamount){
-      item.Amount = this.updateamount
+    if(item.OriginalAmount+'' != this.updateamount){
       item.IsVerified = "U";
-      console.log(item.Amount+'',this.updateamount);
+      notice = 'updated';
+    }
+    if(item.OriginalAmount+'' == this.updateamount){
+      item.IsVerified = "Y";
+      notice = 'approved';
+    }
+    if(this.updateamount == 0){
+      notice = 'deleted'
     }
     item.Amount = this.updateamount
-    console.log(item.Amount+'',this.updateamount,item.IsVerified);
-    this.restCall.UpdateVoucherAmount(item,'notice').then(()=>{
+    this.restCall.UpdateVoucherAmount(item,notice).then(()=>{
       this.ionViewWillEnter();
     });
   }
-  
-  getBlob (b64Data) {
-    let loader = this.loadingController.create({
-      content: "B64 to BLOB.."
-    });
-    loader.present();
-    let contentType = 'image/png';
-    let sliceSize = 512;
-
-    b64Data = b64Data.replace(/data\:image\/(jpeg|jpg|png)\;base64\,/gi, '');
-
-    let byteCharacters = atob(b64Data); //decode base64
-    let byteArrays = [];
-
-    for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-      let slice = byteCharacters.slice(offset, offset + sliceSize);
-
-      let byteNumbers = new Array(slice.length);
-      for (let i = 0; i < slice.length; i++) {
-          byteNumbers[i] = slice.charCodeAt(i);
-      }
-
-      let byteArray = new Uint8Array(byteNumbers);
-      byteArrays.push(byteArray);
+  OpenImg(vimg,bimg,amount){
+    this.voucherImg = "Vouchers/"+vimg;
+    this.billImg = "Bills/"+bimg;
+    if(bimg == null || bimg == undefined || bimg == 'null' || bimg == ''){
+      this.billImg = undefined;
     }
-
-    let blob = new Blob(byteArrays, {type: contentType});
-    // console.log(blob);
-    // alert('blob');
-    loader.dismiss();
-    return (blob);
+    this.vamount = amount;
+    let list = this.elmenetRef.nativeElement.querySelector('.overlay')
+    if(list.classList.contains('open')){
+      list.classList.remove('open')
+    }else{
+      list.classList.add('open')
+    }
+    console.log(this.voucherImg,this.billImg,vimg,bimg )
   }
+  close(){
+    let list = this.elmenetRef.nativeElement.querySelector('.overlay')
+    if(list.classList.contains('open')){
+      list.classList.remove('open')
+    }
+  }
+
 }
 
 

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, AlertController } from 'ionic-angular';
+import { NavController, NavParams, AlertController, ViewController } from 'ionic-angular';
 import { RestcallsProvider } from '../../providers/restcalls/restcalls';
 @Component({
   selector: 'page-reportingtime',
@@ -10,8 +10,11 @@ export class ReportingtimePage {
   pendin: boolean;
   respond: boolean;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public restCall: RestcallsProvider,public alertCtrl: AlertController) {
-    
+  constructor(public navCtrl: NavController,public viewCtrl: ViewController, public navParams: NavParams, public restCall: RestcallsProvider,public alertCtrl: AlertController) {
+    this.viewCtrl = this.navParams.get('viewCtrl');
+  }
+  public onClickCancel() {
+    this.viewCtrl.dismiss();
   }
   UpdateStatus(report:any) {
     let alert = this.alertCtrl.create();

@@ -1,6 +1,12 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
+import { Component, ElementRef } from '@angular/core';
+import { IonicPage, NavController, NavParams, ToastController, ModalController } from 'ionic-angular';
 import { RestcallsProvider } from '../../providers/restcalls/restcalls';
+import { IonicSelectableComponent } from 'ionic-selectable';
+import { ModalratingPage } from '../modalrating/modalrating';
+class Client {
+  public value: any;
+  public text: any;
+}
 
 @IonicPage()
 @Component({
@@ -8,8 +14,10 @@ import { RestcallsProvider } from '../../providers/restcalls/restcalls';
   templateUrl: 'workstatus.html',
 })
 export class WorkstatusPage {
+  rr: any = [];
+  msg: string;
  workdescription: string;
- client1: string;
+ client1: any;
  serviceType:string;
  currentuser:any;
  reports:any;
@@ -19,9 +27,11 @@ export class WorkstatusPage {
   selDay:any;
   month = new Array();
   searchHead: any = "Top 50";
-  constructor(public navCtrl: NavController, public navParams: NavParams, public restCall: RestcallsProvider, public _TOAST: ToastController) {
-    this.restCall.LoadClients(); 
-    
+  isPending: any = false;
+  clientList: Client[];
+  remarkForm: boolean;
+  SingleStar: boolean;
+  constructor(public navCtrl: NavController, public navParams: NavParams, public restCall: RestcallsProvider, public _TOAST: ToastController, public modalCtrl: ModalController, private elmenetRef: ElementRef) {
   }
 
   ionViewDidLoad() { 
@@ -41,12 +51,25 @@ export class WorkstatusPage {
     this.month[11] = "December"; 
   }  
   async ionViewWillEnter(){
+    this.restCall.LoadWrClients().then(()=>{
+      this.clientList = [];
+      this.restCall.wrclientList.forEach(el => {
+        let c = {
+          text:'one',value:'two'
+        } 
+        c.text = el.Client_Name+'('+el.Client_Project+')';
+        c.value = el.Client_Name+'-'+el.Client_Project+'-'+el.Client_Type;
+       this.clientList.push(c)
+      });
+      console.log(this.clientList);
+    }) 
     this.restCall.LoadWorkReports(this.empcode,'',0,0,0 );
     this.searchHead = "Top 50";
     await this.restCall.LoadWorkReportYearMonth(this.empcode,''); 
     this.selDay = null;
     this.selectedMonth = null;
     this.restCall.loadCheckinDates = null;
+    this.restCall.LoadNotificationsCount(this.restCall.currentuser.EmpCode);
   }
   protected adjustTextarea(event: any): void {
     let textarea: any		= event.target;
@@ -55,15 +78,22 @@ export class WorkstatusPage {
     textarea.style.height 	= textarea.scrollHeight + 'px';
     return;
   } 
+  portChange(event: {
+    component: IonicSelectableComponent,
+    value: any
+  }) {
+    console.log('port:', event.value);
+  }
   reportWork(){  
     if((this.client1 != null && this.client1 != undefined) && (this.serviceType != null && this.serviceType != undefined) && (this.workdescription != null && this. workdescription != undefined)){
-        let client = this.client1.split('-',3); 
+      console.log(this.client1.value);
+        let client = this.client1.value.split('-',3); 
         console.log('client1 is '+client);  
         let workreport:any   = { 
           StaffId: this.empcode, 
           Client_Name: client[0],
           Project_Name:client[1],
-          Client_Project:this.client1,
+          Client_Project:this.client1.text, 
           Service_Type: this.serviceType, 
           WDescription : this.workdescription,
           WDate: new Date().toLocaleString(),
@@ -72,35 +102,14 @@ export class WorkstatusPage {
           WStatus: 'Pending',
           RequestTo: this.restCall.currentuser.RequestTo
         };
+        console.log(workreport);
         this.restCall.workreport(workreport);
         this.client1= null;
         this.serviceType = null;
         this.workdescription = null;
       }
  }  
-  // async ReportsByMonth()
-  // { 
-  //   if(this.selectedMonth != undefined )
-  //   {   
-  //     let date: Date = new Date(this.selectedMonth);
-  //     if(this.selDay != undefined)
-  //     {
-  //       this.restCall.LoadWorkReports(this.empcode,'Director',date.getFullYear(),date.getMonth()+1,this.selDay);
-  //       this.searchHead = this.month[date.getMonth()] + " "+this.selDay+","+date.getFullYear(); 
-  //     }
-  //     else
-  //     {
-  //       this.restCall.LoadWorkReports(this.empcode,'Director',date.getFullYear(),date.getMonth()+1,0);
-  //       this.searchHead = this.month[date.getMonth()] + " " + date.getFullYear();
-  //     }
-  //   } 
-  //   else
-  //   {
-  //     this.restCall.LoadWorkReports(this.empcode,'Director',0,0,0 );
-  //     this.searchHead = "Top 50";
-    
-  //   }
-  // }
+ 
   async SearchByCode(){ 
     this.restCall.LoadWorkReports(this.empcode,'',0,0,0 ); 
     this.searchHead = "Top 50";
@@ -110,6 +119,7 @@ export class WorkstatusPage {
   }
   async SearchByYearMonth(){
     if(this.selectedMonth != null){
+      console.log(this.selectedMonth);
       let date = new Date(this.selectedMonth.toString());
       this.restCall.LoadWorkReports(this.empcode,'',date.getFullYear(),date.getMonth()+1,0);
       this.searchHead = this.month[date.getMonth()] + " " + date.getFullYear();
@@ -123,4 +133,125 @@ export class WorkstatusPage {
     this.searchHead = this.month[date.getMonth()] + " "+this.selDay+","+date.getFullYear(); 
     this.selDay = null;
   }
+  PendingReports(){
+    if(this.isPending){
+      this.restCall.LoadWorkReports(this.empcode,'Pending',0,0,0 );
+    }
+    else{
+      this.ionViewWillEnter();
+    }
+    
+  }
+ApproveWorkStatus(item:any){
+  item.WStatus = "Approved";
+  this.restCall.ApproveWorkStatus(item).then(()=>{
+    this.restCall.LoadNotificationsCount(this.restCall.currentuser.EmpCode);
+  });
+}
+RejectWorkStatus(item:any){
+  item.WStatus = "Rejected";
+  this.restCall.ApproveWorkStatus(item).then(()=>{
+    this.restCall.LoadNotificationsCount(this.restCall.currentuser.EmpCode);
+  });
+}
+rate(eve,num,report,i){
+  report.WStatus = "Approved";
+  console.log(eve);
+  let starList = eve.target.offsetParent.children[0].children[4].children
+  for(let x = 0; x < 5 ; x++){
+    if(starList[x].classList.contains('rated')){
+      starList[x].classList.remove('rated');
+    }
+  }
+  for(let x = 0;x <= num; x++){
+    starList[x].classList.add('rated');
+  }
+  if(this.restCall.currentuser.UserType == 'ADMIN'){
+    report.AdminRating = num+1;
+  }
+  if((num+1)==1 || (num+1)==5){
+    // var modalPage = this.modalCtrl.create(ModalratingPage, { report : report, rating: (num+1) });
+    // modalPage.present();
+    if((num+1)==1){
+      this.SingleStar = true;
+    }
+    if((num+1)==5){
+      this.SingleStar = false;
+    }
+    this.ToggleForm(i);
+  }else{
+    this.remarkForm = false;
+    this.restCall.ApproveWorkStatus(report).then(()=>{
+      let list = this.elmenetRef.nativeElement.querySelectorAll('.rateCard')
+      for(let i =0;(i<list.length); i++){
+        if(list[i].classList.contains('open')){
+          list[i].classList.remove('open')
+          console.log(i);
+        }
+      }
+    });
+  }
+}
+
+AddRatingRemark(event,remark){
+  if(event.value){
+    if(!this.rr.includes(remark)){
+      this.rr.push(remark);
+    }
+  }
+  else{
+    if(this.rr.includes(remark)){
+      this.rr.splice(this.rr.indexOf(remark), 1);
+    }
+  }
+}
+Submit(report,x){
+  if(this.rr != [] || (this.msg != '' && this.msg != undefined && this.msg != null)){
+    if(this.rr != []){
+      if(this.msg != '' && this.msg != undefined && this.msg != null){
+        this.rr.push(this.msg);
+      }
+      let y = this.rr.join(',');
+      report.RatingRemarks =  y;
+      this.restCall.ApproveWorkStatus(report).then(()=>{
+        this.remarkForm = false;
+        let list = this.elmenetRef.nativeElement.querySelectorAll('.rateCard')
+        for(let i =0;(i<list.length); i++){
+          if(i == x){
+            list[i].classList.remove('open')
+          }
+        }
+      });
+    }else{
+      report.RatingRemarks =  this.msg;
+      this.restCall.ApproveWorkStatus(report).then(()=>{
+        let list = this.elmenetRef.nativeElement.querySelectorAll('.rateCard')
+        for(let i =0;(i<list.length); i++){
+          if(i == x){
+            list[i].classList.remove('open')
+          }
+        }
+        this.remarkForm = false;
+      });
+    }
+  }else{
+    alert("please select atleast one remark");
+  }
+}
+
+ToggleForm(x){
+  let list = this.elmenetRef.nativeElement.querySelectorAll('.rateCard')
+    for(let i =0;(i<list.length); i++){
+      if(i == x){
+      }
+      else if(list[i].classList.contains('open')){
+        list[i].classList.remove('open')
+        console.log(i);
+      }
+    }
+    list[x].classList.add('open');
+}
+
+
+
 }

@@ -1,4 +1,22 @@
 page-work-submission-all {
+    .rating{
+        color: #d7d7d7;
+        font-size: 2rem;
+        .rated{
+            color: #ffcd34;
+        }
+    }
+    
+    .DateHead{
+        height: 2.5rem;
+        min-height: 2.5rem;
+        background: rgba(96, 167, 221, 0.35);
+        border-radius: 4px;
+        color: #0f0f0f;
+        padding-top: 5px;
+        padding-left: 10px;
+        margin-left: -10px;
+    }
     h5.date{
         font-size: 2rem; 
     }
@@ -12,6 +30,7 @@ page-work-submission-all {
      .service_type{
          position: absolute;
          top: -2px;
+         transform: rotate(180deg);
          left: -20px;
          height: 100%;
          background: #29592b;
@@ -27,6 +46,9 @@ page-work-submission-all {
      ion-card{
          overflow: visible;
          position: relative;
+         ion-card-content{
+            padding-bottom: 2px!important;
+         }
      }
      .item-md.item-block .item-inner{
          border-bottom: none;
@@ -83,6 +105,21 @@ page-work-submission-all {
     }
     .inhouse{
         background: #488dc2;
+    }
+    .Wrkbtn{
+        position: absolute;
+        right: 0;
+        font-size: 1.2rem;
+        padding: 0;
+        border-radius: 18px;
+        height: 2.3rem;
+        box-shadow: 0 1px 2px 0 rgba(60,64,67,0.302), 0 1px 3px 1px rgba(60,64,67,0.149);
+    }
+    .approve{
+        top: 0;
+    }
+    .reject{
+        bottom: 0;
     }
 }
 

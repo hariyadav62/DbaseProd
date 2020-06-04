@@ -7,8 +7,7 @@ import { Storage } from '@ionic/storage';
 @Injectable() 
 export class RestcallsProvider {   
    _HOST2 : string =	"http://app.dbasesolutions.in/api/dbaseapi";  
-  // _HOST2: string = "http://localhost:21249/api/dbaseapi"; 
-  //  _HOST2 : string =	"http://5c82eea8.ngrok.io/api/dbaseapi";         
+  // _HOST2: string = "http://localhost:21249/api/dbaseapi";  
   userLoggedIn: boolean = false;
   isAdmin: boolean = false; 
   totalPendingLeaves: any = [];
@@ -61,6 +60,13 @@ export class RestcallsProvider {
   loadEmpAllTransactions: any;
   empAnnouncements: any;
   datesLeave: any;
+  biometricAndCheckins: any;
+  datesBiometric: any;
+  MaxMinEmptimesDates: any;
+  emp: any;
+  empcih: any;
+  holidays: any;
+  wrclientList: any;
   constructor(public http: HttpClient, public _TOAST: ToastController, public app: App, platform: Platform, private fcm: FCM, private storage: Storage, public loadingController: LoadingController,public alertCtrl: AlertController) {
     storage.get('id').then((id) => {
       if (id != null) {
@@ -84,7 +90,8 @@ export class RestcallsProvider {
         } else {
           //alert("New Notification");
           const confirm = this.alertCtrl.create({ 
-            title: data.notifyType+" Notification",
+            //title: data.notifyType+" Notification",
+            title: data.notifyType,
             message: data.notifyBody,
             buttons: [
               {
@@ -109,7 +116,6 @@ export class RestcallsProvider {
     });
     console.log('Restcall Provider');
     this.retrieveEmployee();
-    //this.TodayEmployeeOnLeave();
   }
 
  
@@ -130,11 +136,16 @@ export class RestcallsProvider {
         let nav = this.app.getActiveNav();
         this.currentuser = data;
         this.currentuser.DeviceId = this.deviceId
-        this.SetDeviceId();
-        this.storage.set('id', id);
-        this.storage.set('pass', pass);
-        loader.dismiss();
-        nav.setRoot(HomePage);
+        if(this.deviceId != null && this.deviceId != undefined){
+          this.SetDeviceId();
+          this.storage.set('id', id);
+          this.storage.set('pass', pass);
+          loader.dismiss();
+          nav.setRoot(HomePage);  
+        }else{
+          loader.dismiss();
+          alert("Please close the app and Login again");
+        }
       },
         (error: any) => {
           loader.dismiss();
@@ -176,6 +187,16 @@ export class RestcallsProvider {
     loader.present();
     this.cashinhand = await this.http.get(this._HOST2 + '/EmpCashInHand?empCode=' + empCode).toPromise();
     loader.dismiss();
+  }
+   CashInHandById(empCode: string) {
+    let promise = new Promise((resolve,reject)=>{
+      this.http.get(this._HOST2 + '/EmpCashInHand?empCode=' + empCode).subscribe((data)=>{
+        this.empcih = data[0].CASHINHAND;
+        //console.log(data,this.empcih);
+        resolve();
+      })
+    });
+    return promise;
   }
   DeleteVoucher(item: any){
     let loader = this.loadingController.create({
@@ -355,6 +376,48 @@ export class RestcallsProvider {
     });
     return promise;
   }
+  LoadBiometricAndCheckins(empid: any, year: any, month: any,day:any) {
+    if(day == 'All'){
+      day = 0;
+    }
+    let loader = this.loadingController.create({
+      content: "Loading.."
+    });
+    loader.present();
+    let promise = new Promise((resolve, reject) => {
+      this.http.get(this._HOST2 + '/LoadBiometricAndCheckins?id=' + empid + '&year=' + year + '&month=' + month + '&day='+day).subscribe((data: any) => {
+        this.biometricAndCheckins = JSON.parse(data.toString());
+        console.log();
+        loader.dismiss(this.biometricAndCheckins);
+        resolve();
+      },
+        (error: any) => {
+          console.dir(error);
+          loader.dismiss();
+        });
+    });
+    return promise;
+  }
+  BIOMETRICandCHECKINDATES(employeeId: string, year: any, month: string) {
+    let loader = this.loadingController.create({
+      content: "Loading.."
+    });
+    loader.present();
+    let promise = new Promise((resolve, reject) => {
+      this.http
+        .get(this._HOST2 + '/BIOMETRICandCHECKINDATES?id=' + employeeId + '&year=' + year + '&month=' + month)
+        .subscribe((data: any) => {
+          this.datesBiometric = data;
+          loader.dismiss();
+          resolve();
+        },
+          (error: any) => {
+            console.dir(error);
+            loader.dismiss();
+          });
+    });
+    return promise;
+  }
 
   async LoadEmpPendingWorkReports(designation: string) {
     let loader = this.loadingController.create({
@@ -366,16 +429,6 @@ export class RestcallsProvider {
     loader.dismiss();
     console.log(this.submittedWorks)
   }
-  // async LoadEmpTotalWorkReports(designation: string) {
-  //   let loader = this.loadingController.create({
-  //     content: "Loading.."
-  //   });
-  //   loader.present();
-  //   let str = await this.http.get(this._HOST2 + '/LoadEmpTotalWorkReports?designation=' + designation).toPromise();
-  //   this.submittedWorks = JSON.parse(str.toString());
-  //   loader.dismiss();
-  //   console.log(this.submittedWorks)
-  // }
   LoadFyears() {
     let loader = this.loadingController.create({
       content: "Loading.."
@@ -555,6 +608,20 @@ export class RestcallsProvider {
     loader.dismiss();
     return this.notifyUser;
   }
+  EmployeeById(id) {
+    let loader = this.loadingController.create({
+      content: "Loading.."
+    });
+    loader.present();
+    let promise = new Promise((resolve,reject)=>{
+      this.http.get(this._HOST2 + '/loadEmployee?id=' + id).subscribe((data)=>{
+        this.emp =  data;
+        loader.dismiss();
+        resolve();
+      })
+    });
+    return promise;
+  }
   workreport(workreport) {
     let loader = this.loadingController.create({
       content: "Loading.."
@@ -620,6 +687,29 @@ export class RestcallsProvider {
   }
 
 
+
+  MaxMinDatesfromEmptimes(employeeId: string,year:any,month:any) {
+    let loader = this.loadingController.create({
+      content: "Loading.."
+    });
+    loader.present();
+    let promise = new Promise((resolve, reject) => {
+      this.http
+        .get(this._HOST2 + '/MaxMinDatesfromEmptimes?id=' + employeeId+'&year='+year+'&month='+month)
+        .subscribe((data: any) => {
+          this.MaxMinEmptimesDates = data;
+          loader.dismiss();
+          console.log(this.MaxMinEmptimesDates);
+          resolve();
+        },
+          (error: any) => {
+            console.dir(error);
+            loader.dismiss();
+          });
+    });
+    return promise;
+
+  }
 
 
 
@@ -707,7 +797,6 @@ export class RestcallsProvider {
       .get(this._HOST2 + '/LoadReports?id=' + employeeId + '&reqto=' + reqto + '&year=' + year + '&month=' + month + '&day=' + day)
       .subscribe((data: any) => {
         this.workReports = data;
-        //this.workReports = data;
         loader.dismiss();
         console.log(this.workReports);
       },
@@ -818,14 +907,14 @@ export class RestcallsProvider {
     });
     return promise;
   }
-  LoadLeaveDates(employeeId: string, designation: string, year: any, month: any) {
+  LoadLeaveDates(employeeId: String, year: any, month: any) {
     let loader = this.loadingController.create({
       content: "Loading.."
     });
     loader.present();
     let promise = new Promise((resolve, reject) => {
       this.http
-        .get(this._HOST2 + '/LoadLeaveDates?id=' + employeeId + '&designation=' + designation + '&year=' + year + '&month=' + month)
+        .get(this._HOST2 + '/LoadLeaveDates?id=' + employeeId +'&year=' + year + '&month=' + month)
         .subscribe((data: any) => {
           this.loadCheckinDates = data;
           loader.dismiss();
@@ -839,14 +928,14 @@ export class RestcallsProvider {
     });
     return promise;
   }
-  LoadDatesForLeaves(employeeId: string, designation: string, year: any, month: string) {
+  LoadDatesForLeaves(employeeId: string, year: any, month: any) {
     let loader = this.loadingController.create({
       content: "Loading.."
     });
     loader.present();
     let promise = new Promise((resolve, reject) => {
       this.http
-        .get(this._HOST2 + '/LoadLeaveDates?id=' + employeeId + '&designation=' + designation + '&year=' + year + '&month=' + month)
+        .get(this._HOST2 + '/LoadLeaveDates?id=' + employeeId + '&year=' + year + '&month=' + month)
         .subscribe((data: any) => {
           this.datesLeave = data;
           loader.dismiss();
@@ -983,6 +1072,27 @@ export class RestcallsProvider {
           console.dir(error);
           loader.dismiss();
         });
+  }
+  LoadWrClients() {
+    let promise = new Promise((resolve,reject)=>{
+      let loader = this.loadingController.create({
+        content: "Loading.."
+      });
+      loader.present();
+      this.http
+        .get(this._HOST2 + '/LoadClients')
+        .subscribe((data: any) => {
+          this.wrclientList = data;
+          loader.dismiss();
+          console.log(this.wrclientList);
+          resolve();
+        },
+        (error: any) => {
+          console.dir(error);
+          loader.dismiss();
+        });
+    });
+    return promise;
   }
   LoadMyTeam(requestTo) {
     let loader = this.loadingController.create({
@@ -1637,13 +1747,14 @@ export class RestcallsProvider {
     let loader = this.loadingController.create({
       content: "Loading.."
     });
+    loader.present();
     let promise = new Promise((resolve, reject) => {
       let headers: any = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' })
       this.http
         .put(this._HOST2 + '/UpdateEmployeeData', employe, headers)
         .subscribe((data: any) => {
-          loader.dismiss();
           this.displayNotification("Employee Data Updated");
+          loader.dismiss();
           resolve();
         },
           (error: any) => {
@@ -1686,27 +1797,33 @@ export class RestcallsProvider {
   }
   ApproveWorkStatus(report: any) {
     let loader = this.loadingController.create({
-      content: "Loading.."
+      content: "Rating.."
     });
-    let headers: any = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' })
-    this.http
-      .put(this._HOST2 + '/ApproveWorkStatus', report, headers)
-      .subscribe((data: any) => {
-        this.displayNotification("Work Report " + report.WStatus);
-        this.LoadEmpPendingWorkReports(this.currentuser.Designation);
-        loader.dismiss();
-        let notify = {
-          SendTo: report.StaffId,
-          Title: "New Work Report Notification",
-          type:'Work Report',
-          Body: `Work report ${report.WStatus} by ${this.currentuser.EmpCode} ${this.currentuser.EmpName} ${this.currentuser.Designation}`
-        }
-        this.sendNotification(notify);
-      },
-        (error: any) => {
-          this.displayNotification(error);
+    loader.present();
+    let promise = new Promise((resolve,reject)=>{
+      let headers: any = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' })
+      this.http
+        .put(this._HOST2 + '/ApproveWorkStatus', report, headers)
+        .subscribe((data: any) => {
+          this.displayNotification("Work Report " + report.WStatus);
+          this.LoadEmpPendingWorkReports(this.currentuser.Designation);
           loader.dismiss();
-        });
+          // let notify = {
+          //   SendTo: report.StaffId,
+          //   Title: "New Work Report Notification",
+          //   type:'Work Report',
+          //   Body: `Work report ${report.WStatus} by ${this.currentuser.EmpCode} ${this.currentuser.EmpName} ${this.currentuser.Designation}`
+          // }
+          // this.sendNotification(notify);
+          resolve();
+        },
+          (error: any) => {
+            this.displayNotification(error);
+            loader.dismiss();
+          });
+    })
+    return promise;
+    
   }
   UpdateVoucherAmount(voucher: any, notice: any) {
     let promise = new Promise((resolve, reject) => {
@@ -1720,15 +1837,29 @@ export class RestcallsProvider {
         .subscribe((data: any) => {
           this.displayNotification("Voucher Updated");
           loader.dismiss();
-          if(notice == 'notice'){
           let notify = {
             SendTo: voucher.EmpId,
             Title: "Voucher updated",
             type:'Voucher Update',
-            Body: "Voucher ("+voucher.Date.substring(0,10)+") has been updated"
+            Body:`Your voucher dated ${voucher.Date.substring(0,10)} for the amount of Rs${voucher.OriginalAmount}/- has been updated to Rs${voucher.Amount}/-`
+            //Body: "Voucher ("+voucher.Date.substring(0,10)+") has been updated"
+          }
+          if(notice == 'update'){
+            notify.Title = 'Voucher Updated';
+            notify.type = 'Voucher Updated';
+            notify.Body=`Your voucher dated ${voucher.Date.substring(0,10)} for the amount of Rs${voucher.OriginalAmount}/- has been updated to Rs${voucher.Amount}/-`
+          }
+          if(notice == 'deleted'){
+            notify.Title = 'Voucher Rejected';
+            notify.type = 'Voucher Rejected';
+            notify.Body=`Your voucher dated ${voucher.Date.substring(0,10)} for the amount of Rs${voucher.OriginalAmount}/- has been rejected`
+          }
+          if(notice == 'approved'){
+            notify.Title = 'Voucher Approved';
+            notify.type = 'Voucher Approved';
+            notify.Body=`Your voucher dated ${voucher.Date.substring(0,10)} for the amount of Rs${voucher.OriginalAmount}/- has been approved`;
           }
           this.sendNotification(notify);
-        }
           resolve()
         },
           (error: any) => {
@@ -1773,16 +1904,53 @@ export class RestcallsProvider {
     });
    return promise;
   }
-
   SetDeviceId() {
-    let headers: any = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' })
-    this.http
-      .put(this._HOST2 + '/SetDeviceId', this.currentuser, headers)
-      .subscribe((data: any) => {
-      },
+    let promise = new Promise((data)=>{
+      console.log(this.currentuser.DeviceId)
+      this.http
+        .get(this._HOST2 + '/SetDeviceId?EmpCode='+ this.currentuser.EmpCode +'&DeviceId='+this.currentuser.DeviceId)
+        .subscribe((data: any) => {
+        },
         (error: any) => {
           this.displayNotification(error);
         });
+    });
+  }
+  LoadHolidays(daytype:any,year: any, month: any) {
+    let loader = this.loadingController.create({
+      content: "Loading.."
+    });
+    loader.present();
+    let promise = new Promise((resolve, reject) => {
+      this.http.get(this._HOST2 + '/LoadHolidays?daytype=' + daytype + '&year=' + year + '&month=' + month).subscribe((data: any) => {
+        this.holidays = data;
+        loader.dismiss();
+        resolve();
+      },
+        (error: any) => {
+          console.dir(error);
+          loader.dismiss();
+        });
+    });
+    return promise;
+  }
+  SetHoliday(id:any,remark:any,flag:any) {
+    let promise = new Promise((resolve,reject)=>{
+      let loader = this.loadingController.create({
+        content: "Loading.."
+      });
+      loader.present();
+      this.http.get(this._HOST2 + '/SetHoliday?id='+ id +'&remark='+remark+'&flag='+flag)
+        .subscribe((data: any) => {
+          loader.dismiss();
+          resolve();
+        },
+        (error: any) => {
+          loader.dismiss();
+          this.displayNotification(error);
+        });
+    });
+    return promise;
   }
 
 }

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, App, ViewController, NavParams } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
+import { HolidaysPage } from '../../pages/holidays/holidays';
 
 @Component({
   selector: 'dropdown',
@@ -16,6 +17,10 @@ export class DropdownComponent {
     this.storage.clear();
     let nav = this.app.getActiveNav();
     nav.setRoot('LoginPage');
+  }
+  Holidays(){
+    this.viewCtrl.dismiss();
+    this.navCtrl.push(HolidaysPage);
   }
   Settings(){
     this.viewCtrl.dismiss();

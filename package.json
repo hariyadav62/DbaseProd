@@ -1,7 +1,7 @@
 {
-  "name": "DBS",
-  "version": "0.0.3",
-  "author": "D Base Solutionsk",
+  "name": "dbs",
+  "version": "0.0.5",
+  "author": "D Base Solutions",
   "homepage": "http://dbasesolutions.in/",
   "private": true,
   "scripts": {
@@ -42,6 +42,7 @@
     "cordova-plugin-whitelist": "^1.3.3",
     "cordova-sqlite-storage": "^3.2.1",
     "ionic-angular": "3.9.3",
+    "ionic-selectable": "^3.4.0",
     "ionicons": "3.0.0",
     "ng2-charts": "^2.3.0",
     "ng2-charts-x": "^2.0.6",

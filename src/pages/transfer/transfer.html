@@ -8,7 +8,7 @@
   <ion-card>
     <ion-item> 
       <p item-start>Cash In Hand</p> 
-      <p item-end class="green" *ngFor="let cash of restCall.cashinhand" [ngClass]="{'green':cash.CASHINHAND > 0,'red':cash.CASHINHAND < 0}">{{cash.CASHINHAND}}</p> 
+      <p item-end class="green" *ngFor="let cash of restCall.cashinhand" [ngClass]="{'green':cash.CASHINHAND > 0,'red':cash.CASHINHAND < 0}">Rs{{cash.CASHINHAND}}/-</p> 
     </ion-item>
   </ion-card> 
   <form (ngSubmit)="TransferAmount()">  
@@ -19,10 +19,14 @@
         </span>
       </ion-select>
     </ion-item>
-    <span *ngIf="RecieverEmpId"><p class="info" text-center *ngIf="RecieverEmpId.substring(0,4) != '1501' && RecieverEmpId.substring(0,4) != '1531'"><ion-icon name="information-circle"></ion-icon> Maximum {{RecieverEmpId.substring(5)}} can be transferred</p></span>
+    <span *ngIf="RecieverEmpId">
+      <p class="info" text-center *ngIf="RecieverEmpId.substring(0,4) != '1501' && RecieverEmpId.substring(0,4) != '1531'" (click)="ChangeLimitPopup(RecieverEmpId.substring(0,4))">
+        <ion-icon name="information-circle"></ion-icon> Maximum Rs.{{UpdatedLimit}}/- can be transferred
+      </p>
+    </span>
     <ion-item>
       <ion-label>Amount*</ion-label>
-      <ion-input type="tel" [(ngModel)]="amount" name="amount" required (ionBlur)="AmountValidation()"></ion-input>
+      <ion-input type="number" [(ngModel)]="amount" name="amount" required (ionBlur)="AmountValidation()"></ion-input>
     </ion-item>
     <p class="warning" text-center *ngIf="amountValidation"><ion-icon name="alert"></ion-icon> Amount is greater than cash in hand</p>
 
@@ -48,9 +52,6 @@
         <ion-option value="Bank Transfer"><img src="../../assets/imgs/cash.svg" alt=""> Bank Transfer</ion-option>
       </ion-select>
     </ion-item>
-    <!-- <ion-item>
-      <ion-textarea placeholder="Remarks*" [(ngModel)]="remarks" name="remarks" required></ion-textarea>
-    </ion-item> -->
     <button ion-button type="submit" block>Send</button>
   </form>
 </ion-content>

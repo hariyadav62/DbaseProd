@@ -14,10 +14,9 @@
       </ion-select>
     </ion-item>
     <ion-list>
-      <ion-item *ngFor="let emp of restCall.employeeList" (click)="openModal(emp)">
+      <ion-item *ngFor="let emp of restCall.employeeList" (click)="openModal(emp)" class="EmpList">
         <ion-icon name="person" item-start></ion-icon>
-          {{emp.EmpName}}
-        <p item-end>{{emp.EmpCode}}</p>
+          {{emp.EmpCode}} - {{emp.EmpName}}
       </ion-item>
     </ion-list>
   </ion-content>

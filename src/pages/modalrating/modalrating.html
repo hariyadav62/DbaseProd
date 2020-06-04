@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Rating Remarks</ion-title>
+    <ion-buttons end>
+      <button ion-button (click)="closeModal()">
+        Cancel
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <ion-item class="activeCheck"> 
+      <ion-label>Too Long</ion-label>
+      <ion-checkbox color="primary" (ionChange)="AddRatingRemark($event,'Too Long')"></ion-checkbox>
+    </ion-item>
+    <ion-item class="activeCheck"> 
+      <ion-label>Failed in Testing</ion-label>
+      <ion-checkbox color="primary" (ionChange)="AddRatingRemark($event,'Failed in Testing')"></ion-checkbox>
+    </ion-item>
+    <ion-item class="activeCheck"> 
+      <ion-label>Task Incomplete</ion-label>
+      <ion-checkbox color="primary" (ionChange)="AddRatingRemark($event,'Task Incomplete')"></ion-checkbox>
+    </ion-item>
+    <ion-item>
+      <ion-textarea placeholder="Others" [(ngModel)]="msg" name="msg" (input)="adjustTextarea($event);"></ion-textarea>
+    </ion-item>
+  <button ion-button (click)="Submit()" block>Update</button> 
+</ion-content>

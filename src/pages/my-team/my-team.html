@@ -40,10 +40,9 @@
     </ion-row>
   </ion-grid>
   <ion-list *ngIf="restCall.myTeam">
-    <ion-item *ngFor="let emp of restCall.myTeam">
+    <ion-item *ngFor="let emp of restCall.myTeam" class="EmpList" style="min-height: 2.5rem;height: 4rem;">
       <ion-icon name="person" item-start></ion-icon>
-      {{emp.EmpName}}
-      <p item-end>{{emp.EmpCode}}</p>
+      {{emp.EmpCode}} - {{emp.EmpName}}
     </ion-item>
   </ion-list>
   

@@ -4,34 +4,75 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content >
+  <div class="overlay" text-center>
+    <button class="btns viewclose" ion-button color="danger" icon-only (click)="close()"><ion-icon name="close"></ion-icon></button> 
+    <p text-center class="vmount">Rs.{{vamount}}/-</p>
+    <ion-slides [zoom]='true' [slidesPerView]="1" [initialSlide]="1" [ngClass]="{'multiSlide':billImg}">
+      <ion-slide>
+        <div class="swiper-zoom-container">
+          <img *ngIf="voucherImg" src="http://app.dbasesolutions.in/Image/{{voucherImg}}" alt="" imageViewer>
+        </div>
+      </ion-slide>
+      <ion-slide *ngIf="billImg">
+        <div class="swiper-zoom-container">
+          <img *ngIf="billImg" src="http://app.dbasesolutions.in/Image/{{billImg}}" alt="" imageViewer>
+        </div>
+      </ion-slide>
+    </ion-slides>
+  </div>
+<div padding>
   <ion-card>
     <ion-item> 
       <p item-start>Cash In Hand</p> 
-      <p item-end class="green" *ngFor="let cash of restCall.cashinhand" [ngClass]="{'green':cash.CASHINHAND > 0,'red':cash.CASHINHAND < 0}">{{cash.CASHINHAND}}</p> 
+      <p item-end class="green" *ngFor="let cash of restCall.cashinhand" [ngClass]="{'green':cash.CASHINHAND > 0,'red':cash.CASHINHAND < 0}">Rs.{{cash.CASHINHAND}}/-</p> 
     </ion-item>
   </ion-card> 
   <form> 
     <ion-item>
       <ion-label>Amount</ion-label>
-      <ion-input type="numeric" [(ngModel)]="amount" name="amount"></ion-input>
+      <ion-input type="number" [(ngModel)]="amount" name="amount"></ion-input>
     </ion-item>
     <ion-item>
       <ion-textarea placeholder="Reason for Voucher" [(ngModel)]="voucherReason" name="voucherReason"></ion-textarea>
     </ion-item>
-    <img *ngIf="uploadVoucher" [src]="uploadVoucher" style="padding-top:15px"/>
-    <p class="selectedfile" *ngIf="selectedfile">Selected File: {{selectedfile.name}}</p>
-    <div style="display: flex;">
-     
-    <input type="file" (change)="onFileSelected($event)" id="fileInput" style="display: none;">
-    <label for="fileInput" ion-button icon-only >
-      <ion-icon name="image"></ion-icon>
-    </label> 
-    <button ion-button icon-only (click)="UploadCameraVoucher()"><ion-icon name="camera"></ion-icon></button>
-    <button ion-button (click)="UploadVoucher()" style="flex-grow: 2;">Submit</button>
-  </div>
+    <!-- Voucher -->
+    <div class="flex-container">
+      <div class="flexwrap">
+        <p class="VHeading" text-center>Voucher:</p>
+        <div class="childbtnflex">
+          <input type="file" (change)="onFileSelected($event)" id="fileInput" style="display: none;">
+          <label for="fileInput" ion-button icon-only outline>
+            <ion-icon name="image"></ion-icon>
+          </label> 
+          <button ion-button icon-only (click)="UploadCameraVoucher()" outline><ion-icon name="camera"></ion-icon></button>
+        </div>
+      </div>
+      <!-- Bill -->
+      <div class="flexwrap">
+        <p class="VHeading">Bill:</p>
+        <div class="childbtnflex">
+          <input type="file" (change)="onBillSelected($event)" id="billInput" style="display: none;">
+          <label for="billInput" ion-button icon-only outline>
+            <ion-icon name="image"></ion-icon>
+          </label> 
+          <button ion-button icon-only (click)="BillbyCamera()" outline><ion-icon name="camera"></ion-icon></button>
+        </div>
+      </div>
+      
+      <!-- Bill End -->
+    </div>
+    <div>
+      <img *ngIf="uploadVoucher" [src]="uploadVoucher" style="padding-top:15px"/>
+      <p class="selectedfile" *ngIf="selectedfile">Voucher File: {{selectedfile.name}}</p>
+    </div>
+    <div>
+      <img *ngIf="uploadBill" [src]="uploadBill" style="padding-top:15px"/>
+      <p class="selectedfile" *ngIf="selectedBill">Bill File: {{selectedBill.name}}</p>
+    </div>
+    <!-- Submit -->
+    <button ion-button block (click)="UploadVoucher()">Submit</button>
   </form>
-
   <div *ngIf="restCall.currentuser.UserType=='ACCOUNTANT' || restCall.currentuser.UserType=='ADMIN'">
     <div class="filters" style="padding-top:15px;">
       <div class="dateFilter" *ngIf="restCall.AllTransactionDates">
@@ -48,72 +89,12 @@
           </ion-item>
       </div>
     </div>
-    <!-- <span *ngIf = "unverifiedVouchers && unverifiedVouchers.length!=0">
-      <h5 class="uvvou">Unverified Vouchers</h5>
-      <div class="vcardholder" *ngFor = "let item of unverifiedVouchers, let x = index">
-          <ion-card class="card-details tcard unverified"> 
-            <ion-card-content (click)="VoucherDetails(item,x)">
-              <ion-item >
-                <div>  
-                  <p class="debit" style="padding-left:35px;">{{item.EmpId}}</p>
-                </div>
-                <div item-end>  
-                  <p *ngIf = "item.Amount" class="debit">{{item.Amount}}</p>
-                </div>
-                <div item-start>  
-                    <p *ngIf = "item.Date">{{item.Date.substring(0, 10)}}</p>
-                </div>
-              </ion-item> 
-              <div *ngIf="item.VDescription">{{item.VDescription}}</div>
-            </ion-card-content>
-            <div class="moredetails">
-              <img class="vimg" *ngIf="item.fname && item.fname != ''" src="http://app.dbasesolutions.in/Image/{{item.fname}}" alt="">
-              <div class="verifybtn"> 
-                <ion-input type="numeric" [(ngModel)]="this.updateamount" name="this.updateamount" class="updateamount"></ion-input>
-                <button ion-button color="primary" clear (click)="VerifyVoucher(item)">
-                  Verify
-                </button>
-              </div>
-            </div>
-          </ion-card> 
-      </div>
-    </span>
-    <span *ngIf = "verifiedVouchers && verifiedVouchers.length!=0">
-      <h5 class="vvou" margin-top>Verified Vouchers</h5>
-      <div class="vcardholder" *ngFor = "let item of verifiedVouchers, let x = index">
-          <ion-card class="card-details tcard verified"> 
-            <ion-card-content (click)="VerifiedVoucherDetails(item,x)"> 
-              <ion-item >
-                <div>  
-                  <p class="debit" style="padding-left:35px;">{{item.EmpId}}</p>
-                </div>
-                <div item-end>  
-                  <p *ngIf = "item.Amount" class="debit">{{item.Amount}}</p>
-                </div>
-                <div item-start>  
-                    <p *ngIf = "item.Date">{{item.Date.substring(0, 10)}}</p>
-                </div>
-              </ion-item> 
-              <div *ngIf="item.VDescription">{{item.VDescription}}</div>
-            </ion-card-content>
-            <div class="moredetails">
-              <img class="vimg" *ngIf="item.fname && item.fname != ''" src="http://app.dbasesolutions.in/Image/{{item.fname}}" alt="">
-              <div class="verifybtn"> 
-                <ion-input type="numeric" [(ngModel)]="this.updateamount" name="this.updateamount" class="updateamount"></ion-input>
-                <button style="float:right;" ion-button color="primary" clear (click)="VerifyVoucher(item)">
-                  Update
-                </button>
-              </div>
-            </div>
-          </ion-card> 
-      </div>
-    </span> -->
     <span *ngIf = "restCall.allVoucherTransactions">
       <div *ngFor = "let item of restCall.allVoucherTransactions; let i = index">
         <span *ngIf="item.length != 0">
           <div *ngFor = "let vou of item; let x = index">
             <p *ngIf="x == 0 && item.length != 0" class="vdate">{{item[item.length-1].Date.substring(0, 10)}}</p>
-            <span [ngClass]="{'verify':vou.IsVerified=='Y' && vou.Amount !=0, 'zero':vou.Amount ==0, 'updated':vou.IsVerified =='U'}">
+            <span [ngClass]="{'verify':vou.IsVerified=='Y' && vou.Amount !=0, 'zero':vou.Amount == 0, 'updated':vou.IsVerified =='U'}">
               <ion-card class="card-details tcard verified" [ngClass]="i+''+x">
                 <ion-card-content class="vcardcontent" (click)="VerifiedVoucherDetails(vou,i+''+x)">
                   <ion-item >
@@ -121,21 +102,24 @@
                       <p class="debit" style="padding-left:5px;">{{vou.EmpName}}</p> 
                     </div>
                     <div item-end style="margin: 0;">  
-                      <p *ngIf = "vou.Amount" class="debit">{{vou.Amount}}</p>
+                      <p *ngIf = "vou.Amount" class="debit">Rs.{{vou.Amount}}/-</p>
+                      <p *ngIf = "vou.Amount == 0" class="debit">Rs.{{vou.OriginalAmount}}/-</p>
                     </div>
                     </ion-item>
-                  <!-- <h2>{{vou.Amount}}</h2> 
-                  <h2>EmpName: {{vou.EmpId}}</h2>  -->
                   <h2 class="service_type">{{vou.EmpId}}</h2>
                   <h2 style="padding-left:5px;">Description: {{vou.VDescription}}</h2> 
                 </ion-card-content>
                 <div class="moredetails">
-                  <img class="vimg" *ngIf="vou.fname && vou.fname != ''" src="http://app.dbasesolutions.in/Image/{{vou.fname}}" alt="">
+                  <div class="img-holder">
+                    <img class="vimg bimg" *ngIf="vou.fname && vou.fname != ''" src="http://app.dbasesolutions.in/Image/Vouchers/{{vou.fname}}" alt="" (click)="OpenImg(vou.fname,vou.fpath,vou.Amount)">
+
+                    <img class="bimg" *ngIf="vou.fpath && vou.fpath != ''" src="http://app.dbasesolutions.in/Image/Bills/{{vou.fpath}}" alt="" (click)="OpenImg(vou.fname,vou.fpath,vou.Amount)">
+                  </div>
                   <div class="verifybtn"> 
-                    <ion-input type="numeric" [(ngModel)]="this.updateamount" name="this.updateamount" class="updateamount"></ion-input>
+                    <ion-input type="number" [(ngModel)]="this.updateamount" name="this.updateamount" class="updateamount"></ion-input>
                     <button ion-button color="primary" clear (click)="VerifyVoucher(vou)">
                       <span *ngIf="vou.IsVerified=='N'">Verify</span> 
-                      <span *ngIf="vou.IsVerified=='Y'">Update</span> 
+                      <span *ngIf="vou.IsVerified=='Y' || vou.IsVerified=='U'">Update</span> 
                     </button>
                   </div>
                 </div>
@@ -146,4 +130,5 @@
     </div>
     </span>
   </div> 
+</div>
 </ion-content>

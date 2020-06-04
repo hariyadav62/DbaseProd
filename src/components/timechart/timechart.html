@@ -17,7 +17,7 @@
     <!-- <div style="display: block;">
       <canvas #Canvas height="60px"></canvas>
     </div> -->
-  </div>
+  </div> 
   <div class="monthreports" *ngIf="monthReports">
     <ion-item>
       <ion-label>Month</ion-label>
@@ -31,10 +31,11 @@
         <th text-center>InTime</th>
         <th text-center>OutTime</th>
       </tr>
-      <tr *ngFor = "let item of timingMonthData">
+      <tr *ngFor = "let item of timingMonthData" [ngClass]="{'intimee': item.INTIME<='09:40' && item.INTIME != item.OUTTIME,
+      'latee': item.INTIME > '09:40' && item.INTIME != item.OUTTIME, 'notimee': item.INTIME == item.OUTTIME }">
         <td text-center><span *ngIf = "item.DATE" >{{item.DATE}}</span></td>
-        <td text-center ><span *ngIf = "item.INTIME" class="credit">{{item.INTIME}}</span></td>
-        <td text-center><span *ngIf = "item.OUTTIME" class="debit">{{item.OUTTIME}}</span></td>
+        <td text-center ><span *ngIf = "item.INTIME" class="timeclr">{{item.INTIME}}</span></td>
+        <td text-center><span *ngIf = "item.OUTTIME" class="timeclr">{{item.OUTTIME}}</span></td>
       </tr>
     </table>
   </div>

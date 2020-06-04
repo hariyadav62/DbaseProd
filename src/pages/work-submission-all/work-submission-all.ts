@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { Component, ElementRef } from '@angular/core';
+import { NavController, NavParams, ViewController } from 'ionic-angular';
 import { RestcallsProvider } from '../../providers/restcalls/restcalls';
 
 @Component({
@@ -13,21 +13,25 @@ export class WorkSubmissionAllPage {
   selDay: any;
   month= new Array();
   days = new Array();
- 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public restCall: RestcallsProvider) {
+
+  constructor(public navCtrl: NavController,public viewCtrl: ViewController, public navParams: NavParams, public restCall: RestcallsProvider, private elmenetRef: ElementRef) {
     this.restCall.LoadMyTeam(this.restCall.currentuser.Designation);
+    this.viewCtrl = this.navParams.get('viewCtrl');
+  }
+  public onClickCancel() {
+    this.viewCtrl.dismiss();
   }
 
   async ionViewWillEnter() {
     this.restCall.TeamWorkReports(this.empcode,0,0,0,this.restCall.currentuser.Designation);
-    this.searchHead = "Top 50"; 
+    this.searchHead = "Top 50";
     this.selectedMonth = null;
     this.selDay = null;
     this.empcode = 'All';
     this.restCall.loadCheckinDates = null;
-    await this.restCall.LoadWorkReportYearMonth(this.empcode,this.restCall.currentuser.Designation); 
-  } 
-  ionViewDidLoad() { 
+    await this.restCall.LoadWorkReportYearMonth(this.empcode,this.restCall.currentuser.Designation);
+  }
+  ionViewDidLoad() {
     this.month[0] = "January";
     this.month[1] = "February";
     this.month[2] = "March";
@@ -46,7 +50,7 @@ export class WorkSubmissionAllPage {
     this.searchHead = "Top 50";
     this.selectedMonth = null;
     this.selDay = null;
-    await this.restCall.LoadWorkReportYearMonth(this.empcode,this.restCall.currentuser.Designation); 
+    await this.restCall.LoadWorkReportYearMonth(this.empcode,this.restCall.currentuser.Designation);
   }
   async SearchByYearMonth(){
     if(this.selectedMonth != null){
@@ -54,13 +58,13 @@ export class WorkSubmissionAllPage {
       this.restCall.TeamWorkReports(this.empcode,date.getMonth()+1, date.getFullYear(),0,this.restCall.currentuser.Designation);
       this.searchHead = this.month[date.getMonth()] + " " + date.getFullYear();
       this.selDay = null;
-      await this.restCall.LoadWorkReportDates(this.empcode,this.restCall.currentuser.Designation,date.getFullYear(),date.getMonth()+1); 
+      await this.restCall.LoadWorkReportDates(this.empcode,this.restCall.currentuser.Designation,date.getFullYear(),date.getMonth()+1);
     }
   }
-  async SearchByYearMonthDay(){
+  SearchByYearMonthDay(){
     let date = new Date(this.selectedMonth.toString());
     this.restCall.TeamWorkReports(this.empcode,date.getMonth()+1, date.getFullYear(),this.selDay,this.restCall.currentuser.Designation);
-    this.searchHead = this.month[date.getMonth()] + " "+this.selDay+","+date.getFullYear(); 
+    this.searchHead = this.month[date.getMonth()] + " "+this.selDay+","+date.getFullYear();
     this.selDay = null;
   }
 }

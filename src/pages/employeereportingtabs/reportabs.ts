@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ReportingtimePage } from '../reportingtime/reportingtime';
 import { ReportingtimeallPage } from '../reportingtimeall/reportingtimeall';
+import { ViewController } from 'ionic-angular';
 
 
 @Component({
@@ -10,8 +11,11 @@ export class ReportabsPage {
 
   tab1Root = ReportingtimePage;
   tab2Root = ReportingtimeallPage;  
+  data: any;
 
-  constructor() {
-
+  constructor(public viewCtrl: ViewController) {
+    this.data = {
+      viewCtrl: this.viewCtrl
+    }
   }
 }

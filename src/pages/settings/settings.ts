@@ -1,8 +1,8 @@
+import { HolidaysPage } from './../holidays/holidays';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { RestcallsProvider } from '../../providers/restcalls/restcalls';
 import { AnnouncementsPage } from '../announcements/announcements';
-
 @IonicPage()
 @Component({
   selector: 'page-settings',
@@ -15,9 +15,7 @@ export class SettingsPage {
   }
 
   ionViewWillEnter(){
-    if(this.restCall.currentuser.EmpCode != '1501'){
-      this.restCall.LoadAnnouncementByEmpid(this.restCall.currentuser.EmpCode)
-    }
+    this.restCall.LoadAnnouncementByEmpid(this.restCall.currentuser.EmpCode)
     console.log(this.restCall.empAnnouncements);
   }
 
@@ -25,7 +23,7 @@ export class SettingsPage {
   Announcements(){
     this.navCtrl.push(AnnouncementsPage);
   } 
-  closeModal(){
-    this.viewCtrl.dismiss(); 
-  }
+  Holidays(){
+    this.navCtrl.push(HolidaysPage);
+  } 
 }

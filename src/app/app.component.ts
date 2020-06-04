@@ -7,7 +7,7 @@ import { FCM } from '@ionic-native/fcm';
 import { HttpClient,HttpHeaders } from '@angular/common/http';
 
 
-@Component({
+@Component({ 
   templateUrl: 'app.html'
 }) 
 export class MyApp {

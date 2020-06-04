@@ -39,7 +39,10 @@ import { File } from '@ionic-native/file/ngx';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
 import { DropdownComponent } from '../components/dropdown/dropdown';
 import { AnnouncementpopupComponent } from '../components/announcementpopup/announcementpopup';
-
+import { BiometricPage } from '../pages/biometric/biometric';
+import { HolidaysPage } from '../pages/holidays/holidays';
+import { IonicSelectableModule } from 'ionic-selectable';
+import { ModalratingPage } from '../pages/modalrating/modalrating';
 @NgModule({ 
   declarations: [
     MyApp,
@@ -66,14 +69,18 @@ import { AnnouncementpopupComponent } from '../components/announcementpopup/anno
     InvoicePage,
     EmpCheckInsPage ,
     AnnouncementsPage,  
-    AnnouncementpopupComponent,
+    AnnouncementpopupComponent, 
+    BiometricPage, 
+    HolidaysPage,
+    ModalratingPage,
     DropdownComponent
   ],
-  imports: [
+  imports: [ 
     BrowserModule,
     HttpClientModule,
     ChartsModule,
     ComponentsModule,
+    IonicSelectableModule,
     IonicModule.forRoot(MyApp),
     IonicStorageModule.forRoot()
   ],
@@ -81,8 +88,11 @@ import { AnnouncementpopupComponent } from '../components/announcementpopup/anno
   entryComponents: [
     MyApp,
     AboutPage,
+    HolidaysPage,
     AnnouncementpopupComponent,
     DropdownComponent,
+    ModalratingPage,
+    BiometricPage,
     ContactPage,
     HomePage,
     TabsPage,

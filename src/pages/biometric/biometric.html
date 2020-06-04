@@ -1,0 +1,94 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Day Wise Timings</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <div class="filters">
+    <ion-item class="employeeSelect" >
+      <ion-select placeholder="Employee" [(ngModel)]="empcode" name="empcode" (ionChange)="SearchByEmpCode()">
+        <ion-option value="All">All Employees</ion-option>
+        <span *ngFor="let employee of restCall.employeeList">
+          <ion-option *ngIf="employee.EmpCode != '1501'" value="{{employee.EmpCode}}">{{employee.EmpCode}}
+            {{employee.EmpName}}</ion-option>        
+        </span>
+        </ion-select>
+    </ion-item>
+    <div class="dateFilter" *ngIf="restCall.MaxMinEmptimesDates">
+      <span *ngIf="restCall.MaxMinEmptimesDates.length != 0">
+        <!-- <ion-item class="search_date">
+          <ion-select (ionChange)="SearchByYear()" placeholder="Year" [(ngModel)]="selectedYear" name="selectedYear"
+            style="padding: 5px 3px;">
+            <ion-option *ngFor="let year of years" value="{{year.DATES}}">{{year.DATES}}</ion-option>
+          </ion-select>
+        </ion-item>
+        <ion-item class="search_date">
+          <ion-select (ionChange)="SearchByMonth()" placeholder="Month" [(ngModel)]="selectedMonth" name="selectedMonth"
+            style="padding: 5px 3px;">
+            <ion-option *ngFor="let month of months" value="{{month.DATES}}">{{month.DATES}}</ion-option>
+          </ion-select>
+        </ion-item> -->
+        <ion-item class="search_date"> 
+          <ion-datetime (ionChange)="SearchByYearandMonth()" displayFormat="MMM YYYY" pickerFormat="MMM YYYY"
+            [(ngModel)]="selectedDate" name="selectedDate" min="{{mindate}}" max="{{maxdate}}" placeholder="Search by month"></ion-datetime> 
+        </ion-item>
+        <ion-item class="search_day">
+          <ion-select (ionChange)="SearchByDay()" placeholder="Day" [(ngModel)]="selDay" name="selDay"
+            style="padding: 5px 3px;">
+          <ion-option value='0' *ngIf="empcode != 'All'">All</ion-option>
+          <span *ngIf="empcode == 'All'">
+            <ion-option *ngFor="let day of days" value="{{day}}">{{day}}</ion-option>
+          </span>
+          </ion-select>
+        </ion-item>
+      </span>
+    </div>
+  </div>
+  <br>
+<span *ngIf="empcode == 'All'">
+  <span *ngIf = "bioreports">
+    <span *ngFor = "let checkin of bioreports;">
+      <h5 *ngIf="checkin.length != 0" class="checkin-date">{{checkin[0].DATE.substring(0,10)}}</h5>
+      <span *ngFor = "let item of checkin">
+        <ion-card class="card-details checkin-card" [ngClass]="{ 'latetime': item.INTIME > '09:40', 'intime': item.INTIME <= '09:40', 'notime': item.INTIME == item.OUTTIME}">
+          <ion-item class="heightItem"> 
+            <h2 class="service_type">{{item.EMPID}}</h2>
+            <div item-start > 
+              <h2 style="padding-left: 15px;" class="card-point">{{item.EMPNAME}}</h2> 
+            </div>
+            <p *ngIf = "item.INTIME" text-right>{{item.INTIME}}</p> 
+            <div item-end text-center>  
+              <p *ngIf = "item.OUTTIME">{{item.OUTTIME}}</p> 
+            </div>
+          </ion-item> 
+        </ion-card>
+      </span>
+    </span>
+  </span>
+</span>
+<span *ngIf="empcode != 'All'">
+  <span *ngIf = "bioreports">
+    <span *ngFor = "let checkin of bioreports;">
+      <!-- <h5 *ngIf="checkin.length != 0" class="checkin-date">{{checkin[0].DATE.substring(0,10)}}</h5> -->
+      <span *ngFor = "let item of checkin">
+        <ion-card class="card-details checkin-card" [ngClass]="{ 'latetime': item.INTIME > '09:40', 'intime': item.INTIME <= '09:40', 'notime': item.INTIME == item.OUTTIME}">
+          <ion-item class="heightItem"> 
+            <div item-start text-center>  
+              <p *ngIf = "item.DATE">{{item.DATE.substring(0,10)}}</p> 
+            </div>
+            <h2 class="card-point"></h2> 
+            <!-- <h2 class="service_type">{{item.EMPID}}</h2> -->
+            <p *ngIf = "item.INTIME" text-right style="padding-left: 15px;">{{item.INTIME}}</p> 
+            <div item-end text-center>  
+              <p *ngIf = "item.OUTTIME" style="padding-left: 15px;">{{item.OUTTIME}}</p> 
+            </div>
+            
+          </ion-item> 
+        </ion-card>
+      </span>
+    </span>
+  </span>
+</span>
+
+</ion-content>

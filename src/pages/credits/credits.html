@@ -8,26 +8,10 @@
   <ion-card>
     <ion-item *ngFor="let cash of restCall.cashinhand" > 
       <p item-start>{{cash.EmpName}}</p> 
-      <p item-end class="green" [ngClass]="{'green':cash.CASHINHAND > 0,'red':cash.CASHINHAND < 0}">{{cash.CASHINHAND}}</p> 
+      <p item-end class="green" [ngClass]="{'green':cash.CASHINHAND > 0,'red':cash.CASHINHAND < 0}">Rs.{{cash.CASHINHAND}}/-</p> 
     </ion-item>
   </ion-card> 
   <span *ngIf="restCall">
-      <!-- <ion-card class="card-details" *ngIf = "transType=='all'">
-        <ion-card-content style="padding: 0">
-          <table style="width: 100%">
-              <tr>
-                <th text-center>Date</th>
-                <th text-center>Credits</th>
-                <th text-center>Debits</th>
-              </tr>
-              <tr *ngFor = "let item of restCall.transactions">
-                <td text-center><span *ngIf = "item.Date" >{{item.Date.substring(0, 10)}}</span></td>
-                <td text-center ><span *ngIf = "item.Credits" class="credit">{{item.Credits}}</span></td>
-                <td text-center><span *ngIf = "item.Debits" class="debit">{{item.Debits}}</span></td>
-              </tr>
-          </table>
-        </ion-card-content>
-      </ion-card> -->
 <div>
   <div class="filters" style="padding-top:15px;">
     <ion-item>
@@ -57,22 +41,33 @@
     </div>
   </div>
   <span *ngIf="!adv"> 
+<span *ngIf="restCall.loadEmpAllTransactions.length != 0">
+  <ion-item *ngIf="restCall.loadEmpAllTransactions[0].TOTALAMOUNT != 0">
+    <div item-start>  
+      <p class="">Total</p>
+    </div>
+    <div item-end>  
+      <p class="TotalAmount">Rs.{{restCall.loadEmpAllTransactions[0].TOTALAMOUNT}}/-</p>
+    </div>
+  </ion-item>
+</span>
     <div class="vcardholder" *ngFor = "let item of restCall.loadEmpAllTransactions, let x = index">
       <p class="transtype {{item.TRANSACTIONTYPE}}">{{item.TRANSACTIONTYPE}}</p> 
         <ion-card class="card-details tcard" (click)="VoucherDetails(x)" [ngClass]="{'verified':item.TRANSACTIONTYPE == 'Voucher' && item.FPATH == 'Y','updated':(item.TRANSACTIONTYPE == 'Voucher' && item.FPATH == 'U'&& item.AMOUNT != 0),'deleted':item.TRANSACTIONTYPE == 'Voucher' && item.AMOUNT == 0}"> 
           <ion-card-content>
             <ion-item >
               <div item-end>  
-                <p *ngIf = "item.AMOUNT" class="amount{{item.TRANSACTIONTYPE}}">{{item.AMOUNT}}</p> 
+                <p *ngIf = "item.AMOUNT != 0" class="amount{{item.TRANSACTIONTYPE}}">Rs.{{item.AMOUNT}}/-</p> 
+                <p *ngIf = "item.TRANSACTIONTYPE == 'Voucher' && item.AMOUNT == 0" class="amount{{item.TRANSACTIONTYPE}}">Rs.{{item.ORIGINALAMOUNT}}/-</p> 
               </div>
               <div item-start>  
                   <p *ngIf = "item.DATE">{{item.DATE.substring(0, 10)}}</p>
-                  <!-- <p *ngIf = "item.DATE">{{item.DATE.substring(11)}}</p> -->
               </div>
             </ion-item> 
             <div *ngIf="item.TRANSACTIONTYPE == 'Voucher'">{{item.REMARKS}}</div>
             <div *ngIf="item.TRANSACTIONTYPE == 'Advance Repayment'">Sent to - {{item.SENDER}} {{item.EMPNAME}}</div>
-            <div *ngIf="item.SENDER != '' && item.TRANSACTIONTYPE != 'Advance Repayment'">Sender - {{item.SENDER}} {{item.EMPNAME}}</div>
+            <div *ngIf="item.SENDER != '' && item.TRANSACTIONTYPE != 'Advance Repayment' && item.TRANSACTIONTYPE != 'Transfer'">Sender - {{item.SENDER}} {{item.EMPNAME}}</div>
+            <div *ngIf="item.SENDER != '' && item.TRANSACTIONTYPE != 'Advance Repayment' && item.TRANSACTIONTYPE == 'Transfer'">Sent to - {{item.SENDER}} {{item.EMPNAME}}</div>
           </ion-card-content>
           <span class="moredetails" *ngIf="item.TRANSACTIONTYPE == 'Voucher'">
             <img class="vimg" *ngIf="item.FNAME && item.FNAME != ''" src="http://app.dbasesolutions.in/Image/{{item.FNAME}}" alt="">
@@ -84,7 +79,7 @@
 
 <ion-item class="outstand">
   <p item-start> Outstanding</p>
-  <p item-end *ngIf="restCall.transactions.length != 0"> {{restCall.transactions[0].OUTSTANDING}}</p>
+  <p item-end *ngIf="restCall.transactions.length != 0"> Rs.{{restCall.transactions[0].OUTSTANDING}}/-</p>
   <p item-end *ngIf="restCall.transactions.length == 0"> 0</p>
 </ion-item>
 

@@ -52,7 +52,7 @@ currentuser:any;
     console.log(this.activeCard);
     this.activeCard = false;
   }
-  ionViewWillEnter() {  
+  ionViewWillEnter() { 
     this.restCall.retrieveEmployeeById(this.restCall.currentuser.EmpCode).then((data)=>{
       this.creditcounts = data.UnseenCredits;
       console.log(this.creditcounts);
@@ -63,8 +63,7 @@ currentuser:any;
     });
     this.restCall.LoadEmpAllTransactions('1509','All','All','Advances').then(()=>{
     });
-    
-  }
+  } 
   Announcements(){
     this.navCtrl.push(AnnouncementsPage);
   } 
@@ -160,7 +159,6 @@ currentuser:any;
     }   
   } 
   employeeReportings(){
-    console.log('');
     this.navCtrl.push(ReportabsPage);   
   }
   EmployeeAllCheckins(){
@@ -191,10 +189,14 @@ currentuser:any;
   }
 
   setData(){
-    let time1 = new Date().getHours() + ":"+new Date().getMinutes()+":"+new Date().getSeconds();
-    this.time = time1;
+    // let time1 = new Date().getHours() + ":"+new Date().getMinutes()+":"+new Date().getSeconds();
+    // //console.log(time1);
+    // let time2 = (new Date().getUTCHours()+5) + ":"+(new Date().getUTCMinutes()+30)+":"+(new Date().getUTCSeconds());
+    let y = new Date(new Date().getUTCFullYear(),new Date().getUTCMonth(),new Date().getUTCDate(),new Date().getUTCHours(),new Date().getUTCMinutes(),new Date().getUTCSeconds());
+    y.setMinutes(y.getMinutes()+330);
+    let time2 = (y.getHours() + ":"+y.getMinutes()+":"+y.getSeconds());
+    this.time = time2;
   } 
-
   ionViewWillLeave() {
     clearTimeout(this.timer);
   }

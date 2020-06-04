@@ -1,10 +1,10 @@
-<ion-header>
+<!-- <ion-header>
   <ion-navbar>
     <ion-title>Previous Leaves</ion-title>
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content padding> -->
   <!-- <ion-item>
     <ion-label>Search by month</ion-label>
     <ion-datetime (ionChange)="LeavesByMonth()" displayFormat="MMM DD, YYYY" pickerFormat="MMM DD, YYYY" [(ngModel)]="selectedMonth" name="selectedMonth"></ion-datetime>
@@ -44,7 +44,7 @@
       </ion-item>
       <ion-item class="search_day">
         <ion-select (ionChange)="SearchByDay()" placeholder="Day" [(ngModel)]="selDay" name="selDay" style="padding: 5px 3px;">
-          <ion-option *ngFor="let day of days" value="{{day.DATES}}">{{day.DATES}}</ion-option>
+          <ion-option *ngFor="let day of dayss" value="{{day.DATES}}">{{day.DATES}}</ion-option>
         </ion-select>
       </ion-item>
     </span>
@@ -66,4 +66,4 @@
     </ion-item> 
   </ion-card>
  
-</ion-content> 
+<!-- </ion-content>  -->

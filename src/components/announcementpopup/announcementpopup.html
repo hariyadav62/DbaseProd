@@ -1,6 +1,6 @@
 <div class="popupcard" text-center>
   <div class="head">Announcement</div>
-  <div text-left *ngIf="announcements" style="position: relative;top: -20px;">
+  <div text-left *ngIf="announcements">
     <p *ngFor="let item of announcements;let i = index">
       {{i+1}}. {{item.Message}}</p>
   </div>

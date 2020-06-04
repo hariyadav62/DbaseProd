@@ -2,18 +2,19 @@ announcementpopup {
     .popupcard{
         padding: 15px;
         border-radius: 10px;
-        background: white;
-        //box-shadow: 0 3px 12px 2px rgba(0, 0, 0, 0.3);
+        background: #242424;
+        color: white;
+        box-shadow: 0 3px 12px 2px rgba(0, 0, 0, 0.3);
     }
     .head{ 
         position: relative;
-        background: #fa8b66;
+        background: #fba067;
         padding: 5px 20px;
-        border-radius: 50px;
+        border-radius: 5px;
         text-align: center;
         color: white;
-        top: -25px;
-        display: inline-block;
+        // top: -25px;
+        // display: inline-block;
         box-shadow: 0 1px 3px 0px rgba(0, 0, 0, 0.3);
     }
     button{

@@ -1,6 +1,11 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Today Reporting Time</ion-title>
+    <ion-buttons left margin-horizontal>
+      <button ion-button icon-only (click)="onClickCancel()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>Today Employee Reportings</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -27,13 +32,14 @@
   <h5 *ngIf="recheck">Recheckins</h5>
   <span *ngFor = "let item of restCall.todayEmployeeReportings">
     <span *ngIf="item.Report_Staus == 'Recheckin'">
-      <ion-card class="card-details checkin-card recheckin-border" >
-        <ion-item class="recheckin" style="padding-left: 5px;">  
-          <h2 text-center class="card-point" style="margin: 0;font-size: 1.4rem;">{{item.Emp_Name}}</h2>
+      <ion-card class="card-details checkin-card recheckin-border" style="margin-bottom: 5px;" >
+        <ion-item class="recheckin heightItem" style="padding-left: 5px;">  
+          <h2 class="service_type">{{item.Emp_Id}}</h2>
           <div item-start text-center>  
-            <p *ngIf = "item.Time">{{item.Time}}</p> 
+            <h2 class="card-point" style="margin: 0;font-size: 1.3rem;padding-left: 26px;">{{item.Emp_Name}}</h2>
           </div>
-          <div item-end text-center>  
+          <p *ngIf = "item.Time" text-right>{{item.Time}}</p>
+          <div item-end text-right>  
             <button ion-button color="secondary" outline (click)="ApproveReport(item,'Approved')" class="roundiconbtns"><ion-icon name="checkmark"></ion-icon></button>
             <button ion-button color="danger" outline (click)="respondToReport(item,'Rejected')" class="roundiconbtns"><ion-icon name="close"></ion-icon></button>        
           </div>
@@ -45,13 +51,14 @@
   <h5 *ngIf="pendin">Pending</h5>
   <span *ngFor = "let item of restCall.todayEmployeeReportings">
     <span *ngIf="item.Report_Staus == 'Pending'">
-      <ion-card class="card-details checkin-card pending-border" >
-        <ion-item class="pending" style="padding-left: 5px;"> 
-          <h2 text-center class="card-point" style="margin: 0;font-size: 1.4rem;">{{item.Emp_Name}}</h2>
-          <div item-start text-center>  
-            <p *ngIf = "item.Time">{{item.Time}}</p> 
+      <ion-card class="card-details checkin-card pending-border" style="margin-bottom: 5px;">
+        <ion-item class="pending heightItem" style="padding-left: 5px;"> 
+          <h2 class="service_type">{{item.Emp_Id}}</h2>
+          <div item-start text-left> 
+            <h2 class="card-point" style="margin: 0;font-size: 1.3rem;padding-left: 26px;">{{item.Emp_Name}}</h2>
           </div>
-          <div item-end text-center>  
+          <p *ngIf = "item.Time" text-right>{{item.Time}}</p> 
+          <div item-end text-right>  
             <button ion-button color="secondary" class="roundiconbtns" (click)="ApproveReport(item,'Approved')"><ion-icon name="checkmark"></ion-icon></button>
             <button ion-button color="danger" class="roundiconbtns" (click)="respondToReport(item,'Rejected')"><ion-icon name="close"></ion-icon></button>        
           </div>
@@ -63,13 +70,14 @@
   <h5 *ngIf="respond">Responded</h5>
   <span *ngFor = "let item of restCall.todayEmployeeReportings">
     <span *ngIf="item.Report_Staus == 'Approved' ||item.Report_Staus == 'Rejected'">
-      <ion-card class="card-details checkin-card" [ngClass]="{'approve-border': item.Report_Staus == 'Approved', 'rejected-border': item.Report_Staus == 'Rejected'}">
-        <ion-item [ngClass]="{'approve': item.Report_Staus == 'Approved', 'rejected': item.Report_Staus == 'Rejected'}" style="padding-left: 5px;"> 
-          <h2 text-center class="card-point" style="margin: 0;font-size: 1.4rem;">{{item.Emp_Name}}</h2>
-          <div item-start text-center>  
-            <p *ngIf = "item.Time">{{item.Time}}</p> 
+      <ion-card class="card-details checkin-card" style="margin-bottom: 5px;" [ngClass]="{'approve-border': item.Report_Staus == 'Approved', 'rejected-border': item.Report_Staus == 'Rejected'}">
+        <ion-item class="heightItem" [ngClass]="{'approve': item.Report_Staus == 'Approved', 'rejected': item.Report_Staus == 'Rejected'}" style="padding-left: 5px;"> 
+          <h2 class="service_type">{{item.Emp_Id}}</h2>
+          <div item-start text-left>  
+            <h2 class="card-point" style="margin: 0;font-size: 1.3rem;padding-left: 26px;">{{item.Emp_Name}}</h2>
           </div>
-          <div item-end text-center *ngIf = "item.Report_Staus == 'Approved'">
+          <p *ngIf = "item.Time" text-right>{{item.Time}}</p> 
+          <div item-end text-right *ngIf = "item.Report_Staus == 'Approved'">
             <button ion-button color="secondary" clear (click)="UpdateStatus(item)" class="roundiconbtns"><ion-icon name="close"></ion-icon></button>
           </div>
           <div item-end text-center *ngIf = "item.Report_Staus == 'Rejected'">

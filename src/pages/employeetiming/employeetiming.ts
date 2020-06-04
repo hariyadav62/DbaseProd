@@ -1,3 +1,4 @@
+import { BiometricPage } from './../biometric/biometric';
 import { RestcallsProvider } from './../../providers/restcalls/restcalls';
 import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { NavController, NavParams, Content } from 'ionic-angular';
@@ -119,5 +120,8 @@ export class EmployeetimingPage {
     let yOffset = document.getElementById(this.restCall.currentuser.EmpCode).offsetTop;
     console.log(document.getElementById(this.restCall.currentuser.EmpCode));
     this.content.scrollTo(0, yOffset, 1000)
+  }
+  Biometric(){
+    this.navCtrl.push(BiometricPage);
   }
 }

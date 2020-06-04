@@ -1,4 +1,47 @@
 page-addvoucher {
+    .vmount{
+        margin: 0;
+        position: absolute;
+        z-index: 11;
+        background: #f29860;
+        display: inline-block;
+        font-size: 1.8rem;
+        border-radius: 5px;
+        padding: 3px 10px;
+        top: 10px;
+        transform: translateX(-50%);
+        color: #000;
+        box-shadow: -1px 1px 20px 1px rgba(0, 0, 0, 0.59);
+    }
+    .multiSlide{
+        ion-slide{
+            transform: translateX(50%)!important;
+        }
+    }
+    .btns{
+        font-size: 1.2rem;
+        padding: 0;
+        border-radius: 18px;
+        height: 3.3rem;
+        box-shadow: 0 1px 2px 0 rgba(60,64,67,0.302), 0 1px 3px 1px rgba(60,64,67,0.149);
+        position: absolute;
+        right: 15px;
+        bottom: 15px;
+        z-index: 11;
+    } 
+    .flex-container{
+        display: flex;
+    }
+    .flexwrap{
+        display: flex;
+        padding-left: 16px;
+        flex-direction: column;
+        flex-grow: 1;
+        align-items: center;
+    }
+    .VHeading{
+        font-size: 1.6rem;
+    }
     textarea{
         margin-left: -2px!important;
     }
@@ -23,7 +66,7 @@ page-addvoucher {
     .ripple-parent {
         position: relative;
         overflow: hidden;
-      }
+    }
 
       ion-card.open{
         border-radius: 5px;
@@ -36,7 +79,8 @@ page-addvoucher {
     }
     .tcard{
         position: relative;
-        margin-bottom: 20px;  
+        margin-bottom: 5px;  
+        margin-top: 0;  
         ion-item{
             background: rgba(18, 18, 18, 0);  
             padding-left: 0; 
@@ -95,7 +139,7 @@ page-addvoucher {
     }
     .zero{
         ion-card{
-            background: rgba(250, 0, 0, 0.2);
+            background: rgba(250, 0, 0, 0.2)!important;
         }
     }
     .updated{
@@ -110,19 +154,21 @@ page-addvoucher {
     }
     .vdate{
         font-size: 1.5rem;
-        background: #f29860;
-        color: white;
-        display: inline-block;
+        background: rgba(96, 167, 221, 0.35);
+        color: #111111;
+        display: block;
         padding: 3px 12px;
         border-radius: 3px;
         box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
         margin-left: 10px;
         margin-bottom: 0;
+        margin-right: 10px;
     }
     .service_type{
         position: absolute;
         top: -2px;
         left: 0;
+        transform: rotate(180deg);
         height: 100%;
         background: #29592b;
         background: #3a6484;
@@ -141,6 +187,38 @@ page-addvoucher {
             margin: 2px 0;
             font-size: 1.4rem;
         }
+    }
+    .img-holder{
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+    }
+    .bimg{
+        max-width: 49%;
+        display: inline;
+    }
+    .overlay{
+        display: none;
+        position: sticky;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.7);
+        z-index: 10;
+        ion-slides{
+            background: black;
+            position: sticky;
+            top: 0;
+            left: 0;
+            z-index: 10;
+            .swiper-wrapper{
+                justify-content: center;
+            }
+        }
+    }
+    .overlay.open{
+        display:block;
     }
 }
 

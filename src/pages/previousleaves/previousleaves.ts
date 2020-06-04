@@ -6,7 +6,7 @@ import { RestcallsProvider } from './../../providers/restcalls/restcalls';
 @Component({
   selector: 'page-previousleaves',
   templateUrl: 'previousleaves.html',
-})
+}) 
 export class PreviousleavesPage {
   public leaves: any;
   selectedMonth: any;
@@ -15,7 +15,7 @@ export class PreviousleavesPage {
   selDay:any;
   month = new Array();
   months: any=[];
-  days: any=[];
+  dayss: any=[];
   years: any=[];
   searchHead: any = "Top 50";
   selectedYear: any;
@@ -49,26 +49,26 @@ export class PreviousleavesPage {
     this.month[11] = "December";
   }
   async ionViewWillEnter(){
-    this.restCall.LoadDatesForLeaves(this.currentuser,'',0,'0').then(()=>{
-      this.years = this.restCall.datesLeave;
-      if(this.restCall.datesLeave.length != 0){
-        this.selectedYear = this.restCall.datesLeave[0].DATES;
-        this.restCall.LoadDatesForLeaves(this.currentuser,'',this.selectedYear,'0').then(()=>{
-          this.months = this.restCall.datesLeave;
-          if(this.restCall.datesLeave.length != 0){
-            this.selectedMonth = this.restCall.datesLeave[0].DATES;
-            this.restCall.LoadAllLeaves(this.currentuser,'',this.selectedYear,this.selectedMonth,0 );
-            this.searchHead = this.selectedMonth +' '+this.selectedYear;
-            this.restCall.LoadDatesForLeaves(this.currentuser,'',this.selectedYear,this.selectedMonth).then(()=>{
-              this.days = this.restCall.datesLeave;
-            });
-          }
-        });
-      }
-      else{
-        this.restCall.leaves = [];
-      }
-    });
+    // this.restCall.LoadDatesForLeaves(this.currentuser,'',0,'0').then(()=>{
+    //   this.years = this.restCall.datesLeave;
+    //   if(this.restCall.datesLeave.length != 0){
+    //     this.selectedYear = this.restCall.datesLeave[0].DATES;
+    //     this.restCall.LoadDatesForLeaves(this.currentuser,'',this.selectedYear,'0').then(()=>{
+    //       this.months = this.restCall.datesLeave;
+    //       if(this.restCall.datesLeave.length != 0){
+    //         this.selectedMonth = this.restCall.datesLeave[0].DATES;
+    //         this.restCall.LoadAllLeaves(this.currentuser,'',this.selectedYear,this.selectedMonth,0 );
+    //         this.searchHead = this.selectedMonth +' '+this.selectedYear;
+    //         this.restCall.LoadDatesForLeaves(this.currentuser,'',this.selectedYear,this.selectedMonth).then(()=>{
+    //           this.dayss = this.restCall.datesLeave;
+    //         });
+    //       }
+    //     });
+    //   }
+    //   else{
+    //     this.restCall.leaves = [];
+    //   }
+    // });
   }
   // async SearchByCode(){ 
   //   this.restCall.LoadAllLeaves(this.currentuser,'',0,0,0 ); 
@@ -93,30 +93,30 @@ export class PreviousleavesPage {
   //   this.selDay = null;
   // }
 
-  SearchByYear(){
-    this.restCall.LoadAllLeaves(this.currentuser,'',this.selectedYear,0,0 );
-    this.restCall.LoadDatesForLeaves(this.currentuser,'',this.selectedYear,'0').then(()=>{
-      this.months = this.restCall.datesLeave;
-    });
-    this.searchHead = this.selectedYear;
-    this.selectedMonth = null;
-    this.days = [];
-    this.selDay = null;
-  }
-  SearchByMonth(){
-    this.restCall.LoadAllLeaves(this.currentuser,'',this.selectedYear,this.selectedMonth,0 );
-    this.restCall.LoadDatesForLeaves(this.currentuser,'',this.selectedYear,this.selectedMonth).then(()=>{
-      this.days = this.restCall.datesLeave;
-    });
-    if(this.selectedMonth != null && this.selectedYear != null){
-      this.searchHead = this.selectedMonth+" "+ this.selectedYear;
-    }
-    this.selDay = null;
-  }
-  SearchByDay(){
-    this.restCall.LoadAllLeaves(this.currentuser,'',this.selectedYear,this.selectedMonth,this.selDay );
-    this.searchHead = this.selDay +" "+this.selectedMonth+" "+ this.selectedYear;
-  }
+  // SearchByYear(){
+  //   this.restCall.LoadAllLeaves(this.currentuser,'',this.selectedYear,0,0 );
+  //   this.restCall.LoadDatesForLeaves(this.currentuser,'',this.selectedYear,'0').then(()=>{
+  //     this.months = this.restCall.datesLeave;
+  //   });
+  //   this.searchHead = this.selectedYear;
+  //   this.selectedMonth = null;
+  //   this.dayss = [];
+  //   this.selDay = null;
+  // }
+  // SearchByMonth(){
+  //   this.restCall.LoadAllLeaves(this.currentuser,'',this.selectedYear,this.selectedMonth,0 );
+  //   this.restCall.LoadDatesForLeaves(this.currentuser,'',this.selectedYear,this.selectedMonth).then(()=>{
+  //     this.dayss = this.restCall.datesLeave;
+  //   });
+  //   if(this.selectedMonth != null && this.selectedYear != null){
+  //     this.searchHead = this.selectedMonth+" "+ this.selectedYear;
+  //   }
+  //   this.selDay = null;
+  // }
+  // SearchByDay(){
+  //   this.restCall.LoadAllLeaves(this.currentuser,'',this.selectedYear,this.selectedMonth,this.selDay );
+  //   this.searchHead = this.selDay +" "+this.selectedMonth+" "+ this.selectedYear;
+  // }
 
 
   respondToLeave(leavedata:any,x:string){

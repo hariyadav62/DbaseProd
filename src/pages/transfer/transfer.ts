@@ -21,14 +21,18 @@ export class TransferPage {
   enableRepayment:boolean = false;
   amountValidation: boolean;
   outstanding: any;
+  UpdatedLimit: any;
   constructor(public navCtrl: NavController, public navParams: NavParams, public restCall:RestcallsProvider,public viewCtrl: ViewController,public alertCtrl: AlertController) {
     this.currentuser=this.restCall.currentuser;     
   }
   async LoadEmpbyStatus(){ 
+    if(this.RecieverEmpId != null){
+      this.restCall.CashInHandById(this.RecieverEmpId.substring(0,4));
+    }
     if(this.RecieverEmpId != null && this.RecieverEmpId != undefined){
       console.log(this.RecieverEmpId.substring(0,4));
+      this.UpdatedLimit = this.RecieverEmpId.substring(5);
       if(this.RecieverEmpId.substring(0,4) == '1501' || this.RecieverEmpId.substring(0,4) == '1531'){
-        //this.enableRepayment = true;
        await this.restCall.LoadAdvances(this.restCall.currentuser.EmpCode,'All','All').then(()=>{
           console.log(this.restCall.transactions.length);
           if(this.restCall.transactions.length != 0){
@@ -51,7 +55,7 @@ export class TransferPage {
   } 
   toggleAdvRepay(){
     if(this.isAdvanceRepay){
-      this.amountValidation = false;
+      this.amountValidation = false; 
     }
     else{
       this.amountValidation = true;
@@ -86,7 +90,7 @@ export class TransferPage {
               credit.SALorADV = 'Advance Repayment';
               credit.CDescription= "Advnce Repayment Amount transferred to "+this.RecieverEmpId.substring(0,4)+",through "+this.TransferType;
           }
-          if(this.restCall.currentuser.UserType == 'ADMIN'){
+          if(this.restCall.currentuser.UserType == 'ADMIN' ){
             let trans = await this.restCall.TransferAmount(credit);
             this.amount = null;
             this.RecieverEmpId = null;
@@ -141,11 +145,11 @@ export class TransferPage {
           }
         }
         else{
-          alert("Please Enter amount greater than '0'");
+          alert("Please Enter amount greater than Rs.0/-");
         }
       }
       else{
-        if(((this.amount < Number(this.RecieverEmpId.substring(5))) || (this.amount == Number(this.RecieverEmpId.substring(5)))) && (this.amount > 0)){
+        if(this.RecieverEmpId == '1531'){
           let credit:any ={
             Amount : this.amount,
             RecieverEmpId: this.RecieverEmpId.substring(0,4),
@@ -174,14 +178,12 @@ export class TransferPage {
             }
             else{
               const confirm = this.alertCtrl.create({
-                // title:"Rs. "+ (this.amount - this.restCall.cashinhand[0].CASHINHAND)+"/",
                 title:"Rs. "+ (this.amount)+"/",
                 message: 'Amount is greater than Cash In Hand, Do you want to Transfer?',
                 buttons: [
                   {
                     text: 'Cancel',
                     handler: () => {
-                      //this.navCtrl.push(EmpCheckInsPage);
                     }
                   },
                   {
@@ -196,22 +198,72 @@ export class TransferPage {
                     }
                   }
                 ]
-              });
+            });
               confirm.present();
             }
           }
-          
+        }else if(((this.amount < Number(this.UpdatedLimit)) || (this.amount == Number(this.UpdatedLimit))) && (this.amount > 0)){
+          let credit:any ={
+            Amount : this.amount,
+            RecieverEmpId: this.RecieverEmpId.substring(0,4),
+            SenderEmpId: this.restCall.currentuser.EmpCode,
+            CDescription: "Amount transferred to "+this.RecieverEmpId.substring(0,4)+",through "+this.TransferType,
+            Date:new Date().toLocaleString(),
+            TransferType: this.TransferType,
+            SALorAdv : 'Credit' 
+          }
+          if(this.restCall.currentuser.UserType == 'ADMIN'){
+            let trans = await this.restCall.TransferAmount(credit);
+            this.amount = null;
+            this.RecieverEmpId = null;
+            this.remarks = null;
+            this.TransferType = null;
+            this.viewCtrl.dismiss();
+          }
+          else{
+            if(this.amount < this.restCall.cashinhand[0].CASHINHAND){
+              let trans = await this.restCall.TransferAmount(credit);
+              this.amount = null;
+              this.RecieverEmpId = null;
+              this.remarks = null;
+              this.TransferType = null;
+              this.viewCtrl.dismiss();
+            }
+            else{
+              const confirm = this.alertCtrl.create({
+                title:"Rs. "+ (this.amount)+"/",
+                message: 'Amount is greater than Cash In Hand, Do you want to Transfer?',
+                buttons: [
+                  {
+                    text: 'Cancel',
+                    handler: () => {
+                    }
+                  },
+                  {
+                    text: 'Yes',
+                    handler: () => {
+                      let trans = this.restCall.TransferAmount(credit);
+                      this.amount = null;
+                      this.RecieverEmpId = null;
+                      this.remarks = null;
+                      this.TransferType = null;
+                      this.viewCtrl.dismiss();
+                    }
+                  }
+                ]
+            });
+              confirm.present();
+            }
+          }
         }
         else{
-          alert(this.amount+" Please Enter amount between 0 and "+this.RecieverEmpId.substring(5));
+          alert(this.amount+" Please Enter amount between Rs.0/- and Rs."+this.UpdatedLimit+"/-");
         }
       }
     }else{
       alert("Fill all required fields");
     }
-    
   }
- 
   ionViewWillEnter() {
     this.restCall.EmpListWithMaxTransferAmount();  
     this.restCall.retrieveCashInHand(this.restCall.currentuser.EmpCode)
@@ -229,5 +281,36 @@ export class TransferPage {
       }
     }
     
+  }
+  ChangeLimitPopup(id){
+    this.restCall.EmployeeById(id).then((data)=>{
+      const prompt = this.alertCtrl.create({
+        title: 'Update Transfer Limit',
+        message: "Enter Transfer Limit ",
+        inputs: [
+          {
+            name: 'limit',
+            placeholder: this.restCall.emp.MaxTransferAmount
+          },
+        ],
+        buttons: [
+          {
+            text: 'Cancel',
+            handler: data => {
+            }
+          },
+          {
+            text: 'Update',
+            handler: async data => {
+              console.log(data.limit, this.restCall.empcih);
+                this.UpdatedLimit = (data.limit -this.restCall.empcih);
+                this.restCall.emp.MaxTransferAmount =  data.limit
+                await this.restCall.AsyncUpdateEmployeeData(this.restCall.emp);
+            }
+          }
+        ]
+      });
+      prompt.present();
+    })
   }
 }
