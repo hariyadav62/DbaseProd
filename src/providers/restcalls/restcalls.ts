@@ -136,16 +136,16 @@ export class RestcallsProvider {
         let nav = this.app.getActiveNav();
         this.currentuser = data;
         this.currentuser.DeviceId = this.deviceId
-        if(this.deviceId != null && this.deviceId != undefined){
-          this.SetDeviceId();
+        // if(this.currentuser.DeviceId != null && this.currentuser.DeviceId != undefined){
+        //   this.SetDeviceId();
           this.storage.set('id', id);
           this.storage.set('pass', pass);
           loader.dismiss();
           nav.setRoot(HomePage);  
-        }else{
-          loader.dismiss();
-          alert("Please close the app and Login again");
-        }
+        // }else{
+        //   loader.dismiss();
+        //   alert("Please close the app and Login again");
+        // }
       },
         (error: any) => {
           loader.dismiss();
@@ -1808,13 +1808,16 @@ export class RestcallsProvider {
           this.displayNotification("Work Report " + report.WStatus);
           this.LoadEmpPendingWorkReports(this.currentuser.Designation);
           loader.dismiss();
-          // let notify = {
-          //   SendTo: report.StaffId,
-          //   Title: "New Work Report Notification",
-          //   type:'Work Report',
-          //   Body: `Work report ${report.WStatus} by ${this.currentuser.EmpCode} ${this.currentuser.EmpName} ${this.currentuser.Designation}`
-          // }
-          // this.sendNotification(notify);
+          if(report.WStatus == 'Approved'){
+            let notify = {
+              SendTo: report.StaffId,
+              Title: "New Work Report Notification",
+              type:'Work Report',
+              // Body: `Work report ${report.WStatus} by ${this.currentuser.EmpCode} ${this.currentuser.EmpName} ${this.currentuser.Designation}`
+              Body: `Your Work report has been Approved`
+            }
+            this.sendNotification(notify);
+          }
           resolve();
         },
           (error: any) => {

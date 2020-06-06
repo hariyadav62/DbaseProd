@@ -6,7 +6,7 @@
 
 <ion-content padding>
   <div *ngIf="reportForm">
-    <form (ngSubmit)="reportWork()">
+    <form (ngSubmit)="reportWork()" class="WRForm">
       <ion-item>
         <ion-label>Select Client</ion-label>
         <ionic-selectable
@@ -27,12 +27,22 @@
             {{client.Client_Name}}({{client.Client_Project}})</ion-option>
         </ion-select>
       </ion-item> -->
-      <ion-item>
+      <!-- <ion-item>
         <ion-select placeholder="Service Type" [(ngModel)]="serviceType" name="serviceType">
           <ion-option value="In-House">In-House</ion-option>
           <ion-option value="On-Site">On-Site</ion-option>
         </ion-select>
-      </ion-item>
+      </ion-item> -->
+      <div class="serviceRadio" radio-group [(ngModel)]="serviceType" name="serviceType">
+        <ion-item>
+          <ion-label>In-House</ion-label>
+          <ion-radio checked="true" value="In-House"></ion-radio>
+        </ion-item>
+        <ion-item>
+          <ion-label>On-Site</ion-label>
+          <ion-radio value="On-Site"></ion-radio>
+        </ion-item>
+      </div>
       <ion-item>
         <ion-textarea type="text" (input)="adjustTextarea($event);" placeholder="Enter work report"
           [(ngModel)]="workdescription" name="workdescription"></ion-textarea>

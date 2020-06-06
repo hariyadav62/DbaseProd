@@ -16,6 +16,7 @@ page-workstatus {
     }
     .remarkForm{
         max-height: 0px;
+        overflow: hidden;
         transition: all 0.3s ease ;
     }
     .open .remarkForm{
@@ -143,5 +144,16 @@ page-workstatus {
     }
     [icon-only] ion-icon{
         padding: 0 4px;
+    }
+    .WRForm{
+        textarea{
+            margin-left: 0;
+        }
+        .serviceRadio{
+            ion-item {
+                width: 48%;
+                display: inline-block;
+            }
+        }
     }
 }
