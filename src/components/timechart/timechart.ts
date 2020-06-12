@@ -15,7 +15,7 @@ export class TimechartComponent implements OnInit {
   @Input('Year') Year:any;
 
  empId:any;
- empName: any;
+ empName: any; 
  checkinpercentage: any; 
  monthReports:boolean = false;
   timingMonths: any;

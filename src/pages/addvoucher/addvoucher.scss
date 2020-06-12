@@ -180,6 +180,12 @@ page-addvoucher {
         writing-mode: vertical-rl;
          box-shadow: 4px 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12);
     }
+    .card-ios{
+        .service_type{
+            left: -10px;
+        }
+    }
+
     .vcardcontent{
         position: relative;
         padding-left: 26px;

@@ -798,7 +798,6 @@ export class RestcallsProvider {
       .subscribe((data: any) => {
         this.workReports = data;
         loader.dismiss();
-        console.log(this.workReports);
       },
         (error: any) => {
           console.dir(error);
@@ -981,7 +980,6 @@ export class RestcallsProvider {
         .get(this._HOST2 + '/LoadNotificationsCount?empcode=' + empcode)
         .subscribe((data: any) => {
           this.notifications = data;
-          console.log(this.notifications);
           loader.dismiss();
           resolve();
         },
@@ -1084,7 +1082,6 @@ export class RestcallsProvider {
         .subscribe((data: any) => {
           this.wrclientList = data;
           loader.dismiss();
-          console.log(this.wrclientList);
           resolve();
         },
         (error: any) => {

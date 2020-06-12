@@ -149,7 +149,8 @@ export class TransferPage {
         }
       }
       else{
-        if(this.RecieverEmpId == '1531'){
+        console.log(this.RecieverEmpId)
+        if(this.RecieverEmpId.substring(0,4) == '1531'){
           let credit:any ={
             Amount : this.amount,
             RecieverEmpId: this.RecieverEmpId.substring(0,4),

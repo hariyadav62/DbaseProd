@@ -1,4 +1,7 @@
 page-invoice {
+    .item-ios{
+        padding-left: 0;
+    }
     .bill-details{
         height: 0;
         transition: all 0.3s ease-in;
@@ -58,7 +61,7 @@ page-invoice {
     .GrandTotal{
         color: #4CAF50;
         font-weight: 600;
-        font-size: 1.8rem;
+        font-size: 1.7rem;
     }
 
 

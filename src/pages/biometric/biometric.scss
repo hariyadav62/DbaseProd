@@ -7,7 +7,7 @@ page-biometric {
         position: absolute;
         transform: rotate(180deg);
         top: 0;
-        left: 0;
+        left: -10px;
         height: 100%;
         background: #3a6484;
         z-index: 2;
@@ -27,7 +27,7 @@ page-biometric {
         margin-left: 10px;
         z-index: 2;
         font-size: 1.3rem; 
-        font-weight: lighter;
+        font-weight: 600;
         border-bottom-right-radius: 10px;
         position: relative;
         border-top-right-radius: 10px;

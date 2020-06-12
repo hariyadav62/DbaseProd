@@ -26,12 +26,16 @@ export class HolidaysPage {
         this.selectedDate = (y.getFullYear() + "-"+(y.getMonth()+1));
       }
     }
-    console.log(this.selectedDate)
-    if(this.restCall.currentuser.UserType == 'ADMIN'){
-      this.restCall.LoadHolidays('All',this.selectedDate.substring(0,4),this.selectedDate.substring(5,7)).then(()=>{
+    if(this.restCall.currentuser.UserType == 'ADMIN' || this.restCall.currentuser.UserType=='MANAGER'){
+      let y = 'All';
+      if(this.onlyHolidays){
+        y = 'Holidays'
+      }else{
+        y = 'All';
+      }
+      this.restCall.LoadHolidays(y,this.selectedDate.substring(0,4),this.selectedDate.substring(5,7)).then(()=>{
         this.holidays = this.restCall.holidays;
       });
-      console.log('yolo')
     }
     else{
       this.restCall.LoadHolidays('Holidays',this.selectedDate.substring(0,4),this.selectedDate.substring(5,7)).then(()=>{
@@ -40,18 +44,22 @@ export class HolidaysPage {
     }
   }
   SearchByYearandMonth(){
-    if(this.restCall.currentuser.UserType == 'ADMIN'){
-      this.restCall.LoadHolidays('All',this.selectedDate.substring(0,4),this.selectedDate.substring(5,7)).then(()=>{
+    if(this.restCall.currentuser.UserType == 'ADMIN' || this.restCall.currentuser.UserType=='MANAGER'){
+      let y = 'All'
+      if(this.onlyHolidays){
+        y = 'Holidays'
+      }else{
+        y = 'All'
+      }
+      this.restCall.LoadHolidays(y,this.selectedDate.substring(0,4),this.selectedDate.substring(5,7)).then(()=>{
         this.holidays = this.restCall.holidays;
       });
-      console.log('yolo1')
     }
     else{
       this.restCall.LoadHolidays('Holidays',this.selectedDate.substring(0,4),this.selectedDate.substring(5,7)).then(()=>{
         this.holidays = this.restCall.holidays;
       });
     }
-    console.log('yolo2')
   }
   OnlyHolidays(){
     let y = 'All'
@@ -72,7 +80,6 @@ export class HolidaysPage {
       }
       else if(list[i].classList.contains('open')){
         list[i].classList.remove('open')
-        console.log(i);
       }
     }
     this.isact = item.FLAG;

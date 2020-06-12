@@ -20,19 +20,6 @@
           (onChange)="portChange($event)">
         </ionic-selectable>
       </ion-item>
-      <!-- <ion-item>
-        <ion-select placeholder="Select Client-1" [(ngModel)]="client1" name="client1">
-          <ion-option *ngFor="let client of restCall.clientList"
-            value="{{client.Client_Name}}-{{client.Client_Project}}-{{client.Client_Type}}">
-            {{client.Client_Name}}({{client.Client_Project}})</ion-option>
-        </ion-select>
-      </ion-item> -->
-      <!-- <ion-item>
-        <ion-select placeholder="Service Type" [(ngModel)]="serviceType" name="serviceType">
-          <ion-option value="In-House">In-House</ion-option>
-          <ion-option value="On-Site">On-Site</ion-option>
-        </ion-select>
-      </ion-item> -->
       <div class="serviceRadio" radio-group [(ngModel)]="serviceType" name="serviceType">
         <ion-item>
           <ion-label>In-House</ion-label>
@@ -117,11 +104,20 @@
           <ion-icon name="star" class="star four" [ngClass]="{'rated':item.TLRating >= 4 }" (click)="rate($event,3,item,i)"></ion-icon>
           <ion-icon name="star" class="star five" [ngClass]="{'rated':item.TLRating >= 5 }" (click)="rate($event,4,item,i)"></ion-icon>
         </div>
-        <p class="tlrating" *ngIf="item.TLRating">{{item.TLRating}}</p>
-        <p class="rr" *ngIf="item.RatingRemarks"> {{item.RatingRemarks}}</p>
+        <ion-item class="rrselect" *ngIf="restCall.currentuser.UserType=='ADMIN'">
+          <ion-select placeholder="Remarks" multiple="true" (ionChange)="Comments($event,i,item)">
+            <ion-option value="Took too long">Took too long</ion-option>
+            <ion-option value="Failed in Testing">Failed in Testing</ion-option>
+            <ion-option value="Task Incomplete">Task Incomplete</ion-option>
+            <ion-option value="Involved Too Many">Involved Too Many</ion-option>
+            <ion-option value="Others">Others</ion-option>
+          </ion-select>
+        </ion-item>
+        <p class="tlrating" *ngIf="item.TLRating && restCall.currentuser.UserType=='ADMIN'">{{item.TLRating}}</p>
+        <p class="rr" *ngIf="item.RatingRemarks && restCall.currentuser.UserType=='ADMIN'"> {{item.RatingRemarks}}</p>
       </ion-card-content>
       <div class="remarkForm">
-        <span *ngIf="SingleStar">
+        <!-- <span *ngIf="SingleStar">
           <ion-item class="activeCheck"> 
             <ion-label>Too Long</ion-label>
             <ion-checkbox color="primary" (ionChange)="AddRatingRemark($event,'Too Long')"></ion-checkbox>
@@ -134,7 +130,7 @@
             <ion-label>Task Incomplete</ion-label>
             <ion-checkbox color="primary" (ionChange)="AddRatingRemark($event,'Task Incomplete')"></ion-checkbox>
           </ion-item>
-        </span>
+        </span> -->
         <ion-item>
           <ion-textarea placeholder="Other remarks" [(ngModel)]="msg" name="msg" (input)="adjustTextarea($event);"></ion-textarea>
         </ion-item>

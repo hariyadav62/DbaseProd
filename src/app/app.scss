@@ -14,13 +14,29 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
+.bar-button-default-ios {
+    color: #2d2d2d;
+    background-color: transparent;
+}
+.alert-ios .alert-radio-label{
+    text-align: center;
+}
 .toolbar-background{
     background: linear-gradient(220deg, #ffd86f, #fc6262);
     background-color: white;
+    border-width: 0!important;
 }
 .toolbar-title{ 
     color: white;
 }
+ion-footer{
+    .toolbar-title-ios{
+        transform: translateY(50%);
+        font-size: 1.3rem;
+        overflow: visible;
+    }
+}
+
 .peach-gradient {
     background: linear-gradient(40deg,#ffd86f,#fc6262) !important;
 }
@@ -44,46 +60,50 @@
     //box-shadow: none;
     overflow: hidden;
     background: rgba(0,0,0,0);
+    width: 260px;
+}
+.popover-ios .popover-content,.popover-md .popover-content{
+    width: 240px;
 }
 // ion-content.content{ 
 //     background-color: lightyellow;
 // }
-
+.transfer-options-select{
 .select-popover{
-    .item-md:nth-child(1){
-        .label.label-md {
+    .item:nth-child(1){
+        .label {
             &:before{
                 content: url(../assets/imgs/cash.svg);
                 vertical-align: middle;
             }
         }
     }
-    .item-md:nth-child(2){
-        .label.label-md {
+    .item:nth-child(2){
+        .label {
             &:before{
                 content: url(../assets/imgs/phonepe.svg);
                 vertical-align: middle;
             }
         }
     }
-    .item-md:nth-child(3){
-        .label.label-md {
+    .item:nth-child(3){
+        .label {
             &:before{
                 content: url(../assets/imgs/paytm.svg);
                 vertical-align: middle;
             }
         }
     }
-    .item-md:nth-child(4){
-        .label.label-md {
+    .item:nth-child(4){
+        .label {
             &:before{
                 content: url(../assets/imgs/gpay.svg);
                 vertical-align: middle;
             }
         }
     }
-    .item-md:nth-child(5){
-        .label.label-md {
+    .item:nth-child(5){
+        .label {
             &:before{
                 content: url(../assets/imgs/Banktransfer.svg);
                 vertical-align: middle;
@@ -91,7 +111,7 @@
         }
     }
 }
-
+}
 
 .NotificationPop{
     ion-backdrop{

@@ -30,7 +30,7 @@ export class WorkstatusPage {
   isPending: any = false;
   clientList: Client[];
   remarkForm: boolean;
-  SingleStar: boolean;
+  SingleStar: boolean = true;
   constructor(public navCtrl: NavController, public navParams: NavParams, public restCall: RestcallsProvider, public _TOAST: ToastController, public modalCtrl: ModalController, private elmenetRef: ElementRef) {
   }
 
@@ -61,7 +61,6 @@ export class WorkstatusPage {
         c.value = el.Client_Name+'-'+el.Client_Project+'-'+el.Client_Type;
        this.clientList.push(c)
       });
-      console.log(this.clientList);
     }) 
     this.restCall.LoadWorkReports(this.empcode,'',0,0,0 );
     this.searchHead = "Top 50";
@@ -82,13 +81,10 @@ export class WorkstatusPage {
     component: IonicSelectableComponent,
     value: any
   }) {
-    console.log('port:', event.value);
   }
   reportWork(){  
     if((this.client1 != null && this.client1 != undefined) && (this.serviceType != null && this.serviceType != undefined) && (this.workdescription != null && this. workdescription != undefined)){
-      console.log(this.client1.value);
         let client = this.client1.value.split('-',3); 
-        console.log('client1 is '+client);  
         let workreport:any   = { 
           StaffId: this.empcode, 
           Client_Name: client[0],
@@ -102,7 +98,6 @@ export class WorkstatusPage {
           WStatus: 'Pending',
           RequestTo: this.restCall.currentuser.RequestTo
         };
-        console.log(workreport);
         this.restCall.workreport(workreport);
         this.client1= null;
         this.serviceType = null;
@@ -119,7 +114,6 @@ export class WorkstatusPage {
   }
   async SearchByYearMonth(){
     if(this.selectedMonth != null){
-      console.log(this.selectedMonth);
       let date = new Date(this.selectedMonth.toString());
       this.restCall.LoadWorkReports(this.empcode,'',date.getFullYear(),date.getMonth()+1,0);
       this.searchHead = this.month[date.getMonth()] + " " + date.getFullYear();
@@ -156,7 +150,6 @@ RejectWorkStatus(item:any){
 }
 rate(eve,num,report,i){
   report.WStatus = "Approved";
-  console.log(eve);
   let starList = eve.target.offsetParent.children[0].children[4].children
   for(let x = 0; x < 5 ; x++){
     if(starList[x].classList.contains('rated')){
@@ -186,7 +179,6 @@ rate(eve,num,report,i){
       for(let i =0;(i<list.length); i++){
         if(list[i].classList.contains('open')){
           list[i].classList.remove('open')
-          console.log(i);
         }
       }
     });
@@ -206,11 +198,9 @@ AddRatingRemark(event,remark){
   }
 }
 Submit(report,x){
-  if(this.rr != [] || (this.msg != '' && this.msg != undefined && this.msg != null)){
-    if(this.rr != []){
-      if(this.msg != '' && this.msg != undefined && this.msg != null){
-        this.rr.push(this.msg);
-      }
+  if((this.msg != '' && this.msg != ' ' && this.msg != undefined && this.msg != null)){
+    this.rr.pop("Others");
+      this.rr.push(this.msg);
       let y = this.rr.join(',');
       report.RatingRemarks =  y;
       this.restCall.ApproveWorkStatus(report).then(()=>{
@@ -222,36 +212,46 @@ Submit(report,x){
           }
         }
       });
-    }else{
-      report.RatingRemarks =  this.msg;
-      this.restCall.ApproveWorkStatus(report).then(()=>{
-        let list = this.elmenetRef.nativeElement.querySelectorAll('.rateCard')
-        for(let i =0;(i<list.length); i++){
-          if(i == x){
-            list[i].classList.remove('open')
-          }
-        }
-        this.remarkForm = false;
-      });
-    }
-  }else{
-    alert("please select atleast one remark");
   }
 }
-
 ToggleForm(x){
   let list = this.elmenetRef.nativeElement.querySelectorAll('.rateCard')
-    for(let i =0;(i<list.length); i++){
+    for(let i = 0;(i<list.length); i++){
       if(i == x){
       }
       else if(list[i].classList.contains('open')){
         list[i].classList.remove('open')
-        console.log(i);
       }
     }
-    list[x].classList.add('open');
+    list[x].classList.add('open'); 
 }
-
+Comments(event,x,report){
+  this.rr = event;
+  if(event.includes("Others") ){
+    let list = this.elmenetRef.nativeElement.querySelectorAll('.rateCard')
+    console.log(list);
+    for(let i = 0;(i<list.length); i++){
+      if(i == x){
+      }
+      else if(list[i].classList.contains('others')){
+        list[i].classList.remove('others')
+      }
+    }
+    list[x].classList.add('others'); 
+  }
+  else{
+    console.log(event.join(","));
+    report.RatingRemarks = event.join(",");
+    this.restCall.ApproveWorkStatus(report).then(()=>{
+      let list = this.elmenetRef.nativeElement.querySelectorAll('.rateCard')
+      for(let i =0;(i<list.length); i++){
+        if(i == x){
+          list[i].classList.remove('open')
+        }
+      }
+    });
+  }
+}
 
 
 }

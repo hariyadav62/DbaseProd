@@ -61,11 +61,11 @@
   <ion-card-content>
     <ion-item>
       <div item-start class="bold">Innvoice No: {{item.INVOICENO}}</div>
-      <div item-end class="bold">Date: {{item.InvoiceDt.substring(0, 10)}}</div>
+      <div item-end class="bold"> {{item.InvoiceDt.substring(0, 10)}}</div>
     </ion-item>
     <ion-item>
-      <div item-start>Client: {{item.CLIENT}}</div>
-      <!-- <div item-end>({{item.WorkType}})</div> -->
+      <div item-start>Client:</div>
+      <div item-end>{{item.CLIENT}}</div>
     </ion-item>
     
     <ion-item>

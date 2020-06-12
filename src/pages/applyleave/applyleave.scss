@@ -49,12 +49,12 @@ page-applyleave {
         border-bottom: none!important;
     }
     .approved{
-        .item-md{
+        .item-md,.item-ios{
             background-color: #cbffda;
         }
     }
     .rejected{
-        .item-md{
+        .item-md,.item-ios{
         background-color: #ffdcd9;
         }
     }

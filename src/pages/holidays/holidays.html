@@ -1,8 +1,13 @@
 <ion-header>
   <ion-navbar>
+    <ion-buttons left margin-horizontal *ngIf="restCall.currentuser.UserType != 'ADMIN'">
+      <button navPop ion-button icon-only>
+        <ion-icon name="arrow-back"></ion-icon>
+      </button>
+    </ion-buttons>
     <ion-title>Holidays</ion-title>
   </ion-navbar>
-</ion-header>
+</ion-header> 
 
 <ion-content padding>
   <div class="flex">
@@ -10,7 +15,8 @@
       <ion-datetime (ionChange)="SearchByYearandMonth()" displayFormat="MMM YYYY" pickerFormat="MMM YYYY"
         [(ngModel)]="selectedDate" name="selectedDate" min="2020" max="2030" placeholder="Search by month"></ion-datetime> 
     </ion-item>
-    <ion-item class="onlyhholidays" *ngIf="restCall.currentuser.UserType=='ADMIN'" style="background-color: rgba(255, 255, 255, 0);"> 
+    
+    <ion-item class="onlyhholidays" *ngIf="restCall.currentuser.UserType=='ADMIN' || restCall.currentuser.UserType=='MANAGER'" style="background-color: rgba(255, 255, 255, 0);"> 
       <ion-label>Show Holidays</ion-label>
       <ion-checkbox color="primary" name="onlyHolidays" [(ngModel)]="onlyHolidays" checked="false" (ionChange)="OnlyHolidays()"></ion-checkbox>
     </ion-item>
@@ -19,7 +25,7 @@
     <div>
       <ion-card class="shadow announcements allanc" style="position: relative; margin-bottom: 5px;" #cc *ngFor= "let item of holidays,let i = index"
       [ngClass]="{'workingday':!item.FLAG,'holiday':item.FLAG}"> 
-        <ion-card-content (click)="restCall.currentuser.UserType=='ADMIN' && ToggleAccrd(item,i)" >
+        <ion-card-content (click)="(restCall.currentuser.UserType=='ADMIN' || restCall.currentuser.UserType=='MANAGER')&& ToggleAccrd(item,i)" >
           <div style="display: flex;align-items: center;justify-content: center;">
             <p *ngIf="item.HolidayDate" class="datewrap">
               <span class="date">{{item.HolidayDate.substring(8,10)}}</span>
@@ -28,7 +34,7 @@
             <p style="width: 87%;display: inline-block;text-align: justify;padding-left: 22px;" *ngIf="item.Remark && item.Remark != 'null'">{{item.Remark}}</p>
             <p style="width: 10%; text-align: right;display: flex;
             justify-content: flex-end;
-            align-items: center;" *ngIf="restCall.currentuser.UserType=='ADMIN'"> 
+            align-items: center;" *ngIf="restCall.currentuser.UserType=='ADMIN' || restCall.currentuser.UserType=='MANAGER'"> 
               <ion-checkbox *ngIf="!item.FLAG" color="primary" (ionChange)="ActiveHoliday(item)" checked="false"></ion-checkbox>
               <ion-checkbox *ngIf="item.FLAG" color="primary" (ionChange)="ActiveHoliday(item)" checked="true"></ion-checkbox>
             </p>
@@ -41,7 +47,6 @@
           <button ion-button (click)="UpdtHoliday(item,x)" block>Update</button>
         </div>
       </ion-card>
-
     </div> 
 
     

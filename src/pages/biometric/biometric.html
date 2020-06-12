@@ -17,18 +17,6 @@
     </ion-item>
     <div class="dateFilter" *ngIf="restCall.MaxMinEmptimesDates">
       <span *ngIf="restCall.MaxMinEmptimesDates.length != 0">
-        <!-- <ion-item class="search_date">
-          <ion-select (ionChange)="SearchByYear()" placeholder="Year" [(ngModel)]="selectedYear" name="selectedYear"
-            style="padding: 5px 3px;">
-            <ion-option *ngFor="let year of years" value="{{year.DATES}}">{{year.DATES}}</ion-option>
-          </ion-select>
-        </ion-item>
-        <ion-item class="search_date">
-          <ion-select (ionChange)="SearchByMonth()" placeholder="Month" [(ngModel)]="selectedMonth" name="selectedMonth"
-            style="padding: 5px 3px;">
-            <ion-option *ngFor="let month of months" value="{{month.DATES}}">{{month.DATES}}</ion-option>
-          </ion-select>
-        </ion-item> -->
         <ion-item class="search_date"> 
           <ion-datetime (ionChange)="SearchByYearandMonth()" displayFormat="MMM YYYY" pickerFormat="MMM YYYY"
             [(ngModel)]="selectedDate" name="selectedDate" min="{{mindate}}" max="{{maxdate}}" placeholder="Search by month"></ion-datetime> 
@@ -52,7 +40,7 @@
       <h5 *ngIf="checkin.length != 0" class="checkin-date">{{checkin[0].DATE.substring(0,10)}}</h5>
       <span *ngFor = "let item of checkin">
         <ion-card class="card-details checkin-card" [ngClass]="{ 'latetime': item.INTIME > '09:40', 'intime': item.INTIME <= '09:40', 'notime': item.INTIME == item.OUTTIME}">
-          <ion-item class="heightItem"> 
+          <ion-item class="heightItem">   
             <h2 class="service_type">{{item.EMPID}}</h2>
             <div item-start > 
               <h2 style="padding-left: 15px;" class="card-point">{{item.EMPNAME}}</h2> 
@@ -83,7 +71,6 @@
             <div item-end text-center>  
               <p *ngIf = "item.OUTTIME" style="padding-left: 15px;">{{item.OUTTIME}}</p> 
             </div>
-            
           </ion-item> 
         </ion-card>
       </span>
