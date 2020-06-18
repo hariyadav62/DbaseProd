@@ -18,8 +18,11 @@ page-workstatus {
         max-height: 0px;
         overflow: hidden;
         transition: all 0.3s ease ;
+        button{
+            height: 1.8em;
+        }
     }
-    .open.others .remarkForm{
+    .others .remarkForm{
         max-height: 1600px;
         border: 1px solid #fd8265;
         box-shadow: 0px -2px 5px rgba(254, 173, 106, 0.5);
@@ -172,7 +175,7 @@ page-workstatus {
         min-height: 1rem;
         border: 1px solid #eee;
         border-radius: 5px;
-        margin-bottom: -5px;
+        //margin-bottom: -5px;
         ion-select{ 
             padding: 3px;
         }

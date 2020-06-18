@@ -7,7 +7,7 @@
 <ion-content >
   <div class="overlay" text-center>
     <button class="btns viewclose" ion-button color="danger" icon-only (click)="close()"><ion-icon name="close"></ion-icon></button> 
-    <p text-center class="vmount">Rs.{{vamount}}/-</p>
+    <p text-center class="vmount"><span>&#8377;</span>{{vamount}}</p>
     <ion-slides [zoom]='true' [slidesPerView]="1" [initialSlide]="1" [ngClass]="{'multiSlide':billImg}">
       <ion-slide>
         <div class="swiper-zoom-container">
@@ -25,7 +25,7 @@
   <ion-card>
     <ion-item> 
       <p item-start>Cash In Hand</p> 
-      <p item-end class="green" *ngFor="let cash of restCall.cashinhand" [ngClass]="{'green':cash.CASHINHAND > 0,'red':cash.CASHINHAND < 0}">Rs.{{cash.CASHINHAND}}/-</p> 
+      <p item-end class="green" *ngFor="let cash of restCall.cashinhand" [ngClass]="{'green':cash.CASHINHAND > 0,'red':cash.CASHINHAND < 0}"><span>&#8377;</span>{{cash.CASHINHAND}}</p> 
     </ion-item>
   </ion-card> 
   <form> 
@@ -102,8 +102,8 @@
                       <p class="debit" style="padding-left:5px;">{{vou.EmpName}}</p> 
                     </div>
                     <div item-end style="margin: 0;">  
-                      <p *ngIf = "vou.Amount" class="debit">Rs.{{vou.Amount}}/-</p>
-                      <p *ngIf = "vou.Amount == 0" class="debit">Rs.{{vou.OriginalAmount}}/-</p>
+                      <p *ngIf = "vou.Amount" class="debit"><span>&#8377;</span>{{vou.Amount}}</p>
+                      <p *ngIf = "vou.Amount == 0" class="debit"><span>&#8377;</span>{{vou.OriginalAmount}}</p>
                     </div>
                     </ion-item>
                   <h2 class="service_type">{{vou.EmpId}}</h2>

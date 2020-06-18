@@ -114,23 +114,10 @@
           </ion-select>
         </ion-item>
         <p class="tlrating" *ngIf="item.TLRating && restCall.currentuser.UserType=='ADMIN'">{{item.TLRating}}</p>
+        <p class="rr" *ngIf="item.TLRemarks && restCall.currentuser.UserType=='ADMIN'"> {{item.TLRemarks}}</p>
         <p class="rr" *ngIf="item.RatingRemarks && restCall.currentuser.UserType=='ADMIN'"> {{item.RatingRemarks}}</p>
       </ion-card-content>
       <div class="remarkForm">
-        <!-- <span *ngIf="SingleStar">
-          <ion-item class="activeCheck"> 
-            <ion-label>Too Long</ion-label>
-            <ion-checkbox color="primary" (ionChange)="AddRatingRemark($event,'Too Long')"></ion-checkbox>
-          </ion-item>
-          <ion-item class="activeCheck"> 
-            <ion-label>Failed in Testing</ion-label>
-            <ion-checkbox color="primary" (ionChange)="AddRatingRemark($event,'Failed in Testing')"></ion-checkbox>
-          </ion-item>
-          <ion-item class="activeCheck"> 
-            <ion-label>Task Incomplete</ion-label>
-            <ion-checkbox color="primary" (ionChange)="AddRatingRemark($event,'Task Incomplete')"></ion-checkbox>
-          </ion-item>
-        </span> -->
         <ion-item>
           <ion-textarea placeholder="Other remarks" [(ngModel)]="msg" name="msg" (input)="adjustTextarea($event);"></ion-textarea>
         </ion-item>

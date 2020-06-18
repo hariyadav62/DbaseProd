@@ -8,7 +8,7 @@
     <ion-card *ngFor="let cash of restCall.cashinhand" (click)="EmployeeTransById(cash.EMPID)">
       <ion-item [ngClass]="{'negative': cash.CASHINHAND < 0, 'positive': cash.CASHINHAND > 0}">
         <p item-start class="CihCard">{{cash.EMPID}} - {{cash.EmpName}}</p> 
-        <p item-end  [ngClass]="{'green':cash.CASHINHAND > 0,'red':cash.CASHINHAND < 0}">Rs.{{cash.CASHINHAND}}/-</p> 
+        <p item-end  [ngClass]="{'green':cash.CASHINHAND > 0,'red':cash.CASHINHAND < 0}"><span>&#8377;</span> {{cash.CASHINHAND}}</p> 
       </ion-item> 
     </ion-card> 
 </ion-content>

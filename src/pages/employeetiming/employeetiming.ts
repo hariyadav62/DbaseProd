@@ -32,6 +32,7 @@ export class EmployeetimingPage {
 
   async ionViewWillEnter(){
     await this.restCall.LoadHomeTimingChart().then(()=>{
+      this.pieChartData1 = [];
       this.restCall.pieChart.forEach(el => { 
         this.pieChartData1.push([el.TOTALCHECKINS, el.INTIMECHECKINS, el.YEAR, el.CHECKINPERCENTAGE]); 
       }); 

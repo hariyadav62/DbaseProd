@@ -46,22 +46,17 @@
                   <ion-icon name="star" class="star four" [ngClass]="{'rated':wrk.TLRating >= 4 }" (click)="rate($event,3,wrk)"></ion-icon>
                   <ion-icon name="star" class="star five" [ngClass]="{'rated':wrk.TLRating >= 5 }" (click)="rate($event,4,wrk)"></ion-icon>
                 </div>
-              </ion-card-content>
+                <ion-item class="rrselect" *ngIf="restCall.currentuser.UserType=='TEAMLEADER' || restCall.currentuser.UserType=='MANAGER'">
+                  <ion-select placeholder="Remarks" multiple="true" (ionChange)="Comments($event,i,wrk,wrk.WorkId)">
+                    <ion-option value="Took too long">Took too long</ion-option>
+                    <ion-option value="Failed in Testing">Failed in Testing</ion-option>
+                    <ion-option value="Task Incomplete">Task Incomplete</ion-option>
+                    <ion-option value="Involved Too Many">Involved Too Many</ion-option>
+                    <ion-option value="Others">Others</ion-option>
+                  </ion-select>
+                </ion-item>
+              </ion-card-content> 
               <div class="remarkForm">
-                <span *ngIf="SingleStar">
-                  <ion-item class="activeCheck"> 
-                    <ion-label>Too Long</ion-label>
-                    <ion-checkbox color="primary" (ionChange)="AddRatingRemark($event,'Too Long')"></ion-checkbox>
-                  </ion-item>
-                  <ion-item class="activeCheck"> 
-                    <ion-label>Failed in Testing</ion-label>
-                    <ion-checkbox color="primary" (ionChange)="AddRatingRemark($event,'Failed in Testing')"></ion-checkbox>
-                  </ion-item>
-                  <ion-item class="activeCheck"> 
-                    <ion-label>Task Incomplete</ion-label>
-                    <ion-checkbox color="primary" (ionChange)="AddRatingRemark($event,'Task Incomplete')"></ion-checkbox>
-                  </ion-item>
-                </span>
                 <ion-item>
                   <ion-textarea placeholder="Other remarks" [(ngModel)]="msg" name="msg" (input)="adjustTextarea($event);"></ion-textarea>
                 </ion-item>

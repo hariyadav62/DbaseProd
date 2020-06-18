@@ -8,7 +8,7 @@
   <ion-card>
     <ion-item> 
       <p item-start>Cash In Hand</p> 
-      <p item-end class="green" *ngFor="let cash of restCall.cashinhand" [ngClass]="{'green':cash.CASHINHAND > 0,'red':cash.CASHINHAND < 0}">Rs{{cash.CASHINHAND}}/-</p> 
+      <p item-end class="green" *ngFor="let cash of restCall.cashinhand" [ngClass]="{'green':cash.CASHINHAND > 0,'red':cash.CASHINHAND < 0}"><span>&#8377;</span> {{cash.CASHINHAND}}</p> 
     </ion-item>
   </ion-card> 
   <form (ngSubmit)="TransferAmount()">  
@@ -21,7 +21,7 @@
     </ion-item>
     <span *ngIf="RecieverEmpId">
       <p class="info" text-center *ngIf="RecieverEmpId.substring(0,4) != '1501' && RecieverEmpId.substring(0,4) != '1531'" (click)="ChangeLimitPopup(RecieverEmpId.substring(0,4))">
-        <ion-icon name="information-circle"></ion-icon> Maximum Rs.{{UpdatedLimit}}/- can be transferred
+        <ion-icon name="information-circle"></ion-icon> Maximum <span>&#8377;</span> {{UpdatedLimit}} can be transferred
       </p>
     </span>
     <ion-item>

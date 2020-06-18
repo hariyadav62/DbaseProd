@@ -8,7 +8,7 @@
   <ion-card>
     <ion-item> 
       <p item-start>Cash In Hand</p> 
-      <p item-end class="green" *ngFor="let cash of restCall.cashinhand" [ngClass]="{'green':cash.CASHINHAND > 0,'red':cash.CASHINHAND < 0}">Rs.{{cash.CASHINHAND}}/-</p> 
+      <p item-end class="green" *ngFor="let cash of restCall.cashinhand" [ngClass]="{'green':cash.CASHINHAND > 0,'red':cash.CASHINHAND < 0}"><span>&#8377;</span> {{cash.CASHINHAND}}</p> 
     </ion-item>
   </ion-card> 
   <ion-row class="home-buttons"> 

@@ -9,8 +9,6 @@ import { RestcallsProvider } from '../../providers/restcalls/restcalls';
 export class WorkSubmissionPage {
   rr: any = [];
   msg: string;
-  remarkForm: boolean;
-  SingleStar: boolean;
   constructor(public navCtrl: NavController,public viewCtrl: ViewController, public navParams: NavParams, public restCall: RestcallsProvider,public alertCtrl: AlertController, public modalCtrl: ModalController, private elmenetRef: ElementRef) {
     this.viewCtrl = this.navParams.get('viewCtrl');
   }
@@ -44,15 +42,8 @@ export class WorkSubmissionPage {
       report.AdminRating = 0;
     }
     if((num+1)==1 || (num+1)==5){
-      if((num+1)==1){
-        this.SingleStar = true;
-      }
-      if((num+1)==5){
-        this.SingleStar = false;
-      }
       this.ToggleForm(i,report.WorkId);
     }else{
-      this.remarkForm = false;
       this.restCall.ApproveWorkStatus(report).then(()=>{
         this.rr = [];
         this.msg = undefined;
@@ -60,39 +51,50 @@ export class WorkSubmissionPage {
     }
   }
   
-  AddRatingRemark(event,remark){
-    if(event.value){
-      if(!this.rr.includes(remark)){
-        this.rr.push(remark);
-      }
-    }
-    else{
-      if(this.rr.includes(remark)){
-        this.rr.splice(this.rr.indexOf(remark), 1);
-      }
-    }
-  }
+ 
+  // Submit(report,x){
+  //   if(this.rr != [] || (this.msg != '' && this.msg != undefined && this.msg != null)){
+  //     if(this.rr != []){
+  //       if(this.msg != '' && this.msg != undefined && this.msg != null){
+  //         this.rr.push(this.msg);
+  //       }
+  //       let y = this.rr.join(',');
+  //       report.RatingRemarks =  y;
+  //       this.restCall.ApproveWorkStatus(report).then(()=>{
+  //         this.remarkForm = false;
+  //         let list = this.elmenetRef.nativeElement.querySelectorAll('.rateCard')
+  //         for(let i =0;(i<list.length); i++){
+  //           if(i == x){
+  //             list[i].classList.remove('open')
+  //           }
+  //         }
+  //         this.rr = [];
+  //         this.msg = undefined;
+  //       });
+  //     }else{
+  //       report.RatingRemarks =  this.msg;
+  //       this.restCall.ApproveWorkStatus(report).then(()=>{
+  //         let list = this.elmenetRef.nativeElement.querySelectorAll('.rateCard')
+  //         for(let i =0;(i<list.length); i++){
+  //           if(i == x){
+  //             list[i].classList.remove('open')
+  //           }
+  //         }
+  //         this.remarkForm = false;
+  //         this.rr = [];
+  //         this.msg = undefined;
+  //       });
+  //     }
+  //   }else{
+  //     alert("please select atleast one remark");
+  //   }
+  // }
   Submit(report,x){
-    if(this.rr != [] || (this.msg != '' && this.msg != undefined && this.msg != null)){
-      if(this.rr != []){
-        if(this.msg != '' && this.msg != undefined && this.msg != null){
-          this.rr.push(this.msg);
-        }
+    if((this.msg != '' && this.msg != ' ' && this.msg != undefined && this.msg != null)){
+      this.rr.pop("Others");
+        this.rr.push(this.msg);
         let y = this.rr.join(',');
-        report.RatingRemarks =  y;
-        this.restCall.ApproveWorkStatus(report).then(()=>{
-          this.remarkForm = false;
-          let list = this.elmenetRef.nativeElement.querySelectorAll('.rateCard')
-          for(let i =0;(i<list.length); i++){
-            if(i == x){
-              list[i].classList.remove('open')
-            }
-          }
-          this.rr = [];
-          this.msg = undefined;
-        });
-      }else{
-        report.RatingRemarks =  this.msg;
+        report.TLRemarks =  y;
         this.restCall.ApproveWorkStatus(report).then(()=>{
           let list = this.elmenetRef.nativeElement.querySelectorAll('.rateCard')
           for(let i =0;(i<list.length); i++){
@@ -100,16 +102,9 @@ export class WorkSubmissionPage {
               list[i].classList.remove('open')
             }
           }
-          this.remarkForm = false;
-          this.rr = [];
-          this.msg = undefined;
         });
-      }
-    }else{
-      alert("please select atleast one remark");
     }
   }
-  
   ToggleForm(x,id){
     let list = this.elmenetRef.nativeElement.querySelectorAll('.rateCard')
     console.log(list);
@@ -124,6 +119,32 @@ export class WorkSubmissionPage {
       let ratecard = this.elmenetRef.nativeElement.querySelector('.rateCard.id'+id)
       ratecard.classList.add('open');
   }
-  
+  Comments(event,x,report,id){
+    this.rr = event;
+    if(event.includes("Others") ){
+      let list = this.elmenetRef.nativeElement.querySelectorAll('.rateCard.id'+id)
+      console.log(list);
+      for(let i = 0;(i<list.length); i++){
+        if(i == x){
+        }
+        else if(list[i].classList.contains('others')){
+          list[i].classList.remove('others')
+        }
+      }
+      list[x].classList.add('others'); 
+    }
+    else{
+      console.log(event.join(","));
+      report.TLRemarks = event.join(",");
+      this.restCall.ApproveWorkStatus(report).then(()=>{
+        let list = this.elmenetRef.nativeElement.querySelectorAll('.rateCard.id'+id)
+        for(let i =0;(i<list.length); i++){
+          if(i == x){
+            list[i].classList.remove('open')
+          }
+        }
+      });
+    }
+  }
   
 }

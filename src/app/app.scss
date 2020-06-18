@@ -19,7 +19,7 @@
     background-color: transparent;
 }
 .alert-ios .alert-radio-label{
-    text-align: center;
+    padding-left: 30px;
 }
 .toolbar-background{
     background: linear-gradient(220deg, #ffd86f, #fc6262);
@@ -28,6 +28,9 @@
 }
 .toolbar-title{ 
     color: white;
+}
+.toolbar-ios{
+    padding: 10px;
 }
 ion-footer{
     .toolbar-title-ios{

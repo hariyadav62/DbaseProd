@@ -8,7 +8,7 @@
   <ion-card>
     <ion-item *ngFor="let cash of restCall.cashinhand" > 
       <p item-start>{{cash.EmpName}}</p> 
-      <p item-end class="green" [ngClass]="{'green':cash.CASHINHAND > 0,'red':cash.CASHINHAND < 0}">Rs.{{cash.CASHINHAND}}/-</p> 
+      <p item-end class="green" [ngClass]="{'green':cash.CASHINHAND > 0,'red':cash.CASHINHAND < 0}"><span>&#8377;</span> {{cash.CASHINHAND}}</p> 
     </ion-item>
   </ion-card> 
   <span *ngIf="restCall">
@@ -47,7 +47,7 @@
       <p class="">Total</p>
     </div>
     <div item-end>  
-      <p class="TotalAmount">Rs.{{restCall.loadEmpAllTransactions[0].TOTALAMOUNT}}/-</p>
+      <p class="TotalAmount"><span>&#8377;</span> {{restCall.loadEmpAllTransactions[0].TOTALAMOUNT}}</p>
     </div>
   </ion-item>
 </span>
@@ -57,8 +57,8 @@
           <ion-card-content>
             <ion-item >
               <div item-end>  
-                <p *ngIf = "item.AMOUNT != 0" class="amount{{item.TRANSACTIONTYPE}}">Rs.{{item.AMOUNT}}/-</p> 
-                <p *ngIf = "item.TRANSACTIONTYPE == 'Voucher' && item.AMOUNT == 0" class="amount{{item.TRANSACTIONTYPE}}">Rs.{{item.ORIGINALAMOUNT}}/-</p> 
+                <p *ngIf = "item.AMOUNT != 0" class="amount{{item.TRANSACTIONTYPE}}"><span>&#8377;</span> {{item.AMOUNT}}</p> 
+                <p *ngIf = "item.TRANSACTIONTYPE == 'Voucher' && item.AMOUNT == 0" class="amount{{item.TRANSACTIONTYPE}}"><span>&#8377;</span> {{item.ORIGINALAMOUNT}}</p> 
               </div>
               <div item-start>  
                   <p *ngIf = "item.DATE">{{item.DATE.substring(0, 10)}}</p>
@@ -79,7 +79,7 @@
 
 <ion-item class="outstand">
   <p item-start> Outstanding</p>
-  <p item-end *ngIf="restCall.transactions.length != 0"> Rs.{{restCall.transactions[0].OUTSTANDING}}/-</p>
+  <p item-end *ngIf="restCall.transactions.length != 0"> <span>&#8377;</span> {{restCall.transactions[0].OUTSTANDING}}</p>
   <p item-end *ngIf="restCall.transactions.length == 0"> 0</p>
 </ion-item>
 

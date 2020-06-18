@@ -29,8 +29,6 @@ export class WorkstatusPage {
   searchHead: any = "Top 50";
   isPending: any = false;
   clientList: Client[];
-  remarkForm: boolean;
-  SingleStar: boolean = true;
   constructor(public navCtrl: NavController, public navParams: NavParams, public restCall: RestcallsProvider, public _TOAST: ToastController, public modalCtrl: ModalController, private elmenetRef: ElementRef) {
   }
 
@@ -163,17 +161,22 @@ rate(eve,num,report,i){
     report.AdminRating = num+1;
   }
   if((num+1)==1 || (num+1)==5){
-    // var modalPage = this.modalCtrl.create(ModalratingPage, { report : report, rating: (num+1) });
-    // modalPage.present();
     if((num+1)==1){
-      this.SingleStar = true;
+      this.ToggleForm(i);
     }
     if((num+1)==5){
-      this.SingleStar = false;
+      let list = this.elmenetRef.nativeElement.querySelectorAll('.rateCard')
+      for(let x = 0;(x<list.length); x++){
+        if(x == i){
+        }
+        else if(list[x].classList.contains('others')){
+          list[x].classList.remove('others')
+        }
+      }
+      list[i].classList.add('others');
     }
-    this.ToggleForm(i);
   }else{
-    this.remarkForm = false;
+    //report.RatingRemarks = this.rr.join(',');
     this.restCall.ApproveWorkStatus(report).then(()=>{
       let list = this.elmenetRef.nativeElement.querySelectorAll('.rateCard')
       for(let i =0;(i<list.length); i++){
@@ -184,19 +187,6 @@ rate(eve,num,report,i){
     });
   }
 }
-
-AddRatingRemark(event,remark){
-  if(event.value){
-    if(!this.rr.includes(remark)){
-      this.rr.push(remark);
-    }
-  }
-  else{
-    if(this.rr.includes(remark)){
-      this.rr.splice(this.rr.indexOf(remark), 1);
-    }
-  }
-}
 Submit(report,x){
   if((this.msg != '' && this.msg != ' ' && this.msg != undefined && this.msg != null)){
     this.rr.pop("Others");
@@ -204,11 +194,11 @@ Submit(report,x){
       let y = this.rr.join(',');
       report.RatingRemarks =  y;
       this.restCall.ApproveWorkStatus(report).then(()=>{
-        this.remarkForm = false;
-        let list = this.elmenetRef.nativeElement.querySelectorAll('.rateCard')
+        let list = this.elmenetRef.nativeElement.querySelectorAll('.rateCard') 
         for(let i =0;(i<list.length); i++){
           if(i == x){
             list[i].classList.remove('open')
+            list[i].classList.remove('others')
           }
         }
       });
@@ -217,9 +207,13 @@ Submit(report,x){
 ToggleForm(x){
   let list = this.elmenetRef.nativeElement.querySelectorAll('.rateCard')
     for(let i = 0;(i<list.length); i++){
+      if(list[i].classList.contains('others')){
+        list[i].classList.remove('others')
+      }
       if(i == x){
       }
-      else if(list[i].classList.contains('open')){
+      else if(list[i].classList.contains('open'))
+      {
         list[i].classList.remove('open')
       }
     }

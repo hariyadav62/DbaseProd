@@ -36,7 +36,7 @@
           Change Password
         </button>
       </div>
-      <ion-list>
+      <ion-list class="details">
         <ion-item>
           Employee Code
           <span item-end>{{EmpCode}}</span>
@@ -85,9 +85,9 @@
       </ion-list>
     </div>
     <div *ngIf="restCall.currentuser.UserType == 'ADMIN'">
-      <button ion-button color="primary" (click)="Employeeleaves(EmpCode)">
+      <!-- <button ion-button color="primary" (click)="Employeeleaves(EmpCode)">
         Leaves
-      </button>
+      </button> -->
       <button ion-button color="primary" (click)="EmployeeTime(EmpCode)">
         Timings
       </button>

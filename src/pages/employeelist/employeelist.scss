@@ -5,4 +5,9 @@ page-employeelist {
     .EmpList.item-md{
         padding-left: 0;
     }
+    ion-list{
+        .label-ios {
+            font-size: 1.45rem;
+        }
+    }
 }
