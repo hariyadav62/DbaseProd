@@ -163,6 +163,8 @@ rate(eve,num,report,i){
   if((num+1)==1 || (num+1)==5){
     if((num+1)==1){
       this.ToggleForm(i);
+      let list = this.elmenetRef.nativeElement.querySelectorAll('.rateCard') 
+        list[i].classList.remove('others')
     }
     if((num+1)==5){
       let list = this.elmenetRef.nativeElement.querySelectorAll('.rateCard')
@@ -174,6 +176,7 @@ rate(eve,num,report,i){
         }
       }
       list[i].classList.add('others');
+      list[i].classList.remove('open')
     }
   }else{
     //report.RatingRemarks = this.rr.join(',');
@@ -183,7 +186,12 @@ rate(eve,num,report,i){
         if(list[i].classList.contains('open')){
           list[i].classList.remove('open')
         }
+        if(list[i].classList.contains('others')){
+          list[i].classList.remove('others')
+        }
       }
+      this.rr = [];
+      this.msg = undefined;
     });
   }
 }
@@ -195,12 +203,10 @@ Submit(report,x){
       report.RatingRemarks =  y;
       this.restCall.ApproveWorkStatus(report).then(()=>{
         let list = this.elmenetRef.nativeElement.querySelectorAll('.rateCard') 
-        for(let i =0;(i<list.length); i++){
-          if(i == x){
-            list[i].classList.remove('open')
-            list[i].classList.remove('others')
-          }
-        }
+        list[x].classList.remove('open')
+        list[x].classList.remove('others')
+        this.rr = [];
+        this.msg = undefined;
       });
   }
 }
@@ -233,7 +239,7 @@ Comments(event,x,report){
     }
     list[x].classList.add('others'); 
   }
-  else{
+  else{ 
     console.log(event.join(","));
     report.RatingRemarks = event.join(",");
     this.restCall.ApproveWorkStatus(report).then(()=>{
@@ -243,6 +249,8 @@ Comments(event,x,report){
           list[i].classList.remove('open')
         }
       }
+      this.rr = [];
+      this.msg = undefined;
     });
   }
 }

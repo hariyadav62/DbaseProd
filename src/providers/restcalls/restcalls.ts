@@ -6,10 +6,10 @@ import { FCM } from '@ionic-native/fcm';
 import { Storage } from '@ionic/storage';
 @Injectable() 
 export class RestcallsProvider {   
-  //  _HOST2 : string =	"http://app.dbasesolutions.in/api/dbaseapi";  
-  _HOST2: string = "http://localhost:21249/api/dbaseapi";  
+   _HOST2 : string =	"http://app.dbasesolutions.in/api/dbaseapi";  
+  // _HOST2: string = "http://localhost:21249/api/dbaseapi";  
   userLoggedIn: boolean = false;
-  isAdmin: boolean = false; 
+  isAdmin: boolean = false;
   totalPendingLeaves: any = [];
   respondedLeaves: any = [];
   leaves: any = [];

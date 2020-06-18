@@ -40,11 +40,11 @@
                 <!-- <button ion-button icon-only color="secondary" class="Wrkbtn approve" (click)="ApproveWorkStatus(wrk)" *ngIf="wrk.WStatus != 'Approved'"><ion-icon name="checkmark"></ion-icon></button>
                 <button ion-button icon-only color="danger" (click)="RejectWorkStatus(wrk)" class="Wrkbtn reject" *ngIf="wrk.WStatus != 'Rejected'"><ion-icon name="close"></ion-icon></button> -->
                 <div class="rating">
-                  <ion-icon name="star" class="star one" [ngClass]="{'rated':wrk.TLRating >= 1 }" (click)="rate($event,0,wrk)"></ion-icon>
-                  <ion-icon name="star" class="star two" [ngClass]="{'rated':wrk.TLRating >= 2 }" (click)="rate($event,1,wrk)"></ion-icon>
-                  <ion-icon name="star" class="star three" [ngClass]="{'rated':wrk.TLRating >= 3 }" (click)="rate($event,2,wrk)"></ion-icon>
-                  <ion-icon name="star" class="star four" [ngClass]="{'rated':wrk.TLRating >= 4 }" (click)="rate($event,3,wrk)"></ion-icon>
-                  <ion-icon name="star" class="star five" [ngClass]="{'rated':wrk.TLRating >= 5 }" (click)="rate($event,4,wrk)"></ion-icon>
+                  <ion-icon name="star" class="star one" [ngClass]="{'rated':wrk.TLRating >= 1 }" (click)="rate($event,0,wrk,i)"></ion-icon>
+                  <ion-icon name="star" class="star two" [ngClass]="{'rated':wrk.TLRating >= 2 }" (click)="rate($event,1,wrk,i)"></ion-icon>
+                  <ion-icon name="star" class="star three" [ngClass]="{'rated':wrk.TLRating >= 3 }" (click)="rate($event,2,wrk,i)"></ion-icon>
+                  <ion-icon name="star" class="star four" [ngClass]="{'rated':wrk.TLRating >= 4 }" (click)="rate($event,3,wrk,i)"></ion-icon>
+                  <ion-icon name="star" class="star five" [ngClass]="{'rated':wrk.TLRating >= 5 }" (click)="rate($event,4,wrk,i)"></ion-icon>
                 </div>
                 <ion-item class="rrselect" *ngIf="restCall.currentuser.UserType=='TEAMLEADER' || restCall.currentuser.UserType=='MANAGER'">
                   <ion-select placeholder="Remarks" multiple="true" (ionChange)="Comments($event,i,wrk,wrk.WorkId)">
