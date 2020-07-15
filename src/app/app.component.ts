@@ -12,6 +12,8 @@ import { HttpClient,HttpHeaders } from '@angular/common/http';
 }) 
 export class MyApp {
   rootPage:any = "LoginPage"; 
+  // rootPage:any = "WorkstatusPage"; 
+
  
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, public http: HttpClient, private fcm: FCM) {
     platform.ready().then(() => {

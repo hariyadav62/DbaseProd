@@ -16,7 +16,7 @@
         <ion-option value="All">All Employees</ion-option>
         <span *ngFor="let employee of restCall.employeeList">
           <ion-option *ngIf="employee.EmpCode != '1501'" value="{{employee.EmpCode}}">{{employee.EmpCode}}
-            {{employee.EmpName}}</ion-option>        
+            {{employee.EmpName}}</ion-option>         
         </span>
       </ion-select>
     </ion-item>

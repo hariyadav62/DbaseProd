@@ -8,8 +8,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   templateUrl: 'announcements.html',
 })
 export class AnnouncementsPage {
-  //  _HOST2 : string =	"http://app.dbasesolutions.in/api/dbaseapi";  
-  _HOST2: string = "http://localhost:21249/api/dbaseapi"; 
+   _HOST2 : string =	"http://app.dbasesolutions.in/api/dbaseapi";  
+  // _HOST2: string = "http://localhost:21249/api/dbaseapi"; 
   
   announcementText: any;
   EmpIds: any;

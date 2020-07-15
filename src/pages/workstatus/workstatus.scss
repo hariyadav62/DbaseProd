@@ -1,4 +1,18 @@
 page-workstatus {
+    // ReportHead
+    .stickydate{
+        position: sticky;
+        top: 0;
+        background: #fd9568;
+        font-size: 16px;
+        color: white;
+        text-align: center;
+        border-radius: 9px;
+        display: inline-block;
+        padding: 2px 10px;
+        z-index: 1;
+        box-shadow: 1px 1px 3px rgba(0,0,0,0.4);
+    }
     .tlrating{
         display: inline-block;
         padding: 0 5px;

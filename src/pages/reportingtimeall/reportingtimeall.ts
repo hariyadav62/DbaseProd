@@ -44,7 +44,8 @@ export class ReportingtimeallPage {
                 this.days.push(x.DAYS);
               }
             });
-            this.selDay = max.substring(8,10);
+            this.selDay = this.days[0];
+            // this.selDay = max.substring(8,10);
           }
           else{
             this.selDay = 0

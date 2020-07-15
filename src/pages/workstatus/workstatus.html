@@ -6,7 +6,7 @@
 
 <ion-content padding>
   <div *ngIf="reportForm">
-    <form (ngSubmit)="reportWork()" class="WRForm">
+    <form (ngSubmit)="reportWork()" class="WRForm"> 
       <ion-item>
         <ion-label>Select Client</ion-label>
         <ionic-selectable
@@ -66,23 +66,21 @@
     <ion-checkbox color="primary" name="isPending" [(ngModel)]="isPending" checked="false" (ionChange)="PendingReports()"></ion-checkbox>
   </ion-item>
   <h2 class="searchhead">{{searchHead}} Work Reports</h2> 
-  <div *ngFor="let item of restCall.workReports; let i = index">
+  <div text-center>
+  <span *ngFor="let item of restCall.workReports; let i = index">
     <span *ngIf="i != 0">
-      <h5 class="ReportHead" *ngIf="item.ReportingDate.substring(0, 10) != restCall.workReports[i-1].ReportingDate.substring(0, 10)">
-        ReportingDate: {{item.ReportingDate.substring(0, 10)}}</h5>
+      <h5 class="stickydate" *ngIf="item.ReportingDate.substring(0, 10) != restCall.workReports[i-1].ReportingDate.substring(0, 10)">
+        {{item.ReportingDate.substring(0, 10)}}</h5>
     </span>
     <span *ngIf="i == 0">
-      <h5 class="ReportHead">ReportingDate: {{item.ReportingDate.substring(0, 10)}}</h5>
+      <h5 class="stickydate">{{item.ReportingDate.substring(0, 10)}}</h5>
     </span>
-    <ion-card class="rateCard" style="border-left: 4px solid red; margin-top: 0;" [ngClass]="{'approved': item.WStatus == 'Approved', 'rejected': item.WStatus == 'Rejected'}">
+    <ion-card class="rateCard" text-left style="border-left: 4px solid red; margin-top: 0;" [ngClass]="{'approved': item.WStatus == 'Approved', 'rejected': item.WStatus == 'Rejected'}">
       <ion-card-content>
         <h2 *ngIf="restCall.currentuser.UserType=='ADMIN'">{{item.StaffId}} - {{item.EmpName}}</h2>
         <h2>{{item.Client_Project}}/{{item.Project_Name}}</h2>
         <h2 class="service_type" [ngClass]="{'inhouse': item.Service_Type == 'In-House','onsite': item.Service_Type == 'On-Site'}">{{item.Service_Type}}</h2>
         <h2>WDescription: {{item.WDescription}}</h2>
-        <!-- <button ion-button icon-only color="secondary" class="Wrkbtn approve" (click)="ApproveWorkStatus(item)" *ngIf="((item.WStatus != 'Approved' && item.RequestTo == 'Director') || (item.WStatus == 'Pending')) && restCall.currentuser.UserType=='ADMIN'"><ion-icon name="checkmark"></ion-icon></button>
-        <button ion-button icon-only color="danger" (click)="RejectWorkStatus(item)" class="Wrkbtn reject" *ngIf="((item.WStatus != 'Rejected' && item.RequestTo == 'Director') || (item.WStatus == 'Pending')) && restCall.currentuser.UserType=='ADMIN'"><ion-icon name="close"></ion-icon></button> -->
-        
         <div class="rating" *ngIf="restCall.currentuser.UserType=='ADMIN' && (item.AdminRating != 0 && item.AdminRating != undefined && item.AdminRating != null )">
           <ion-icon name="star" class="star one" [ngClass]="{'rated':item.AdminRating >= 1 }" (click)="rate($event,0,item,i)"></ion-icon>
           <ion-icon name="star" class="star two" [ngClass]="{'rated':item.AdminRating >= 2 }" (click)="rate($event,1,item,i)"></ion-icon>
@@ -124,5 +122,8 @@
         <button ion-button (click)="Submit(item,i)" block>Update</button> 
       </div>
     </ion-card>
-  </div>
+  </span>
+</div>
+
+
 </ion-content>
