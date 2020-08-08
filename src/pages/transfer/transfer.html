@@ -47,11 +47,16 @@
       <ion-select placeholder="Select"
       [(ngModel)]="TransferType" name="TransferType" interface="popover">
         <ion-option value="By Cash"><img src="../../assets/imgs/cash.svg" alt=""> By Cash</ion-option>
+        <ion-option value="Credit Card"><img src="../../assets/imgs/cash.svg" alt=""> Credit Card</ion-option>
         <ion-option value="PhonePay"><img src="../../assets/imgs/phonepe.png" alt=""> PhonePay</ion-option>
         <ion-option value="Paytm"><img src="../../assets/imgs/paytm.svg" alt=""> Paytm</ion-option>
         <ion-option value="Google Pay"><img src="../../assets/imgs/gpay.png" alt=""> Google Pay</ion-option>
         <ion-option value="Bank Transfer"><img src="../../assets/imgs/cash.svg" alt=""> Bank Transfer</ion-option>
       </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label>Remarks*</ion-label>
+      <ion-input type="text" [(ngModel)]="creditremarks" name="creditremarks" required></ion-input>
     </ion-item>
     <button ion-button type="submit" block>Send</button>
   </form>

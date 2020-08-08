@@ -22,6 +22,7 @@ export class TransferPage {
   amountValidation: boolean;
   outstanding: any;
   UpdatedLimit: any;
+  creditremarks:any;
   constructor(public navCtrl: NavController, public navParams: NavParams, public restCall:RestcallsProvider,public viewCtrl: ViewController,public alertCtrl: AlertController) {
     this.currentuser=this.restCall.currentuser;     
   }
@@ -71,7 +72,7 @@ export class TransferPage {
             Amount : this.amount,
             RecieverEmpId: this.RecieverEmpId.substring(0,4),
             SenderEmpId: this.restCall.currentuser.EmpCode,
-            CDescription: "Amount transferred to "+this.RecieverEmpId+",through "+this.TransferType,
+            CDescription: "Amount transferred to "+this.RecieverEmpId+",through "+this.TransferType+" __ "+this.creditremarks,
             Date:new Date().toLocaleString(),
             TransferType: this.TransferType,
             SALorAdv : 'Credit' 
@@ -95,6 +96,7 @@ export class TransferPage {
             this.amount = null;
             this.RecieverEmpId = null;
             this.remarks = null;
+            this.creditremarks = null;
             this.TransferType = null;
             this.viewCtrl.dismiss();
           }
@@ -104,6 +106,7 @@ export class TransferPage {
             this.amount = null;
             this.RecieverEmpId = null;
             this.remarks = null;
+            this.creditremarks = null;
             this.TransferType = null;
             this.viewCtrl.dismiss();
             }
@@ -113,6 +116,7 @@ export class TransferPage {
               this.amount = null;
               this.RecieverEmpId = null;
               this.remarks = null;
+              this.creditremarks = null;
               this.TransferType = null;
               this.viewCtrl.dismiss();
               }else{
@@ -133,6 +137,7 @@ export class TransferPage {
                         this.amount = null;
                         this.RecieverEmpId = null;
                         this.remarks = null;
+                        this.creditremarks = null;
                         this.TransferType = null;
                         this.viewCtrl.dismiss();
                       }
@@ -165,6 +170,7 @@ export class TransferPage {
             this.amount = null;
             this.RecieverEmpId = null;
             this.remarks = null;
+            this.creditremarks = null;
             this.TransferType = null;
             this.viewCtrl.dismiss();
           }
@@ -174,6 +180,7 @@ export class TransferPage {
               this.amount = null;
               this.RecieverEmpId = null;
               this.remarks = null;
+              this.creditremarks = null;
               this.TransferType = null;
               this.viewCtrl.dismiss();
             }
@@ -194,6 +201,7 @@ export class TransferPage {
                       this.amount = null;
                       this.RecieverEmpId = null;
                       this.remarks = null;
+                      this.creditremarks = null;
                       this.TransferType = null;
                       this.viewCtrl.dismiss();
                     }
@@ -218,6 +226,7 @@ export class TransferPage {
             this.amount = null;
             this.RecieverEmpId = null;
             this.remarks = null;
+            this.creditremarks = null;
             this.TransferType = null;
             this.viewCtrl.dismiss();
           }
@@ -227,6 +236,7 @@ export class TransferPage {
               this.amount = null;
               this.RecieverEmpId = null;
               this.remarks = null;
+              this.creditremarks = null;
               this.TransferType = null;
               this.viewCtrl.dismiss();
             }
@@ -247,6 +257,7 @@ export class TransferPage {
                       this.amount = null;
                       this.RecieverEmpId = null;
                       this.remarks = null;
+                      this.creditremarks = null;
                       this.TransferType = null;
                       this.viewCtrl.dismiss();
                     }

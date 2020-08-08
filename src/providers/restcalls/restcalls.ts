@@ -6,8 +6,8 @@ import { FCM } from '@ionic-native/fcm';
 import { Storage } from '@ionic/storage';
 @Injectable() 
 export class RestcallsProvider {   
-   _HOST2 : string =	"http://app.dbasesolutions.in/api/dbaseapi";  
-  // _HOST2: string = "http://localhost:21249/api/dbaseapi";  
+  //  _HOST2 : string =	"http://app.dbasesolutions.in/api/dbaseapi";  
+  _HOST2: string = "http://localhost:21249/api/dbaseapi";  
   userLoggedIn: boolean = false;
   isAdmin: boolean = false;
   totalPendingLeaves: any = [];
@@ -67,6 +67,7 @@ export class RestcallsProvider {
   empcih: any;
   holidays: any;
   wrclientList: any;
+  barcodes:any;
   constructor(public http: HttpClient, public _TOAST: ToastController, public app: App, platform: Platform, private fcm: FCM, private storage: Storage, public loadingController: LoadingController,public alertCtrl: AlertController) {
     storage.get('id').then((id) => {
       if (id != null) {
@@ -118,7 +119,45 @@ export class RestcallsProvider {
     this.retrieveEmployee();
   }
 
- 
+  // Barcodes
+  LoadTodayScannedBarcodes(empid: string) {
+    let promise = new Promise((resolve, reject) => {
+      this.http
+        .get(this._HOST2 + '/LoadTodayScannedBarcodes?empid=' + empid)
+        .subscribe((data: any) => {
+          this.barcodes = data;
+          resolve();
+        },
+          (error: any) => {
+            console.dir(error);
+          });
+    });
+    return promise;
+  }
+  AddBarcode(barcode) {
+    // let loader = this.loadingController.create({
+    //   content: "Loading.."
+    // });
+    // loader.present();
+    let promise = new Promise((resolve,reject)=>{
+    let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' })
+    let resp: any;
+    this.http
+      .post(this._HOST2 + "/AddBarcode", barcode, headers)
+      .subscribe((data: any) => {
+        // this.displayNotification('Barcode Scanned');
+        // loader.dismiss();
+        console.log(data);
+        resolve();
+      },
+        (error: any) => {
+          this.displayNotification(error);
+          // loader.dismiss();
+        });
+      })
+      return promise;
+
+  }
   SetToday() {
     let date = new Date();
     this.today = date.getFullYear() + '-' + (("0" + (date.getMonth() + 1)).slice(-2)) + '-' + (("0" + date.getDate()).slice(-2));

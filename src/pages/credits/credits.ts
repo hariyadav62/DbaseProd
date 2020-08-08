@@ -16,6 +16,9 @@ export class CreditsPage {
   selectedMonth: any ;
   adv: boolean;
   alltrans: boolean;
+  testremark = "yolo yolo __ test remark";
+  empAdv: any;
+
   constructor(public navCtrl: NavController, public navParams: NavParams, private elmenetRef: ElementRef, public restCall: RestcallsProvider, public modalCtrl: ModalController) {
     
   }
@@ -55,6 +58,11 @@ export class CreditsPage {
     this.restCall.retrieveCashInHand(this.empcode) 
     this.selectedYear = 'All';
     this.selectedMonth = 'All';
+    this.restCall.LoadAdvances(this.empcode,'All','All').then(()=>{ 
+      if(this.restCall.transactions.length != 0){
+        this.empAdv = this.restCall.transactions[0].OUTSTANDING;
+      }
+    });
     this.restCall.LoadEmpAllTransactions(this.empcode,this.selectedYear,this.selectedMonth,this.transType);
     this.restCall.LoadFyears(); 
     this.selMonths = null;

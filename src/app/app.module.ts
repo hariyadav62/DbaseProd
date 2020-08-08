@@ -43,6 +43,7 @@ import { BiometricPage } from '../pages/biometric/biometric';
 import { HolidaysPage } from '../pages/holidays/holidays';
 import { IonicSelectableModule } from 'ionic-selectable';
 import { ModalratingPage } from '../pages/modalrating/modalrating';
+import { BarcodescannerPage } from '../pages/barcodescanner/barcodescanner';
 @NgModule({ 
   declarations: [
     MyApp,
@@ -73,7 +74,8 @@ import { ModalratingPage } from '../pages/modalrating/modalrating';
     BiometricPage, 
     HolidaysPage,
     ModalratingPage,
-    DropdownComponent
+    DropdownComponent,
+    BarcodescannerPage
   ],
   imports: [ 
     BrowserModule,
@@ -114,7 +116,8 @@ import { ModalratingPage } from '../pages/modalrating/modalrating';
     TabsWorkPage,
     InvoicePage,
     EmpCheckInsPage ,
-    AnnouncementsPage
+    AnnouncementsPage,
+    BarcodescannerPage
   ],
   providers: [
     StatusBar,

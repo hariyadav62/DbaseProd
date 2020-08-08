@@ -122,4 +122,5 @@
         <splash src="resources/windows/splash/Splash.png" target="SplashScreen" />
     </platform>
     <engine name="android" spec="^8.1.0" />
+    <plugin name="cordova-plugin-embedded-barcode-reader" spec="https://github.com/CodifiLLC/cordova-plugin-embedded-barcode-reader.git" />
 </widget>

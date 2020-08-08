@@ -71,7 +71,7 @@ ion-footer{
 // ion-content.content{ 
 //     background-color: lightyellow;
 // }
-.transfer-options-select{
+// .transfer-options-select{
 .select-popover{
     .item:nth-child(1){
         .label {
@@ -84,7 +84,7 @@ ion-footer{
     .item:nth-child(2){
         .label {
             &:before{
-                content: url(../assets/imgs/phonepe.svg);
+                content: url(../assets/imgs/credit.svg);
                 vertical-align: middle;
             }
         }
@@ -92,7 +92,7 @@ ion-footer{
     .item:nth-child(3){
         .label {
             &:before{
-                content: url(../assets/imgs/paytm.svg);
+                content: url(../assets/imgs/phonepe.svg);
                 vertical-align: middle;
             }
         }
@@ -100,7 +100,7 @@ ion-footer{
     .item:nth-child(4){
         .label {
             &:before{
-                content: url(../assets/imgs/gpay.svg);
+                content: url(../assets/imgs/paytm.svg);
                 vertical-align: middle;
             }
         }
@@ -108,13 +108,22 @@ ion-footer{
     .item:nth-child(5){
         .label {
             &:before{
+                content: url(../assets/imgs/gpay.svg);
+                vertical-align: middle;
+            }
+        }
+    }
+    .item:nth-child(6){
+        .label {
+            &:before{
                 content: url(../assets/imgs/Banktransfer.svg);
                 vertical-align: middle;
             }
         }
     }
+    
 }
-}
+// }
 
 .NotificationPop{
     ion-backdrop{

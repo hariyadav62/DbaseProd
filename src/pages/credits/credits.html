@@ -11,6 +11,11 @@
       <p item-end class="green" [ngClass]="{'green':cash.CASHINHAND > 0,'red':cash.CASHINHAND < 0}"><span>&#8377;</span> {{cash.CASHINHAND}}</p> 
     </ion-item>
   </ion-card> 
+  <ion-item class="outstand">
+    <p item-start> Advances</p>
+    <p item-end *ngIf="empAdv"> <span>&#8377;</span> {{empAdv}}</p>
+    <p item-end *ngIf="!empAdv"> <span>&#8377;</span> 0 </p>
+  </ion-item>
   <span *ngIf="restCall">
 <div>
   <div class="filters" style="padding-top:15px;">
@@ -26,13 +31,15 @@
       </ion-select>
     </ion-item>
     <div class="dateFilter" *ngIf="!adv">
-        <ion-item class="search_date"> 
+      <ion-item class="search_date"> 
+        <ion-label>Search by Year</ion-label>
           <ion-select (ionChange)="SearchByYear()" class="" placeholder="Search by Year" [(ngModel)]="selectedYear" name="selectedYear" style="padding: 5px 3px;">
             <ion-option value="All">All</ion-option>
             <ion-option *ngFor="let year of restCall.FYears " value="{{year.FINANCIALYEAR}}">{{year.FINANCIALYEAR}}</ion-option>
           </ion-select>
         </ion-item>
         <ion-item class="Search_Month"> 
+          <ion-label>Search by Month</ion-label>
           <ion-select (ionChange)="SearchByMonth()" class="" placeholder="Search by Month" [(ngModel)]="selectedMonth" name="selectedMonth" style="padding: 5px 3px;">
             <ion-option value="All">All</ion-option>
             <ion-option *ngFor="let month of selMonths" value="{{month}}">{{month}}</ion-option>
@@ -68,6 +75,7 @@
             <div *ngIf="item.TRANSACTIONTYPE == 'Advance Repayment'">Sent to - {{item.SENDER}} {{item.EMPNAME}}</div>
             <div *ngIf="item.SENDER != '' && item.TRANSACTIONTYPE != 'Advance Repayment' && item.TRANSACTIONTYPE != 'Transfer'">Sender - {{item.SENDER}} {{item.EMPNAME}}</div>
             <div *ngIf="item.SENDER != '' && item.TRANSACTIONTYPE != 'Advance Repayment' && item.TRANSACTIONTYPE == 'Transfer'">Sent to - {{item.SENDER}} {{item.EMPNAME}}</div>
+            <div *ngIf="(item.TRANSACTIONTYPE == 'Advance Repayment' || item.TRANSACTIONTYPE == 'Transfer') && item.REMARKS.includes(' __ ')">{{item.REMARKS.split(' __ ').pop()}}</div>
           </ion-card-content>
           <span class="moredetails" *ngIf="item.TRANSACTIONTYPE == 'Voucher'">
             <img class="vimg" *ngIf="item.FNAME && item.FNAME != ''" src="http://app.dbasesolutions.in/Image/{{item.FNAME}}" alt="">
@@ -75,13 +83,13 @@
         </ion-card> 
     </div>
   </span>
-  <span *ngIf="adv"> 
+<span *ngIf="adv"> 
 
-<ion-item class="outstand">
+<!-- <ion-item class="outstand">
   <p item-start> Outstanding</p>
   <p item-end *ngIf="restCall.transactions.length != 0"> <span>&#8377;</span> {{restCall.transactions[0].OUTSTANDING}}</p>
   <p item-end *ngIf="restCall.transactions.length == 0"> 0</p>
-</ion-item>
+</ion-item> -->
 
     <ion-card class="card-details">
       <ion-card-content style="padding: 0">

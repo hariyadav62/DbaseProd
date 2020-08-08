@@ -10,6 +10,7 @@ import { InvoicePage } from '../invoice/invoice';
 import { EmpCheckInsPage } from '../emp-check-ins/emp-check-ins';
 import { EmployeetimingPage } from '../employeetiming/employeetiming';
 import { DropdownComponent } from '../../components/dropdown/dropdown';
+import { BarcodescannerPage } from '../barcodescanner/barcodescanner';
 
 @Component({
   selector: 'page-home', 
@@ -94,6 +95,9 @@ currentuser:any;
     this.navCtrl.push("WorkstatusPage",{
       empcode:this.restCall.currentuser.EmpCode, reportForm:true
     });
+  }
+  Scanner(){
+    this.navCtrl.push(BarcodescannerPage);  
   }
   TimeReport(){ 
     console.log(this.restCall.employeeReportingsByDate.length);
