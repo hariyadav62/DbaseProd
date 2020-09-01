@@ -5,7 +5,7 @@
 </ion-header>
 
 <ion-content padding> 
-  <form (ngSubmit)="applyLeave()"> 
+  <form (ngSubmit)="applyLeave()">  
     <ion-item>
       <ion-label>Type of Leave</ion-label>
       <ion-select placeholder="Select" [(ngModel)]="leaveType" name="leaveType" (ionChange)="LoadInputs()">

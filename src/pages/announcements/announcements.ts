@@ -275,7 +275,7 @@ export class AnnouncementsPage {
       }
       let options = new HttpHeaders().set('Content-Type', 'application/json');
       this.http.post("https://fcm.googleapis.com/fcm/send", body, {
-        headers: options.set('Authorization', 'key=AIzaSyBkWS9YTZ73M587MP2snHExdklalHC9hpo'),
+        headers: options.set('Authorization', 'key=AIzaSyCU82goGE1vWQ4d3nfrGLVmFEdxyF268xQ'),
       }).subscribe((data)=>{
         resolve();
       });

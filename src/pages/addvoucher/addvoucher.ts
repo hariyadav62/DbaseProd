@@ -33,6 +33,8 @@ export class AddvoucherPage {
   voucherImg: string;
   billImg: string;
   vamount: any;
+  openedVoucher: any;
+  isOpenVoucherVerified: boolean;
   
   constructor(public navCtrl: NavController, public navParams: NavParams, private elmenetRef: ElementRef, public restCall: RestcallsProvider,private camera: Camera,public _DomSanitizationService: DomSanitizer, public modalCtrl: ModalController,public loadingController: LoadingController ) {
     this.currentuser=this.restCall.currentuser;  
@@ -219,23 +221,30 @@ export class AddvoucherPage {
     }
     item.Amount = this.updateamount
     this.restCall.UpdateVoucherAmount(item,notice).then(()=>{
+      this.isOpenVoucherVerified =true;
       this.ionViewWillEnter();
     });
   }
-  OpenImg(vimg,bimg,amount){
+  OpenImg(vimg,bimg,amount,vou){
     this.voucherImg = "Vouchers/"+vimg;
     this.billImg = "Bills/"+bimg;
     if(bimg == null || bimg == undefined || bimg == 'null' || bimg == ''){
       this.billImg = undefined;
     }
     this.vamount = amount;
+    this.openedVoucher = vou;
+    if(vou.IsVerified == "N"){
+      this.isOpenVoucherVerified = false;
+    }else{
+      this.isOpenVoucherVerified = true;
+    }
     let list = this.elmenetRef.nativeElement.querySelector('.overlay')
     if(list.classList.contains('open')){
       list.classList.remove('open')
     }else{
       list.classList.add('open')
     }
-    console.log(this.voucherImg,this.billImg,vimg,bimg )
+    console.log(this.openedVoucher)
   }
   close(){
     let list = this.elmenetRef.nativeElement.querySelector('.overlay')

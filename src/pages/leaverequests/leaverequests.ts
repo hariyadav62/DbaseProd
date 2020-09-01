@@ -14,6 +14,8 @@ export class LeaverequestsPage {
   maxdate: string;
   mindate: string;
   selectedDate: any;
+  filterLeaves: any;
+  showPermissions: any = false;
   public LeaveReason(item : any){
     var modalPage = this.modalCtrl.create(ModelleavedetailsPage, { record : item });
     modalPage.present();
@@ -21,7 +23,21 @@ export class LeaverequestsPage {
   constructor(public navCtrl: NavController, public navParams: NavParams, public restCall: RestcallsProvider, public modalCtrl: ModalController) {
     this.currentuser=this.restCall.currentuser;  
   }
-  
+  ShowPermissions(){
+    if(this.showPermissions){
+      this.restCall.LoadAllLeaves(this.empcode,'',this.selectedDate.substring(0,4),this.selectedDate.substring(5,7),0).then(data=>{
+        this.filterLeaves = this.restCall.leaves;
+      })
+    }
+    else{
+      this.restCall.LoadAllLeaves(this.empcode,'',this.selectedDate.substring(0,4),this.selectedDate.substring(5,7),0).then(data=>{
+        console.log("v");
+        this.filterLeaves = this.restCall.leaves.filter(object => {
+            return object['LType'] == 'Leave' || object['LType'] == '';
+        });
+      })
+    }
+  }
   respondToLeave(leavedata:any,x:string){
     leavedata.L_status = x;
     this.restCall.respondTLeave(leavedata);
@@ -44,7 +60,11 @@ export class LeaverequestsPage {
       this.restCall.LoadAllLeaves(this.empcode,this.currentuser.Designation,0,0,0)
     }
     else if(this.currentuser.UserType == 'ADMIN'){
-      this.restCall.LoadAllLeaves(this.empcode,'',0,0,0)
+      this.restCall.LoadAllLeaves(this.empcode,'',0,0,0).then(data=>{
+        this.filterLeaves = this.restCall.leaves.filter(object => {
+          return object['LType'] == 'Leave' || object['LType'] == '';
+        });
+      })
     }
     this.MaxMinDates();
   }
@@ -53,7 +73,11 @@ export class LeaverequestsPage {
       this.restCall.LoadAllLeaves(this.empcode,this.currentuser.Designation,0,0,0)
     }
     else if(this.currentuser.UserType == 'ADMIN'){
-      this.restCall.LoadAllLeaves(this.empcode,'',0,0,0)
+      this.restCall.LoadAllLeaves(this.empcode,'',0,0,0).then(data=>{
+        this.filterLeaves = this.restCall.leaves.filter(object => {
+          return object['LType'] == 'Leave' || object['LType'] == '';
+        });
+      });
     }
     this.MaxMinDates();
   }
@@ -62,7 +86,11 @@ export class LeaverequestsPage {
     this.restCall.LoadAllLeaves(this.empcode,this.currentuser.Designation,this.selectedDate.substring(0,4),this.selectedDate.substring(5,7),0)
     }
     else if(this.currentuser.UserType == 'ADMIN'){
-      this.restCall.LoadAllLeaves(this.empcode,'',this.selectedDate.substring(0,4),this.selectedDate.substring(5,7),0)
+      this.restCall.LoadAllLeaves(this.empcode,'',this.selectedDate.substring(0,4),this.selectedDate.substring(5,7),0).then(data=>{
+        this.filterLeaves = this.restCall.leaves.filter(object => {
+          return object['LType'] == 'Leave' || object['LType'] == '';
+        });
+      });
     }
   }
 }

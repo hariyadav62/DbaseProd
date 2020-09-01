@@ -6,8 +6,8 @@ import { FCM } from '@ionic-native/fcm';
 import { Storage } from '@ionic/storage';
 @Injectable() 
 export class RestcallsProvider {   
-  //  _HOST2 : string =	"http://app.dbasesolutions.in/api/dbaseapi";  
-  _HOST2: string = "http://localhost:21249/api/dbaseapi";  
+   _HOST2 : string =	"http://app.dbasesolutions.in/api/dbaseapi";  
+  // _HOST2: string = "http://localhost:21249/api/dbaseapi";  
   userLoggedIn: boolean = false;
   isAdmin: boolean = false;
   totalPendingLeaves: any = [];
@@ -147,8 +147,9 @@ export class RestcallsProvider {
       .subscribe((data: any) => {
         // this.displayNotification('Barcode Scanned');
         // loader.dismiss();
-        console.log(data);
-        resolve();
+        //return data;
+        //console.log(data);
+        resolve(data);
       },
         (error: any) => {
           this.displayNotification(error);
@@ -175,16 +176,16 @@ export class RestcallsProvider {
         let nav = this.app.getActiveNav();
         this.currentuser = data;
         this.currentuser.DeviceId = this.deviceId
-        // if(this.currentuser.DeviceId != null && this.currentuser.DeviceId != undefined){
-        //   this.SetDeviceId();
+         if(this.currentuser.DeviceId != null && this.currentuser.DeviceId != undefined){
+          this.SetDeviceId();
           this.storage.set('id', id);
           this.storage.set('pass', pass);
           loader.dismiss();
           nav.setRoot(HomePage);  
-        // }else{
-        //   loader.dismiss();
-        //   alert("Please close the app and Login again");
-        // }
+        }else{
+          loader.dismiss();
+          alert("Please close the app and Login again");
+        }
       },
         (error: any) => {
           loader.dismiss();
@@ -902,16 +903,20 @@ export class RestcallsProvider {
       content: "Loading.."
     });
     loader.present();
-    this.http
+    let promise = new Promise((resolve, reject) => {
+      this.http
       .get(this._HOST2 + '/LoadAllLeaves?id=' + employeeId + '&reqto=' + reqto + '&year=' + year + '&month=' + month + '&day=' + day)
       .subscribe((data: any) => {
         this.leaves = data;
         loader.dismiss();
+        resolve();
       },
         (error: any) => {
           console.dir(error);
           loader.dismiss();
         });
+    })
+    return promise;
   }
   LoadLeavesYearMonth(employeeId: string, designation: any) {
     let loader = this.loadingController.create({
@@ -1936,7 +1941,7 @@ export class RestcallsProvider {
       }
       let options = new HttpHeaders().set('Content-Type', 'application/json');
       this.http.post("https://fcm.googleapis.com/fcm/send", body, {
-        headers: options.set('Authorization', 'key=AIzaSyBkWS9YTZ73M587MP2snHExdklalHC9hpo'),
+        headers: options.set('Authorization', 'key=AIzaSyCU82goGE1vWQ4d3nfrGLVmFEdxyF268xQ'),
       }).subscribe((data)=>{
         resolve();
       });

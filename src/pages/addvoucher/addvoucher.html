@@ -7,7 +7,8 @@
 <ion-content >
   <div class="overlay" text-center>
     <button class="btns viewclose" ion-button color="danger" icon-only (click)="close()"><ion-icon name="close"></ion-icon></button> 
-    <p text-center class="vmount"><span>&#8377;</span>{{vamount}}</p>
+    <p text-center class="vmount top"><span>&#8377;</span>{{vamount}}</p>
+    <p text-center *ngIf="!isOpenVoucherVerified" (click)="VerifyVoucher(openedVoucher)" class="vmount verify bottombtn">Verify</p>
     <ion-slides [zoom]='true' [slidesPerView]="1" [initialSlide]="1" [ngClass]="{'multiSlide':billImg}">
       <ion-slide>
         <div class="swiper-zoom-container">
@@ -108,12 +109,12 @@
                     </ion-item>
                   <h2 class="service_type">{{vou.EmpId}}</h2>
                   <h2 style="padding-left:5px;">Description: {{vou.VDescription}}</h2> 
-                </ion-card-content>
+                </ion-card-content> 
                 <div class="moredetails">
                   <div class="img-holder">
-                    <img class="vimg bimg" *ngIf="vou.fname && vou.fname != ''" src="http://app.dbasesolutions.in/Image/Vouchers/{{vou.fname}}" alt="" (click)="OpenImg(vou.fname,vou.fpath,vou.Amount)">
+                    <img class="vimg bimg" *ngIf="vou.fname && vou.fname != ''" src="http://app.dbasesolutions.in/Image/Vouchers/{{vou.fname}}" alt="" (click)="OpenImg(vou.fname,vou.fpath,vou.Amount,vou)">
 
-                    <img class="bimg" *ngIf="vou.fpath && vou.fpath != ''" src="http://app.dbasesolutions.in/Image/Bills/{{vou.fpath}}" alt="" (click)="OpenImg(vou.fname,vou.fpath,vou.Amount)">
+                    <img class="bimg" *ngIf="vou.fpath && vou.fpath != ''" src="http://app.dbasesolutions.in/Image/Bills/{{vou.fpath}}" alt="" (click)="OpenImg(vou.fname,vou.fpath,vou.Amount,vou)">
                   </div>
                   <div class="verifybtn"> 
                     <ion-input type="number" [(ngModel)]="this.updateamount" name="this.updateamount" class="updateamount"></ion-input>

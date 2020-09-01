@@ -1,4 +1,12 @@
 page-leaverequests {
+    .item-ios span,.item-md span {
+        overflow: inherit;
+        font-size: 1.4rem;
+        line-height: normal;
+        text-overflow: inherit;
+        color: #8e9093;
+        margin: 0 0 2px;
+    }
     ion-footer{
         display: none;
     }

@@ -154,7 +154,16 @@
                 <p class="notifications credit" >+Rs.{{creditcounts}}/-</p>
               </span>
             </ion-col>
-            
+            <ion-col col-6 text-center>
+              <ion-card style="border-radius: 10px;" class="shadow" (click)="Scanner()">
+                  <img src="../../assets/imgs/barcode.svg" alt="Scanner">
+                <ion-card-content>
+                  <ion-card-title>
+                      Scanner
+                  </ion-card-title>
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
         </ion-row>
       
       <!-- <ion-fab bottom right>
@@ -251,16 +260,6 @@
                       <ion-card-content>
                         <ion-card-title>
                             Invoices
-                        </ion-card-title>
-                      </ion-card-content>
-                    </ion-card>
-                  </ion-col>
-                  <ion-col col-6 text-center>
-                    <ion-card style="border-radius: 10px;" class="shadow" (click)="Scanner()">
-                        <img src="../../assets/imgs/bills.svg" alt="Bills">
-                      <ion-card-content>
-                        <ion-card-title>
-                            Scanner
                         </ion-card-title>
                       </ion-card-content>
                     </ion-card>

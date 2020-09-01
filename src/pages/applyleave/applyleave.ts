@@ -52,7 +52,7 @@ export class ApplyleavePage {
       this.totalhrs = true;
       this.days = false;
     }
-    if(this.leaveType == 'Casual Leave' || this.leaveType == 'Sick Leave'){
+    if(this.leaveType == 'Leave'){
       this.halfday = false;
       this.permission = false; 
       this.totalhrs = false;

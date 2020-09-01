@@ -41,14 +41,13 @@
     <ion-card class="card-details" [ngClass]="{'approved': leave.L_status == 'Accepted', 'rejected': leave.L_status.substring(0,8) == 'Rejected'}" style="border-left: 4px solid red;" *ngFor = "let leave of restCall.leaves" style="position: relative;"> 
       <ion-item *ngIf = "leave.EmpCode != restCall.currentuser.EmpCode" (click)="LeaveReason(leave)">
         <h2 class="card-point">{{leave.EmpName}}</h2>
-        <h2 class="card-point">{{leave.LType}}</h2>
-        <p> {{leave.LFrom.substring(0, 10)}}</p>  
-        <p *ngIf="leave.LType == 'Casual Leave' || leave.LType == 'Sick Leave'"> {{leave.Lto.substring(0, 10)}}</p>
-        <p *ngIf="leave.LType == 'Half Day' || leave.LType == 'Permission'">{{leave.PTime}}</p>
+        <h2 class="card-point">{{leave.LType}} <span *ngIf="leave.LType == 'Leave'">({{leave.Days}})</span></h2>
+        <span> {{leave.LFrom.substring(0, 10)}}</span>  
+        <span *ngIf="leave.LType == 'Leave'"> to {{leave.Lto.substring(0, 10)}}</span>
+        <span *ngIf="leave.LType == 'Half Day' || leave.LType == 'Permission'">{{leave.PTime}}</span>
       </ion-item>
       <div item-end text-right class="over-btn">  
         <button class="btns" *ngIf = "(leave.L_status == 'Pending' || (leave.L_status == 'Rejected by '+restCall.currentuser.Designation))" ion-button icon-only color="secondary" (click)="respondToLeave(leave,'Accepted by '+restCall.currentuser.Designation)"><ion-icon name="checkmark"></ion-icon></button>
-        
 
         <button class="btns" ion-button icon-only color="danger" *ngIf = "(leave.L_status != 'Rejected by '+restCall.currentuser.Designation && leave.L_status != 'Rejected' && leave.L_status != 'Accepted')" (click)="respondToLeave(leave,'Rejected by '+restCall.currentuser.Designation)"><ion-icon name="close"></ion-icon></button> 
         <p> {{leave.L_status}}</p> 
@@ -73,14 +72,18 @@
       </span>
       </div>
     </div>
+    <ion-item *ngIf="restCall.currentuser.UserType=='ADMIN'" style="background-color: rgba(255, 255, 255, 0);"> 
+      <ion-label>Permissions</ion-label>
+      <ion-checkbox color="primary" name="showPermissions" [(ngModel)]="showPermissions" checked="false" (ionChange)="ShowPermissions()"></ion-checkbox>
+    </ion-item>
       <div>
-      <ion-card class="card-details" [ngClass]="{'approved': leave.L_status == 'Accepted', 'rejected': leave.L_status.substring(0,8) == 'Rejected'}" *ngFor = "let leave of restCall.leaves" style="position: relative;"> 
+      <ion-card class="card-details" [ngClass]="{'approved': leave.L_status == 'Accepted', 'rejected': leave.L_status.substring(0,8) == 'Rejected'}" *ngFor = "let leave of filterLeaves" style="position: relative;"> 
           <ion-item (click)="LeaveReason(leave)">
             <h2 class="card-point">{{leave.EmpCode}} - {{leave.EmpName}}</h2>
-            <h2 class="card-point">{{leave.LType}}</h2>
-            <p *ngIf="leave.LFrom"> {{leave.LFrom.substring(0, 10)}}</p> 
-            <p *ngIf="leave.LType == 'Casual Leave' || leave.LType == 'Sick Leave'"> {{leave.Lto.substring(0, 10)}}</p>
-            <p *ngIf="leave.LType == 'Half Day' || leave.LType == 'Permission'">{{leave.PTime}}</p>
+            <h2 class="card-point">{{leave.LType}} <span *ngIf="leave.LType == 'Leave'">({{leave.Days}})</span></h2>
+            <span *ngIf="leave.LFrom"> {{leave.LFrom.substring(0, 10)}}</span> 
+            <span *ngIf="leave.LType == 'Leave'"> to {{leave.Lto.substring(0, 10)}}</span>
+            <span *ngIf="leave.LType == 'Half Day' || leave.LType == 'Permission'">{{leave.PTime}}</span>
           </ion-item>
           <div item-end text-right class="over-btn"> 
             <button class="btns" *ngIf = "leave.L_status != 'Accepted'" ion-button icon-only color="secondary" (click)="respondToLeave(leave,'Accepted')"><ion-icon name="checkmark"></ion-icon></button>
