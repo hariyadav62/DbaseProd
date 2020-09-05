@@ -6,8 +6,8 @@ import { FCM } from '@ionic-native/fcm';
 import { Storage } from '@ionic/storage';
 @Injectable() 
 export class RestcallsProvider {   
-   _HOST2 : string =	"http://app.dbasesolutions.in/api/dbaseapi";  
-  // _HOST2: string = "http://localhost:21249/api/dbaseapi";  
+  //  _HOST2 : string =	"http://app.dbasesolutions.in/api/dbaseapi";  
+  _HOST2: string = "http://localhost:21249/api/dbaseapi";  
   userLoggedIn: boolean = false;
   isAdmin: boolean = false;
   totalPendingLeaves: any = [];
@@ -68,6 +68,8 @@ export class RestcallsProvider {
   holidays: any;
   wrclientList: any;
   barcodes:any;
+  salPaySlip: any;
+  monthSalDetails: any;
   constructor(public http: HttpClient, public _TOAST: ToastController, public app: App, platform: Platform, private fcm: FCM, private storage: Storage, public loadingController: LoadingController,public alertCtrl: AlertController) {
     storage.get('id').then((id) => {
       if (id != null) {
@@ -176,16 +178,16 @@ export class RestcallsProvider {
         let nav = this.app.getActiveNav();
         this.currentuser = data;
         this.currentuser.DeviceId = this.deviceId
-         if(this.currentuser.DeviceId != null && this.currentuser.DeviceId != undefined){
+        //  if(this.currentuser.DeviceId != null && this.currentuser.DeviceId != undefined){
           this.SetDeviceId();
           this.storage.set('id', id);
           this.storage.set('pass', pass);
           loader.dismiss();
           nav.setRoot(HomePage);  
-        }else{
-          loader.dismiss();
-          alert("Please close the app and Login again");
-        }
+        // }else{
+        //   loader.dismiss();
+        //   alert("Please close the app and Login again");
+        // }
       },
         (error: any) => {
           loader.dismiss();
@@ -1941,7 +1943,7 @@ export class RestcallsProvider {
       }
       let options = new HttpHeaders().set('Content-Type', 'application/json');
       this.http.post("https://fcm.googleapis.com/fcm/send", body, {
-        headers: options.set('Authorization', 'key=AIzaSyCU82goGE1vWQ4d3nfrGLVmFEdxyF268xQ'),
+        headers: options.set('Authorization', 'key=AAAAF6SCHfs:APA91bFzPumiOnin4U4c_UM0qGfz1PbQqUwZr8Mo8JEBjJX18kI14NwqtCbgtCyK_xjqumwJLb0Vclh833F-k7VcviJ4taXSVu1YqFfhvraRTTvtBYSur2pQ6feggy3pvdDQWFTRz9Wp'),
       }).subscribe((data)=>{
         resolve();
       });
@@ -1993,6 +1995,48 @@ export class RestcallsProvider {
           loader.dismiss();
           this.displayNotification(error);
         });
+    });
+    return promise;
+  }
+  
+  // PaySlips
+  SalaryPaySlip(my: string) {
+    let loader = this.loadingController.create({
+      content: "Loading.."
+    });
+    loader.present();
+    let promise = new Promise((resolve, reject) => {
+      this.http
+        .get(this._HOST2 + '/SalaryPaySlip?my=' + my)
+        .subscribe((data: any) => {
+          this.salPaySlip = data;
+          loader.dismiss();
+          resolve();
+        },
+          (error: any) => {
+            console.dir(error);
+            loader.dismiss();
+          });
+    });
+    return promise;
+  }
+  MonthSalDetails(my: string,empcode:string) {
+    let loader = this.loadingController.create({
+      content: "Loading.."
+    });
+    loader.present();
+    let promise = new Promise((resolve, reject) => {
+      this.http
+        .get(this._HOST2 + '/MonthSalDetails?my=' + my +'&empcode='+empcode)
+        .subscribe((data: any) => {
+          this.monthSalDetails = data;
+          loader.dismiss();
+          resolve();
+        },
+          (error: any) => {
+            console.dir(error);
+            loader.dismiss();
+          });
     });
     return promise;
   }

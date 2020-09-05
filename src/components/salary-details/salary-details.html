@@ -1,0 +1,21 @@
+<!-- Generated template for the SalaryDetailsComponent component -->
+<div *ngIf="salDetails">
+  <div class="MonthSalDetails">
+    <table style="width: 100%">
+      <tr>
+        <th text-center>Date</th> 
+        <th text-center>WorkingDay</th>
+        <th text-center>ATT</th>
+        <th text-center>WR</th>
+        <th text-center>Remarks</th>
+      </tr>
+      <tr *ngFor="let day of salDetails" [ngClass]="{'leave': day.LEAVE == 1}">
+        <td text-center><span *ngIf = "day.SDATE" >{{day.SDATE.substring(0,10)}}</span></td>
+        <td text-center ><span *ngIf = "day.WorkingDay" class="timeclr">{{day.WorkingDay}}</span></td>
+        <td text-center><span *ngIf = "day.ATT" class="timeclr">{{day.ATT}}</span></td>
+        <td text-center><span *ngIf = "day.WR" class="timeclr">{{day.WR}}</span></td>
+        <td><span *ngIf = "day.Remarks" class="timeclr">{{day.Remarks}}</span></td>
+      </tr>
+    </table>
+  </div>
+</div>

@@ -275,7 +275,7 @@ export class AnnouncementsPage {
       }
       let options = new HttpHeaders().set('Content-Type', 'application/json');
       this.http.post("https://fcm.googleapis.com/fcm/send", body, {
-        headers: options.set('Authorization', 'key=AIzaSyCU82goGE1vWQ4d3nfrGLVmFEdxyF268xQ'),
+        headers: options.set('Authorization', 'key=AAAAF6SCHfs:APA91bFzPumiOnin4U4c_UM0qGfz1PbQqUwZr8Mo8JEBjJX18kI14NwqtCbgtCyK_xjqumwJLb0Vclh833F-k7VcviJ4taXSVu1YqFfhvraRTTvtBYSur2pQ6feggy3pvdDQWFTRz9Wp'),
       }).subscribe((data)=>{
         resolve();
       });

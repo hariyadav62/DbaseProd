@@ -1,3 +1,4 @@
+import { SalaryPage } from './../salary/salary';
 import { HolidaysPage } from './../holidays/holidays';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
@@ -26,4 +27,7 @@ export class SettingsPage {
   Holidays(){
     this.navCtrl.push(HolidaysPage);
   } 
+  SalaryPaySlips(){
+    this.navCtrl.push(SalaryPage);
+  }
 }

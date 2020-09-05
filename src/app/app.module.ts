@@ -44,6 +44,8 @@ import { HolidaysPage } from '../pages/holidays/holidays';
 import { IonicSelectableModule } from 'ionic-selectable';
 import { ModalratingPage } from '../pages/modalrating/modalrating';
 import { BarcodescannerPage } from '../pages/barcodescanner/barcodescanner';
+import { SalaryPage } from '../pages/salary/salary';
+import { DatePipe } from '@angular/common';
 @NgModule({ 
   declarations: [
     MyApp,
@@ -75,6 +77,7 @@ import { BarcodescannerPage } from '../pages/barcodescanner/barcodescanner';
     HolidaysPage,
     ModalratingPage,
     DropdownComponent,
+    SalaryPage,
     BarcodescannerPage
   ],
   imports: [ 
@@ -92,6 +95,7 @@ import { BarcodescannerPage } from '../pages/barcodescanner/barcodescanner';
     AboutPage,
     HolidaysPage,
     AnnouncementpopupComponent,
+    SalaryPage,
     DropdownComponent,
     ModalratingPage,
     BiometricPage,
@@ -113,7 +117,7 @@ import { BarcodescannerPage } from '../pages/barcodescanner/barcodescanner';
     ModelVoucherDetailsPage,
     MyTeamPage,
     WorkSubmissionAllPage,
-    TabsWorkPage,
+    TabsWorkPage, 
     InvoicePage,
     EmpCheckInsPage ,
     AnnouncementsPage,
@@ -124,7 +128,7 @@ import { BarcodescannerPage } from '../pages/barcodescanner/barcodescanner';
     SplashScreen,
     Camera,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    RestcallsProvider,File,FileTransfer, FileTransferObject,
+    RestcallsProvider,File,FileTransfer, FileTransferObject,DatePipe,
     FCM
   ]
 })

@@ -11,6 +11,7 @@ import { EmpCheckInsPage } from '../emp-check-ins/emp-check-ins';
 import { EmployeetimingPage } from '../employeetiming/employeetiming';
 import { DropdownComponent } from '../../components/dropdown/dropdown';
 import { BarcodescannerPage } from '../barcodescanner/barcodescanner';
+import { SalaryPage } from '../salary/salary';
 
 @Component({
   selector: 'page-home', 
@@ -180,6 +181,9 @@ currentuser:any;
   public GoToMyProfile(){
     var modalPage = this.modalCtrl.create('ModelemployeePage', { record : this.restCall.currentuser });
     modalPage.present();
+  }
+  SalaryPaySlips(){
+    this.navCtrl.push(SalaryPage);
   }
   ionViewDidEnter() {
     this.timer = setInterval(() => {

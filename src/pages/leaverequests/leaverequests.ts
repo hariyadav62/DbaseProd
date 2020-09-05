@@ -3,7 +3,7 @@ import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angu
 import { RestcallsProvider } from './../../providers/restcalls/restcalls';
 import { ModelleavedetailsPage } from '../modelleavedetails/modelleavedetails';
 
-@IonicPage()
+@IonicPage() 
 @Component({
   selector: 'page-leaverequests',
   templateUrl: 'leaverequests.html',
@@ -33,7 +33,7 @@ export class LeaverequestsPage {
       this.restCall.LoadAllLeaves(this.empcode,'',this.selectedDate.substring(0,4),this.selectedDate.substring(5,7),0).then(data=>{
         console.log("v");
         this.filterLeaves = this.restCall.leaves.filter(object => {
-            return object['LType'] == 'Leave' || object['LType'] == '';
+            return object['LType'] == 'Leave' || object['LType'] == '' || object['LType']=='Half Day';
         });
       })
     }
@@ -62,7 +62,7 @@ export class LeaverequestsPage {
     else if(this.currentuser.UserType == 'ADMIN'){
       this.restCall.LoadAllLeaves(this.empcode,'',0,0,0).then(data=>{
         this.filterLeaves = this.restCall.leaves.filter(object => {
-          return object['LType'] == 'Leave' || object['LType'] == '';
+          return object['LType'] == 'Leave' || object['LType'] == '' || object['LType']=='Half Day';
         });
       })
     }
@@ -75,7 +75,7 @@ export class LeaverequestsPage {
     else if(this.currentuser.UserType == 'ADMIN'){
       this.restCall.LoadAllLeaves(this.empcode,'',0,0,0).then(data=>{
         this.filterLeaves = this.restCall.leaves.filter(object => {
-          return object['LType'] == 'Leave' || object['LType'] == '';
+          return object['LType'] == 'Leave' || object['LType'] == '' || object['LType']=='Half Day';
         });
       });
     }
@@ -88,7 +88,7 @@ export class LeaverequestsPage {
     else if(this.currentuser.UserType == 'ADMIN'){
       this.restCall.LoadAllLeaves(this.empcode,'',this.selectedDate.substring(0,4),this.selectedDate.substring(5,7),0).then(data=>{
         this.filterLeaves = this.restCall.leaves.filter(object => {
-          return object['LType'] == 'Leave' || object['LType'] == '';
+          return object['LType'] == 'Leave' || object['LType'] == '' || object['LType']=='Half Day';
         });
       });
     }

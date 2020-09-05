@@ -34,6 +34,16 @@
         </ion-card-content>
       </ion-card>
     </ion-col>
+    <ion-col col-6 text-center>
+      <ion-card style="border-radius: 10px;" class="shadow" (click)="SalaryPaySlips()">
+          <img src="../../assets/imgs/announcement.svg" alt="PaySlips">
+        <ion-card-content>
+          <ion-card-title style="font-size: 1.4rem;">
+            Salary Details
+          </ion-card-title>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
   </ion-row>
   <div style="padding-top: 15px;">
     <span *ngIf="restCall.empAnnouncements">

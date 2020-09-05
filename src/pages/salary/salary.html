@@ -1,0 +1,117 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Salary</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <div class="filters">
+    <ion-item class="employeeSelect" *ngIf="restCall.currentuser.UserType == 'ADMIN'">
+      <ion-select placeholder="Employee" [(ngModel)]="empcode" name="empcode" (ionChange)="SearchByEmpCodeAndMonth()">
+        <ion-option value="All">All Employees</ion-option>
+        <ion-option *ngFor="let employee of restCall.employeeList" value="{{employee.EmpCode}}">{{employee.EmpCode}}
+          {{employee.EmpName}}</ion-option>
+      </ion-select>
+    </ion-item>
+    <div class="dateFilter">
+      <!-- <span *ngIf="restCall.datesLeave.length != 0"> -->
+      <ion-item class="search_date"> 
+        <ion-datetime (ionChange)="SearchByEmpCodeAndMonth()" displayFormat="MMM YYYY" pickerFormat="MMM YYYY"
+          [(ngModel)]="my" name="my" min="2016" max="2025-01-01" placeholder="Search by month"></ion-datetime> 
+      </ion-item>
+    <!-- </span> -->
+    </div>
+  </div>
+  <div *ngIf="restCall.currentuser.UserType == 'ADMIN' && paySlip && MonthSalDetails">
+    <div *ngFor = "let slip of paySlip,let i = index">
+      <div class="pslip">
+        <ion-card class="emp-info">
+          <div class="pslip-empdetails">
+            <ion-item>
+              <p>{{slip.EMPNAME}}({{slip.EMPCODE}})</p>
+              <p item-end>{{slip.MY}}</p>
+            </ion-item>
+            <ion-item>
+              <p>{{slip.DESIGNATION}}</p>
+              <p item-end>Rs.{{slip.SALARY}}/-</p>
+            </ion-item>
+          </div>
+          <table style="width: 100%">
+            <tr>
+              <th text-center>Total Days</th>
+              <th text-center>Present</th>
+              <th text-center>Paid Holidays</th>
+              <th text-center>CLS</th>
+            </tr>
+            <tr>
+              <td text-center *ngIf = "slip.TDays" >{{slip.TDays}}</td>
+              <td text-center *ngIf = "!slip.TDays" >0</td>
+              <td text-center *ngIf = "slip.PRESENT">{{slip.PRESENT}}</td>
+              <td text-center *ngIf = "!slip.PRESENT">0</td>
+              <td text-center *ngIf = "slip.PAID_HOLIDAY">{{slip.PAID_HOLIDAY}}</td>
+              <td text-center *ngIf = "!slip.PAID_HOLIDAY">0</td>
+              <td text-center *ngIf = "slip.CLS" >{{slip.CLS}}</td>
+              <td text-center *ngIf = "!slip.CLS" >0</td>
+            </tr>
+          </table>
+          <table class="secondtbl" style="width: 100%;">
+            <tr>
+              <th text-center>Leaves</th>
+              <th text-center>No ATT</th>
+              <th text-center>No WR</th>
+              <th text-center>No Att,WR</th>
+            </tr>
+            <tr>
+              <td text-center *ngIf="slip.LEAVE">{{slip.LEAVE}}</td>
+              <td text-center *ngIf="!slip.LEAVE">0</td>
+              <td text-center *ngIf="slip.No_Attendance">{{slip.No_Attendance}}</td>
+              <td text-center *ngIf="!slip.No_Attendance">0</td>
+              <td text-center *ngIf="slip.NO_WORK_REPORT">{{slip.NO_WORK_REPORT}}</td>
+              <td text-center *ngIf="!slip.NO_WORK_REPORT">0</td>
+              <td text-center *ngIf="slip.NO_ATT_WR">{{slip.NO_ATT_WR}}</td>
+              <td text-center *ngIf="!slip.NO_ATT_WR">0</td>
+            </tr>
+          </table>
+          <table class="secondtbl" style="width: 100%">
+            <tr>
+              <th text-center>Paid Holiday Cancelled</th>
+              <th text-center>Paid Days</th>
+              <th text-center>LOP</th>
+            </tr>
+            <tr>
+              <td text-center *ngIf = "slip.Paid_Holiday_Cancelled" >{{slip.Paid_Holiday_Cancelled}}</td>
+              <td text-center *ngIf = "!slip.Paid_Holiday_Cancelled" >0</td>
+              <td text-center *ngIf = "slip.PaidDays" >{{slip.PaidDays}}</td>
+              <td text-center *ngIf = "!slip.PaidDays" >0</td>
+              <td text-center *ngIf = "slip.LOP" >{{slip.LOP}}</td>
+              <td text-center *ngIf = "!slip.LOP" >0</td>
+            </tr>
+          </table>
+          <table class="secondtbl" style="width: 100%">
+            <tr>
+              <th text-center>Final PaidDays</th>
+              <th text-center>Final LOP</th>
+              <th text-center>Total Amount</th>
+            </tr>
+            <tr>
+              <td text-center *ngIf = "slip.FPaidDays">{{slip.FPaidDays}}</td>
+              <td text-center *ngIf = "!slip.FPaidDays">0</td>
+              <td text-center *ngIf = "slip.FLOP" >{{slip.FLOP}}</td>
+              <td text-center *ngIf = "!slip.FLOP" >0</td>
+              <td text-center *ngIf = "slip.Amount" >{{slip.Amount}}</td>
+              <td text-center *ngIf = "!slip.Amount" >0</td>              
+            </tr>
+          </table>
+        </ion-card>
+        <div class="saldetls">
+          <salary-details [allempsalarydetails]="MonthSalDetails" [empcode]="slip.EMPCODE"></salary-details>
+        </div>
+      </div>
+      
+
+    </div>
+  </div>
+  <div *ngIf="restCall.currentuser.UserType != 'ADMIN' && paySlip">
+
+  </div>
+</ion-content>

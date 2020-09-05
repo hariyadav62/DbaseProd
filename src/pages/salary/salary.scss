@@ -1,0 +1,59 @@
+page-salary {
+    ion-select {
+        max-width: 100%;
+        width: 100%;
+    }
+    .selDay .select-text{
+        text-align: center;
+    }
+    .filters{
+        border-radius: 15px;
+        box-shadow: 2px 2px 5px 0 #d5faff, 0 2px 10px 0 rgba(0,0,0,0.12);
+    }
+    .dateFilter{
+        border-bottom-left-radius: 15px;
+        border-bottom-right-radius: 15px;
+    }
+    .employeeSelect{
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+        padding-left: 0;
+        border-bottom: 1px solid #b9b9b9;
+    }
+    .item-inner{
+        border-bottom: none!important;
+    }
+    .dateFilter{
+        border-bottom-left-radius: 15px;
+        border-bottom-right-radius: 15px;
+    }
+    .search_date{
+        display: inline-block;
+        width: 100%;
+        padding: 0;
+    }
+    .search_date{
+        border-bottom-left-radius: 15px;
+    }
+    
+    ion-select {
+        max-width: 100%; 
+        width: 100%;
+    }
+    table, th, td {
+        border: 1px solid #999999;
+        border-collapse: collapse;
+    }
+    th, td {
+        padding: 5px 2px;
+        text-align: left;  
+        font-size: 1.3rem;  
+    }
+    .item-md [item-end], .item-ios [item-end] {
+        margin-top: 0px;
+    }
+    table.secondtbl,.secondtbl th,.secondtbl td {
+        border-top: 0px solid #999999;
+    }
+    
+}
