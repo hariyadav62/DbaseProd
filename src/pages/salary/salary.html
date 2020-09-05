@@ -112,6 +112,107 @@
     </div>
   </div>
   <div *ngIf="restCall.currentuser.UserType != 'ADMIN' && paySlip">
-
+    <div class="pslip">
+      <ion-card class="emp-info">
+        <div class="pslip-empdetails">
+          <ion-item>
+            <p>{{paySlip.EMPNAME}}({{paySlip.EMPCODE}})</p>
+            <p item-end>{{paySlip.MY}}</p>
+          </ion-item>
+          <ion-item>
+            <p>{{paySlip.DESIGNATION}}</p>
+            <p item-end>Rs.{{paySlip.SALARY}}/-</p>
+          </ion-item>
+        </div>
+        <table style="width: 100%">
+          <tr>
+            <th text-center>Total Days</th>
+            <th text-center>Present</th>
+            <th text-center>Paid Holidays</th>
+            <th text-center>CLS</th>
+          </tr>
+          <tr>
+            <td text-center *ngIf = "paySlip.TDays" >{{paySlip.TDays}}</td>
+            <td text-center *ngIf = "!paySlip.TDays" >0</td>
+            <td text-center *ngIf = "paySlip.PRESENT">{{paySlip.PRESENT}}</td>
+            <td text-center *ngIf = "!paySlip.PRESENT">0</td>
+            <td text-center *ngIf = "paySlip.PAID_HOLIDAY">{{paySlip.PAID_HOLIDAY}}</td>
+            <td text-center *ngIf = "!paySlip.PAID_HOLIDAY">0</td>
+            <td text-center *ngIf = "paySlip.CLS" >{{paySlip.CLS}}</td>
+            <td text-center *ngIf = "!paySlip.CLS" >0</td>
+          </tr>
+        </table>
+        <table class="secondtbl" style="width: 100%;">
+          <tr>
+            <th text-center>Leaves</th>
+            <th text-center>No ATT</th>
+            <th text-center>No WR</th>
+            <th text-center>No Att,WR</th>
+          </tr>
+          <tr>
+            <td text-center *ngIf="paySlip.LEAVE">{{paySlip.LEAVE}}</td>
+            <td text-center *ngIf="!paySlip.LEAVE">0</td>
+            <td text-center *ngIf="paySlip.No_Attendance">{{paySlip.No_Attendance}}</td>
+            <td text-center *ngIf="!paySlip.No_Attendance">0</td>
+            <td text-center *ngIf="paySlip.NO_WORK_REPORT">{{paySlip.NO_WORK_REPORT}}</td>
+            <td text-center *ngIf="!paySlip.NO_WORK_REPORT">0</td>
+            <td text-center *ngIf="paySlip.NO_ATT_WR">{{paySlip.NO_ATT_WR}}</td>
+            <td text-center *ngIf="!paySlip.NO_ATT_WR">0</td>
+          </tr>
+        </table>
+        <table class="secondtbl" style="width: 100%">
+          <tr>
+            <th text-center>Paid Holiday Cancelled</th>
+            <th text-center>Paid Days</th>
+            <th text-center>LOP</th>
+          </tr>
+          <tr>
+            <td text-center *ngIf = "paySlip.Paid_Holiday_Cancelled" >{{paySlip.Paid_Holiday_Cancelled}}</td>
+            <td text-center *ngIf = "!paySlip.Paid_Holiday_Cancelled" >0</td>
+            <td text-center *ngIf = "paySlip.PaidDays" >{{paySlip.PaidDays}}</td>
+            <td text-center *ngIf = "!paySlip.PaidDays" >0</td>
+            <td text-center *ngIf = "paySlip.LOP" >{{paySlip.LOP}}</td>
+            <td text-center *ngIf = "!paySlip.LOP" >0</td>
+          </tr>
+        </table>
+        <table class="secondtbl" style="width: 100%">
+          <tr>
+            <th text-center>Final PaidDays</th>
+            <th text-center>Final LOP</th>
+            <th text-center>Total Amount</th>
+          </tr>
+          <tr>
+            <td text-center *ngIf = "paySlip.FPaidDays">{{paySlip.FPaidDays}}</td>
+            <td text-center *ngIf = "!paySlip.FPaidDays">0</td>
+            <td text-center *ngIf = "paySlip.FLOP" >{{paySlip.FLOP}}</td>
+            <td text-center *ngIf = "!paySlip.FLOP" >0</td>
+            <td text-center *ngIf = "paySlip.Amount" >{{paySlip.Amount}}</td>
+            <td text-center *ngIf = "!paySlip.Amount" >0</td>              
+          </tr>
+        </table>
+      </ion-card>
+      <div class="saldetls">
+        <div *ngIf="MonthSalDetails">
+          <div class="MonthSalDetails">
+            <table style="width: 100%">
+              <tr>
+                <th text-center>Date</th> 
+                <th text-center>WorkingDay</th>
+                <th text-center>ATT</th>
+                <th text-center>WR</th>
+                <th text-center>Remarks</th>
+              </tr>
+              <tr *ngFor="let day of MonthSalDetails" [ngClass]="{'leave': day.LEAVE == 1}">
+                <td text-center><span *ngIf = "day.SDATE" >{{day.SDATE.substring(0,10)}}</span></td>
+                <td text-center ><span *ngIf = "day.WorkingDay" class="timeclr">{{day.WorkingDay}}</span></td>
+                <td text-center><span *ngIf = "day.ATT" class="timeclr">{{day.ATT}}</span></td>
+                <td text-center><span *ngIf = "day.WR" class="timeclr">{{day.WR}}</span></td>
+                <td><span *ngIf = "day.Remarks" class="timeclr">{{day.Remarks}}</span></td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </ion-content>

@@ -15,7 +15,11 @@ export class SalaryPage {
   constructor(public navCtrl: NavController, public navParams: NavParams,public restCall: RestcallsProvider,private datePipe: DatePipe) {
   }
   ionViewWillEnter() {
-    this.empcode='All'
+    if(this.restCall.currentuser.UserType == 'ADMIN'){
+      this.empcode='All'
+    }else{
+      this.empcode = this.restCall.currentuser.EmpCode;
+    }
     this.my = new Date();
     this.my.setMonth(this.my.getMonth() - 1);
     this.my=this.datePipe.transform(this.my, 'yyyy-MM-dd');
@@ -26,12 +30,16 @@ export class SalaryPage {
     let date = this.datePipe.transform(this.my, 'MMM-yyyy');
     this.restCall.MonthSalDetails(date,this.empcode).then(data=>{
       this.MonthSalDetails = this.restCall.monthSalDetails;
-      console.log(this.MonthSalDetails);
-    });
-    this.restCall.SalaryPaySlip(date).then(()=>{
-      this.paySlip = this.restCall.salPaySlip;
-      console.log(this.paySlip);
-    });
+        console.log(this.MonthSalDetails);
+      });
+      this.restCall.SalaryPaySlip(date).then(()=>{
+        if(this.restCall.currentuser.UserType == 'ADMIN'){
+          this.paySlip = this.restCall.salPaySlip;
+        }else{
+          this.paySlip = this.restCall.salPaySlip.filter(x => {return x['EMPCODE'] == this.empcode});
+        }
+        console.log(this.paySlip);
+      });
   }
   // GetSalDetails(empcode){
   //   let date = this.datePipe.transform(this.my, 'MMM-yyyy');
