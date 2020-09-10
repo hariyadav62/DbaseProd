@@ -2,12 +2,13 @@ import { HomePage } from './../../pages/home/home';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ToastController, App, Platform, LoadingController, AlertController } from 'ionic-angular';
-import { FCM } from '@ionic-native/fcm';
+// import { FCM } from '@ionic-native/fcm';
+import { OneSignal } from '@ionic-native/onesignal';
 import { Storage } from '@ionic/storage';
 @Injectable() 
 export class RestcallsProvider {   
-  //  _HOST2 : string =	"http://app.dbasesolutions.in/api/dbaseapi";  
-  _HOST2: string = "http://localhost:21249/api/dbaseapi";  
+   _HOST2 : string =	"http://app.dbasesolutions.in/api/dbaseapi";  
+  // _HOST2: string = "http://localhost:21249/api/dbaseapi";  
   userLoggedIn: boolean = false;
   isAdmin: boolean = false;
   totalPendingLeaves: any = [];
@@ -70,7 +71,7 @@ export class RestcallsProvider {
   barcodes:any;
   salPaySlip: any;
   monthSalDetails: any;
-  constructor(public http: HttpClient, public _TOAST: ToastController, public app: App, platform: Platform, private fcm: FCM, private storage: Storage, public loadingController: LoadingController,public alertCtrl: AlertController) {
+  constructor(public http: HttpClient, public _TOAST: ToastController, public app: App, platform: Platform, private storage: Storage, public loadingController: LoadingController,public alertCtrl: AlertController,private oneSignal: OneSignal) {
     storage.get('id').then((id) => {
       if (id != null) {
         storage.get('pass').then((pass) => {
@@ -79,43 +80,56 @@ export class RestcallsProvider {
       }
     });
     platform.ready().then(() => {
-      setTimeout(() => {
+     // setTimeout(() => {
       //Notifications  
-      fcm.subscribeToTopic('all');
-      fcm.getToken().then(token=>{
-        this.deviceId = token; 
-          console.log(this.deviceId);
-      })
-      fcm.onNotification().subscribe(data=>{
-        if(data.wasTapped){
-          console.log('data');
-          this.LoadNotificationsCount(this.currentuser.EmpCode);
-        } else {
-          //alert("New Notification");
-          const confirm = this.alertCtrl.create({ 
-            //title: data.notifyType+" Notification",
-            title: data.notifyType,
-            message: data.notifyBody,
-            buttons: [
-              {
-                text: 'Ok',
-                handler: () => {
-                   this.LoadNotificationsCount(this.currentuser.EmpCode);
-                   this.CheckEmpReporting(this.currentuser.EmpCode,'2020-05-02');
-                }
-              }
-            ],
-            cssClass: 'NotificationPop'
-          });
-          confirm.present();
-        };
-      })
-      fcm.onTokenRefresh().subscribe(token=>{
-        this.deviceId = token;
-        console.log(this.deviceId + "refreshtoken");
-      });
-    }, 100);
+      // fcm.subscribeToTopic('all');
+      // fcm.getToken().then(token=>{
+      //   this.deviceId = token; 
+      //     console.log(this.deviceId);
+      // })
+      // fcm.onNotification().subscribe(data=>{
+      //   if(data.wasTapped){
+      //     console.log('data');
+      //     this.LoadNotificationsCount(this.currentuser.EmpCode);
+      //   } else {
+      //     //alert("New Notification");
+      //     const confirm = this.alertCtrl.create({ 
+      //       //title: data.notifyType+" Notification",
+      //       title: data.notifyType,
+      //       message: data.notifyBody,
+      //       buttons: [
+      //         {
+      //           text: 'Ok',
+      //           handler: () => {
+      //              this.LoadNotificationsCount(this.currentuser.EmpCode);
+      //              this.CheckEmpReporting(this.currentuser.EmpCode,'2020-05-02');
+      //           }
+      //         }
+      //       ],
+      //       cssClass: 'NotificationPop'
+      //     });
+      //     confirm.present();
+      //   };
+      // })
+      // fcm.onTokenRefresh().subscribe(token=>{
+      //   this.deviceId = token;
+      //   console.log(this.deviceId + "refreshtoken");
+      // });
+    //}, 100);
       // end notifications.
+      this.oneSignal.startInit('9ac11fa0-538b-4857-a1ed-ad4295be3b16', '972001020683');
+
+      this.oneSignal.inFocusDisplaying(this.oneSignal.OSInFocusDisplayOption.InAppAlert);
+
+      this.oneSignal.handleNotificationReceived().subscribe(() => {
+      // do something when notification is received
+      });
+
+      this.oneSignal.handleNotificationOpened().subscribe(() => {
+        // do something when a notification is opened
+      });
+      
+      this.oneSignal.endInit();
     });
     console.log('Restcall Provider');
     this.retrieveEmployee();
@@ -177,8 +191,10 @@ export class RestcallsProvider {
         this.userLoggedIn = true;
         let nav = this.app.getActiveNav();
         this.currentuser = data;
-        this.currentuser.DeviceId = this.deviceId
-        //  if(this.currentuser.DeviceId != null && this.currentuser.DeviceId != undefined){
+        this.oneSignal.getIds().then((users)=> {
+          this.currentuser.DeviceId = users.userId;
+        });
+        // if(this.currentuser.DeviceId != null && this.currentuser.DeviceId != undefined){
           this.SetDeviceId();
           this.storage.set('id', id);
           this.storage.set('pass', pass);
@@ -1925,25 +1941,36 @@ export class RestcallsProvider {
   async sendNotification(notify) {
     let noted = await this.retrieveEmployeeById(notify.SendTo);
     let promise = new Promise((resolve,reject)=>{
+      // let body = {
+      //   "to": this.notifyUser.DeviceId,
+      //   "notification": {
+      //     "title": notify.Title,
+      //     "body": notify.Body,
+      //     "sound": "default",
+      //     "click_action": "FCM_PLUGIN_ACTIVITY",
+      //     "icon": "fcm_push_icon"
+      //   },
+      //   "data": { 
+      //     "notifyType": notify.type,
+      //     "notifyBody": notify.Body
+      //   },
+      //   "priority": "high",
+      //   "restricted_package_name": ""
+      // }
       let body = {
-        "to": this.notifyUser.DeviceId,
-        "notification": {
-          "title": notify.Title,
-          "body": notify.Body,
-          "sound": "default",
-          "click_action": "FCM_PLUGIN_ACTIVITY",
-          "icon": "fcm_push_icon"
-        },
-        "data": {
-          "notifyType": notify.type,
-          "notifyBody": notify.Body
-        },
-        "priority": "high",
-        "restricted_package_name": ""
+        "app_id": "9ac11fa0-538b-4857-a1ed-ad4295be3b16",
+        "include_player_ids": [this.notifyUser.DeviceId],
+        // "include_player_ids": ["ef627212-aafa-4390-a733-111d58b0f97d"],
+        // "data": {
+        //   "notifyType": notify.type,
+        //   "notifyBody": notify.Body
+        // },
+        "contents": {"en": `${notify.Body} Notification`},
+        "headings": {"en": `${notify.type}`},
       }
       let options = new HttpHeaders().set('Content-Type', 'application/json');
-      this.http.post("https://fcm.googleapis.com/fcm/send", body, {
-        headers: options.set('Authorization', 'key=AAAAF6SCHfs:APA91bFzPumiOnin4U4c_UM0qGfz1PbQqUwZr8Mo8JEBjJX18kI14NwqtCbgtCyK_xjqumwJLb0Vclh833F-k7VcviJ4taXSVu1YqFfhvraRTTvtBYSur2pQ6feggy3pvdDQWFTRz9Wp'),
+      this.http.post("https://onesignal.com/api/v1/notifications", body, {
+        headers: options.set('Authorization', 'Basic ODY3ZDY5MGYtNzAwYy00YzliLWIwNWUtNmQ2MzAyZWQ2Mjgz'),
       }).subscribe((data)=>{
         resolve();
       });

@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { FCM } from '@ionic-native/fcm';
+// import { FCM } from '@ionic-native/fcm';
 import { HttpClient,HttpHeaders } from '@angular/common/http';
 
 
@@ -15,23 +15,23 @@ export class MyApp {
   // rootPage:any = "WorkstatusPage"; 
 
  
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, public http: HttpClient, private fcm: FCM) {
+  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, public http: HttpClient) {
     platform.ready().then(() => {
       //Notifications
-      fcm.subscribeToTopic('all');
-      fcm.getToken().then(token=>{
-          console.log(token);
-      })
-      fcm.onNotification().subscribe(data=>{
-        if(data.wasTapped){
-          console.log("Received in background");
-        } else { 
-          //alert("New Notification");
-        };
-      })
-      fcm.onTokenRefresh().subscribe(token=>{
-        console.log(token + "refreshtoken");
-      });
+      // fcm.subscribeToTopic('all');
+      // fcm.getToken().then(token=>{
+      //     console.log(token);
+      // })
+      // fcm.onNotification().subscribe(data=>{
+      //   if(data.wasTapped){
+      //     console.log("Received in background");
+      //   } else { 
+      //     //alert("New Notification");
+      //   };
+      // })
+      // fcm.onTokenRefresh().subscribe(token=>{
+      //   console.log(token + "refreshtoken");
+      // });
       //end notifications.
       splashScreen.hide();
       statusBar.overlaysWebView( false );

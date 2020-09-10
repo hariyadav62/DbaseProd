@@ -6,13 +6,13 @@
 
 <ion-content padding>
   <div class="filters">
-    <ion-item class="employeeSelect" *ngIf="restCall.currentuser.UserType == 'ADMIN'">
+    <!-- <ion-item class="employeeSelect" *ngIf="restCall.currentuser.UserType == 'ADMIN'">
       <ion-select placeholder="Employee" [(ngModel)]="empcode" name="empcode" (ionChange)="SearchByEmpCodeAndMonth()">
         <ion-option value="All">All Employees</ion-option>
         <ion-option *ngFor="let employee of restCall.employeeList" value="{{employee.EmpCode}}">{{employee.EmpCode}}
           {{employee.EmpName}}</ion-option>
       </ion-select>
-    </ion-item>
+    </ion-item> -->
     <div class="dateFilter">
       <!-- <span *ngIf="restCall.datesLeave.length != 0"> -->
       <ion-item class="search_date"> 

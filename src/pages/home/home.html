@@ -265,7 +265,7 @@
                     </ion-card>
                   </ion-col>
                     
-                  <ion-col col-6 text-center *ngIf = "currentuser.UserType == 'ADMIN'">
+                  <!-- <ion-col col-6 text-center *ngIf = "currentuser.UserType == 'ADMIN'">
                     <ion-card style="border-radius: 10px;" class="shadow" (click)="SalaryPaySlips()">
                         <img src="../../assets/imgs/bills.svg" alt="Bills">
                       <ion-card-content>
@@ -274,8 +274,11 @@
                         </ion-card-title>
                       </ion-card-content>
                     </ion-card>
-                  </ion-col>
+                  </ion-col> -->
         </ion-row>
+        <button ion-button (click)="sendNotification()">
+          Send Notification
+        </button>
 </ion-content> 
 <ion-footer>
     <ion-toolbar>

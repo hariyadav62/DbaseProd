@@ -10,12 +10,12 @@ import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
 import { ChartsModule } from 'ng2-charts-x';
-
+import { OneSignal } from '@ionic-native/onesignal';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { IonicStorageModule } from '@ionic/storage';
 import { RestcallsProvider } from '../providers/restcalls/restcalls';  
-import { FCM } from '@ionic-native/fcm';
+// import { FCM } from '@ionic-native/fcm';
 import { EmployeetimingPage } from '../pages/employeetiming/employeetiming';
 import { EmptimingsallPage } from '../pages/emptimingsall/emptimingsall';
 import { EmptabsPage } from '../pages/employeetimingtabs/emptabs';
@@ -129,7 +129,7 @@ import { DatePipe } from '@angular/common';
     Camera,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     RestcallsProvider,File,FileTransfer, FileTransferObject,DatePipe,
-    FCM
+    OneSignal
   ]
 })
 export class AppModule {}

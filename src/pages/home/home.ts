@@ -195,6 +195,15 @@ currentuser:any;
       empcode:'All', reportForm:false
     });
   }
+  sendNotification(){
+    let notify = {
+      SendTo: "1501",
+      Title: "Voucher Deleted",
+      type:'Voucher',
+      Body: `Voucher Deleted by ${this.currentuser.EmpCode} ${this.currentuser.EmpName} ${this.currentuser.Designation}`
+    }
+    this.restCall.sendNotification(notify);
+  }
 
   setData(){
     // let time1 = new Date().getHours() + ":"+new Date().getMinutes()+":"+new Date().getSeconds();

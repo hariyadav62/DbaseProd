@@ -236,51 +236,51 @@ export class AnnouncementsPage {
     return this.notifyuser;
   }
   async sendNotification(notify) {
-    let promise = new Promise((resolve,reject)=>{
-      let body = {};
-      if(notify.SendTo == "All"){
-        body = {
-          "to": "/topics/all",
-          "notification": {
-            "title": notify.Title,
-            "body": notify.Body,
-            "sound": "default",
-            "click_action": "FCM_PLUGIN_ACTIVITY",
-            "icon": "fcm_push_icon"
-          },
-          "data": {
-            "notifyType": notify.type,
-            "notifyBody": notify.Body
-          },
-          "priority": "high",
-          "restricted_package_name": ""
-      }
-    }else{
-        body = {
-          "registration_ids": notify.SendTo,
-          "notification": {
-            "title": notify.Title,
-            "body": notify.Body,
-            "sound": "default",
-            "click_action": "FCM_PLUGIN_ACTIVITY",
-            "icon": "fcm_push_icon"
-          },
-          "data": {
-            "notifyType": notify.type,
-            "notifyBody": notify.Body
-          },
-          "priority": "high",
-          "restricted_package_name": ""
-        }
-      }
-      let options = new HttpHeaders().set('Content-Type', 'application/json');
-      this.http.post("https://fcm.googleapis.com/fcm/send", body, {
-        headers: options.set('Authorization', 'key=AAAAF6SCHfs:APA91bFzPumiOnin4U4c_UM0qGfz1PbQqUwZr8Mo8JEBjJX18kI14NwqtCbgtCyK_xjqumwJLb0Vclh833F-k7VcviJ4taXSVu1YqFfhvraRTTvtBYSur2pQ6feggy3pvdDQWFTRz9Wp'),
-      }).subscribe((data)=>{
-        resolve();
-      });
-    });
-   return promise;
+  //   let promise = new Promise((resolve,reject)=>{
+  //     let body = {};
+  //     if(notify.SendTo == "All"){
+  //       body = {
+  //         "to": "/topics/all",
+  //         "notification": {
+  //           "title": notify.Title,
+  //           "body": notify.Body,
+  //           "sound": "default",
+  //           "click_action": "FCM_PLUGIN_ACTIVITY",
+  //           "icon": "fcm_push_icon"
+  //         },
+  //         "data": {
+  //           "notifyType": notify.type,
+  //           "notifyBody": notify.Body
+  //         },
+  //         "priority": "high",
+  //         "restricted_package_name": ""
+  //     }
+  //   }else{
+  //       body = {
+  //         "registration_ids": notify.SendTo,
+  //         "notification": {
+  //           "title": notify.Title,
+  //           "body": notify.Body,
+  //           "sound": "default",
+  //           "click_action": "FCM_PLUGIN_ACTIVITY",
+  //           "icon": "fcm_push_icon"
+  //         },
+  //         "data": {
+  //           "notifyType": notify.type,
+  //           "notifyBody": notify.Body
+  //         },
+  //         "priority": "high",
+  //         "restricted_package_name": ""
+  //       }
+  //     }
+  //     let options = new HttpHeaders().set('Content-Type', 'application/json');
+  //     this.http.post("https://fcm.googleapis.com/fcm/send", body, {
+  //       headers: options.set('Authorization', 'key=AAAAF6SCHfs:APA91bFzPumiOnin4U4c_UM0qGfz1PbQqUwZr8Mo8JEBjJX18kI14NwqtCbgtCyK_xjqumwJLb0Vclh833F-k7VcviJ4taXSVu1YqFfhvraRTTvtBYSur2pQ6feggy3pvdDQWFTRz9Wp'),
+  //     }).subscribe((data)=>{
+  //       resolve();
+  //     });
+  //   });
+  //  return promise;
   } 
   LoadAllAnnouncements(){
     let loader = this.loadingController.create({

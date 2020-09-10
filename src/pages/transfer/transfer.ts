@@ -80,16 +80,16 @@ export class TransferPage {
           console.log(credit);  
           if(this.isSalary){
             credit.SALorADV = 'Salary';
-            credit.CDescription= "Salary Amount transferred to "+this.RecieverEmpId.substring(0,4)+",through "+this.TransferType;
+            credit.CDescription= "Salary Amount transferred to "+this.RecieverEmpId.substring(0,4)+",through "+this.TransferType+" __ "+this.creditremarks;
           }
           if(this.isAdvance){
             credit.SALorADV = 'Advance';
-            credit.CDescription= "Advance Amount transferred to "+this.RecieverEmpId.substring(0,4)+",through "+this.TransferType;
+            credit.CDescription= "Advance Amount transferred to "+this.RecieverEmpId.substring(0,4)+",through "+this.TransferType+" __ "+this.creditremarks;
           }
           if(this.isAdvanceRepay){
               this.amountValidation = false;
               credit.SALorADV = 'Advance Repayment';
-              credit.CDescription= "Advnce Repayment Amount transferred to "+this.RecieverEmpId.substring(0,4)+",through "+this.TransferType;
+              credit.CDescription= "Advnce Repayment Amount transferred to "+this.RecieverEmpId.substring(0,4)+",through "+this.TransferType+" __ "+this.creditremarks;
           }
           if(this.restCall.currentuser.UserType == 'ADMIN' ){
             let trans = await this.restCall.TransferAmount(credit);
@@ -160,7 +160,7 @@ export class TransferPage {
             Amount : this.amount,
             RecieverEmpId: this.RecieverEmpId.substring(0,4),
             SenderEmpId: this.restCall.currentuser.EmpCode,
-            CDescription: "Amount transferred to "+this.RecieverEmpId.substring(0,4)+",through "+this.TransferType,
+            CDescription: "Amount transferred to "+this.RecieverEmpId.substring(0,4)+",through "+this.TransferType+" __ "+this.creditremarks,
             Date:new Date().toLocaleString(),
             TransferType: this.TransferType,
             SALorAdv : 'Credit' 
@@ -216,7 +216,7 @@ export class TransferPage {
             Amount : this.amount,
             RecieverEmpId: this.RecieverEmpId.substring(0,4),
             SenderEmpId: this.restCall.currentuser.EmpCode,
-            CDescription: "Amount transferred to "+this.RecieverEmpId.substring(0,4)+",through "+this.TransferType,
+            CDescription: "Amount transferred to "+this.RecieverEmpId.substring(0,4)+",through "+this.TransferType+" __ "+this.creditremarks, 
             Date:new Date().toLocaleString(),
             TransferType: this.TransferType,
             SALorAdv : 'Credit' 
@@ -226,7 +226,7 @@ export class TransferPage {
             this.amount = null;
             this.RecieverEmpId = null;
             this.remarks = null;
-            this.creditremarks = null;
+            this.creditremarks = null; 
             this.TransferType = null;
             this.viewCtrl.dismiss();
           }

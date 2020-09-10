@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, App, ViewController, NavParams } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { HolidaysPage } from '../../pages/holidays/holidays';
+import { SalaryPage } from '../../pages/salary/salary';
 
 @Component({
   selector: 'dropdown',
@@ -29,5 +30,8 @@ export class DropdownComponent {
   Announcements(){
     this.viewCtrl.dismiss();
     this.navCtrl.push('SettingsPage');
+  }
+  SalaryPaySlips(){
+    this.navCtrl.push(SalaryPage);
   }
 }
