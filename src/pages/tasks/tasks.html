@@ -1,0 +1,73 @@
+<ion-header>
+  <ion-navbar>
+    <ion-buttons left margin-horizontal>
+      <button ion-button icon-only (click)="onClickCancel()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </button>  
+    </ion-buttons>
+    <ion-title>Create Task</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+<form>
+  <ion-item>
+    <ion-textarea placeholder="Task*" [(ngModel)]="taskText" name="taskText"></ion-textarea>
+  </ion-item>
+  <ion-item class="activeCheck"> 
+    <ion-label>Active</ion-label>
+    <ion-checkbox color="primary" name="CreateisActive" [(ngModel)]="CreateisActive" checked="false"></ion-checkbox>
+  </ion-item>
+  <ion-item class="activeCheck"> 
+    <ion-label>All</ion-label>
+    <ion-checkbox color="primary" (ionChange)="CreateAll($event)" [(ngModel)]="createIsAll" name="createIsAll" checked="true"></ion-checkbox>
+  </ion-item> 
+  <span *ngIf="CreateshowEmplist">
+    <ion-item class="activeCheck" *ngFor="let employee of restCall.employeeList, let i = index"> 
+      <ion-label>{{employee.EmpCode}} {{employee.EmpName}}</ion-label>
+      <ion-checkbox color="primary" (ionChange)="CreateAddEmptoShowList($event,employee.EmpCode)" checked="false"></ion-checkbox>
+    </ion-item>
+  </span>
+  <!-- <ion-item>
+    <ion-select placeholder="Show to*" [(ngModel)]="EmpIds" name="EmpIds" multiple="true" required> 
+      <ion-option value="All">All</ion-option>
+      <span *ngFor="let employee of empListWithMaxTransferAmount, let i = index">
+        <ion-option *ngIf="employee.EMPID != '1501'" value="{{employee.EMPID}}">{{employee.EMPID}} {{employee.EmpName}}</ion-option>
+      </span>
+    </ion-select>
+  </ion-item> -->
+  
+  <button ion-button type="submit" (click)="CreateTask()" block>Create</button>
+</form>
+ 
+<div>
+  <ion-card style="border-radius: 10px;" class="shadow announcements allanc" #cc *ngFor= "let item of restCall.allTasks,let i = index"> 
+    <ion-card-content (click)="ToggleAccrd(item,i)">
+      <div style="display: flex;align-items: center;justify-content: center;">
+        <p style="width: 87%;display: inline-block;text-align: justify;">{{item.TaskText}}</p>
+        <p style="width: 10%; text-align: right;"> 
+          <ion-checkbox *ngIf="item.TaskStatus == 'Pending'" color="primary" (ionChange)="UpdateAnnouncement(item)" checked="false"></ion-checkbox>
+          <ion-checkbox *ngIf="item.TaskStatus == 'Completed'" color="primary" (ionChange)="UpdateAnnouncement(item)" checked="true"></ion-checkbox>
+        </p>
+      </div>
+    </ion-card-content>
+    <div class="EditFrm">
+      <ion-item>
+        <ion-textarea placeholder="Task*" [(ngModel)]="msg" name="msg" (input)="adjustTextarea($event);"></ion-textarea>
+      </ion-item>
+      <ion-item class="activeCheck"> 
+        <ion-label>All</ion-label>
+        <ion-checkbox *ngIf="isAll" color="primary" (ionChange)="All($event)" [(ngModel)]="isAll" name="isAll" checked="true"></ion-checkbox>
+        <ion-checkbox *ngIf="!isAll" color="primary" (ionChange)="All($event)" [(ngModel)]="isAll" name="isAll" checked="false"></ion-checkbox>
+      </ion-item> 
+      <span *ngIf="showEmplist">
+        <ion-item class="activeCheck" *ngFor="let employee of restCall.employeeList, let i = index"> 
+          <ion-label>{{employee.EmpCode}} {{employee.EmpName}}</ion-label>
+          <ion-checkbox color="primary" (ionChange)="AddEmptoShowList($event,employee.EmpCode)" [checked]="emps.includes(employee.EmpCode)"></ion-checkbox>
+        </ion-item>
+      </span>
+      <button ion-button (click)="UpdtMsg(item,x)" block>Update</button>
+    </div>
+  </ion-card>  
+</div>
+</ion-content>

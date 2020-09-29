@@ -1,6 +1,7 @@
 import { RestcallsProvider } from './../../providers/restcalls/restcalls';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { BarcodescannerPage } from '../barcodescanner/barcodescanner';
 
 
 @IonicPage()
@@ -19,5 +20,17 @@ export class LoginPage {
     }else{
       this.restCall.displayNotification("Please use Valid Credentials");
     }
+  }
+  BarcodeScan(){
+    this.restCall.storage.get('scannerId').then((id)=>{
+      if(id != null || id != undefined){
+        this.navCtrl.push(BarcodescannerPage);
+      }else{
+        let scannerId = Date.now();
+        console.log(scannerId)
+        this.restCall.storage.set('scannerId',scannerId)
+        this.navCtrl.push(BarcodescannerPage);  
+      }
+    })
   }
 }

@@ -1,3 +1,4 @@
+import { TasksPage } from './../tasks/tasks';
 import { AnnouncementpopupComponent } from './../../components/announcementpopup/announcementpopup';
 import { AnnouncementsPage } from './../announcements/announcements';
 import { RestcallsProvider } from '../../providers/restcalls/restcalls';
@@ -12,6 +13,7 @@ import { EmployeetimingPage } from '../employeetiming/employeetiming';
 import { DropdownComponent } from '../../components/dropdown/dropdown';
 import { BarcodescannerPage } from '../barcodescanner/barcodescanner';
 import { SalaryPage } from '../salary/salary';
+import { TabsTaskPage } from '../tabs-tasks/tabstask';
 
 @Component({
   selector: 'page-home', 
@@ -99,6 +101,9 @@ currentuser:any;
   }
   Scanner(){
     this.navCtrl.push(BarcodescannerPage);  
+  }
+  Tasks(){
+    this.navCtrl.push(TabsTaskPage);   
   }
   TimeReport(){ 
     console.log(this.restCall.employeeReportingsByDate.length);

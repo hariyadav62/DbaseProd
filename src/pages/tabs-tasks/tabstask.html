@@ -1,0 +1,6 @@
+<ion-tabs>
+  <ion-tab [root]="tab1Root" [rootParams]="data" tabTitle="Create" tabIcon="home" *ngIf="restCall.currentuser.UserType == 'ADMIN'"></ion-tab>
+  <ion-tab [root]="tab2Root" [rootParams]="data" tabTitle="Pending" tabIcon="information-circle"></ion-tab>
+  <ion-tab [root]="tab3Root" [rootParams]="data" tabTitle="Completed" tabIcon="information-circle"></ion-tab>
+</ion-tabs>
+  

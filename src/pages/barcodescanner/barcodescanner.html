@@ -6,7 +6,11 @@
 
 <ion-content padding>
   <!-- <button style="margin-top: 350px" ion-button (click)="Addbar()">Stop Scan</button> -->
-  <ion-item class="" style="margin-top: 320px">
+  <ion-item style="margin-top: 320px">
+    <!-- <ion-label floating>Username</ion-label> -->
+    <ion-input type="number" [(ngModel)]="bundleNumber" placeholder="Bundle Number"></ion-input>
+  </ion-item>
+  <ion-item class="">
     <p item-start>Today Scan Count</p>
     <p item-end *ngIf="scanCount"> <span></span> {{scanCount}}</p>
     <p item-end *ngIf="!scanCount"> <span></span> 0 </p>

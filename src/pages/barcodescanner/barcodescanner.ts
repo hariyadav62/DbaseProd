@@ -9,6 +9,8 @@ declare var EmbeddedBarcodeReader: any;
 export class BarcodescannerPage {
   barcode: any;
   scanCount: any;
+  bundleNumber:number;
+  scannerId: any;
   constructor(public navCtrl: NavController, public navParams: NavParams, public restCall: RestcallsProvider, public loadingController: LoadingController) {
     
   }
@@ -16,13 +18,22 @@ export class BarcodescannerPage {
     this.StopScanning();
   }
   ionViewWillEnter(){
-    this.goToBarcodeScan();
-    this.restCall.LoadTodayScannedBarcodes(this.restCall.currentuser.EmpCode).then(data => 
-      {
-        this.barcode = this.restCall.barcodes; 
-        console.log(this.barcode)
-        this.scanCount = this.restCall.barcodes.length;
-      })
+    this.restCall.storage.get('scannerId').then((scannerId) => {
+      if (scannerId != null && scannerId != undefined) {
+        this.scannerId = scannerId;
+        this.goToBarcodeScan();
+        this.restCall.AssignBarcodeBundle(scannerId).then((data)=>{
+          this.bundleNumber = this.restCall.bundleId;
+        });
+        this.restCall.LoadTodayScannedBarcodes(this.scannerId).then(data => 
+          {
+            this.barcode = this.restCall.barcodes; 
+            console.log(this.barcode)
+            this.scanCount = this.restCall.barcodes.length;
+          })
+        }
+    });
+    
   }
   goToBarcodeScan() {
     let options = {
@@ -41,24 +52,38 @@ export class BarcodescannerPage {
       loader.present();
       console.log(readBarcode[0]);
       let scanData = {
-        USERID: this.restCall.currentuser.EmpCode,
-        BARCODE: readBarcode[0]
+        USERID: this.scannerId,
+        // USERID: this.restCall.currentuser.EmpCode,
+        BARCODE: readBarcode[0],
+        BUNDLEID: this.bundleNumber
       }
-      this.restCall.AddBarcode(scanData).then((data)=>{
-        if(data == "Already Exist"){
-          this.restCall.displayNotification("Barcode already Exist");
-          loader.dismiss();
-        }else{
-          this.restCall.LoadTodayScannedBarcodes(this.restCall.currentuser.EmpCode).then(dataa => 
-            {
-              this.barcode = this.restCall.barcodes;  
-              this.scanCount = this.restCall.barcodes.length;
-              console.log(this.barcode)
-              loader.dismiss();
-          })
-        }
-        
-      })
+      if(this.bundleNumber != null && this.bundleNumber != undefined){
+        this.restCall.AddBarcode(scanData).then((data)=>{
+          if(data == "Already Exist"){
+            this.restCall.displayNotification("Barcode already Exist");
+            loader.dismiss();
+          }else if(data == "Bundle Complete"){
+            alert("Bundle Complete");
+            this.restCall.AssignBarcodeBundle(scanData.USERID).then((data)=>{
+              this.bundleNumber = this.restCall.bundleId;
+            });
+          }
+          else{
+            this.restCall.LoadTodayScannedBarcodes(this.scannerId).then(dataa => 
+              {
+                this.barcode = this.restCall.barcodes;  
+                this.scanCount = this.restCall.barcodes.length;
+                console.log(this.barcode)
+                loader.dismiss();
+            })
+          }
+          
+        })
+      }else{
+        loader.dismiss();
+        alert("Please enter Bundle Number")
+      }
+     
     });
   }
 // Addbar(){

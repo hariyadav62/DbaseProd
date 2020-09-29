@@ -1,0 +1,52 @@
+<ion-header>
+  <ion-navbar>
+    <ion-buttons left margin-horizontal>
+      <button ion-button icon-only (click)="onClickCancel()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </button>  
+    </ion-buttons>
+    <ion-title>Pending Tasks</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <div class="filters" style="margin-bottom:25px" *ngIf="restCall.currentuser.UserType=='ADMIN'">
+    <ion-item class="employeeSelect">
+      <ion-select placeholder="Employee" [(ngModel)]="empid" name="empid" (ionChange)="SearchByCode()">
+        <ion-option value="All">All Employees</ion-option>
+        <ion-option *ngFor="let employee of restCall.employeeList " value="{{employee.EmpCode}}">{{employee.EmpCode}}
+          {{employee.EmpName}}</ion-option>
+      </ion-select>
+    </ion-item>
+    <!-- <div class="dateFilter" *ngIf="restCall.loadCheckinYearMonth">
+      <span *ngIf="restCall.loadCheckinYearMonth.length != 0">
+      <ion-item class="search_date"> 
+        <ion-datetime (ionChange)="SearchByYearMonth()" displayFormat="MMM YYYY" pickerFormat="MMM YYYY"
+          [(ngModel)]="selectedMonth" name="selectedMonth" min="{{restCall.mindate}}" max="{{restCall.maxdate}}" placeholder="Search by month"></ion-datetime> 
+      </ion-item>
+      <ion-item class="search_day"> 
+        <ion-select class="selDay" (ionChange)="SearchByYearMonthDay()" placeholder="Day" [(ngModel)]="selDay" name="selDay" style="padding: 5px 3px;">
+          <ion-option *ngFor="let day of restCall.loadCheckinDates" value="{{day.DAY}}">{{day.DAY}}</ion-option>
+        </ion-select>
+      </ion-item>
+    </span>
+    </div> -->
+  </div>
+  <ion-card style="border-radius: 10px;" [ngClass]="{'completed-pending':item.TaskStatus == 'Completed,Pending'}" class="shadow announcements allanc" *ngFor= "let item of pendingtasks,let i = index"> 
+    <span *ngIf="restCall && restCall.currentuser.UserType == 'ADMIN'" class="empId">{{ item.EmpIds }}</span>
+    <ion-card-content class="taskpendingCard">
+      <ion-item>
+        <p>{{item.CreatedOn.substring(0, 10)}}</p>
+        <p item-end>{{item.CreatedOn.substring(0, 10)}}</p>
+      </ion-item>
+      <div style="display: flex;align-items: center;justify-content: center;">
+        <p style="width: 87%;display: inline-block;text-align: justify;">{{item.TaskText}}</p>
+        <p style="width: 10%; text-align: right;"> 
+          <ion-checkbox *ngIf="item.TaskStatus == 'Pending' && restCall.currentuser.UserType !='ADMIN'" color="primary" (ionChange)="UpdateTask(item)" checked="false"></ion-checkbox>
+          <ion-checkbox *ngIf="item.TaskStatus == 'Completed,Pending' && restCall.currentuser.UserType !='ADMIN'" color="primary" (ionChange)="UpdateTask(item)" checked="true"></ion-checkbox>
+          <ion-checkbox *ngIf="item.TaskStatus == 'Completed,Pending' && restCall.currentuser.UserType=='ADMIN'" color="primary" (ionChange)="UpdateTask(item)" checked="false"></ion-checkbox>
+        </p>
+      </div>
+    </ion-card-content>
+    </ion-card>
+</ion-content>

@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-navbar>
+    <ion-buttons left margin-horizontal>
+      <button ion-button icon-only (click)="onClickCancel()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </button>  
+    </ion-buttons>
+    <ion-title>Completed Tasks</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <ion-card style="border-radius: 10px;" class="shadow announcements allanc completed" *ngFor= "let item of completedTasks,let i = index"> 
+      <span *ngIf="restCall && restCall.currentuser.UserType == 'ADMIN'" class="empId">{{ item.EmpIds }}</span>
+      <ion-card-content>
+        <ion-item>
+          <p>{{item.CreatedOn.substring(0, 10)}}</p>
+          <p item-end>{{item.CreatedOn.substring(0, 10)}}</p>
+        </ion-item>
+        <div style="display: flex;align-items: center;justify-content: center;">
+          <p style="width: 97%;display: inline-block;text-align: justify;">{{item.TaskText}}</p>
+        </div>
+      </ion-card-content>
+    </ion-card>
+</ion-content>

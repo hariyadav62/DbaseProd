@@ -1,0 +1,27 @@
+page-tasks-completed {
+    .ionic-selectable {
+        max-width: 100%;
+    }
+    .empId{
+        position: absolute;
+        background: #f29860;
+        padding: 2px 10px;
+        color: white;
+        border-radius: 5px;
+        box-shadow: 1px 2px 5px #0000005e;
+        margin-top: -10px;
+    }
+    .completed{
+        background: #d9ffdb;
+        padding-top: 5px;
+        ion-item{
+            padding-left: 4px;
+            background: none;
+            min-height: 0;
+            ion-label{
+                margin: 0 8px 0 0;
+            }
+        }
+    }
+
+}

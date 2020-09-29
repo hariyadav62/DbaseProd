@@ -155,6 +155,21 @@
               </span>
             </ion-col>
             <ion-col col-6 text-center>
+              <ion-card style="border-radius: 10px;" class="shadow" (click)="Tasks()">
+                  <img src="../../assets/imgs/tasks.svg" alt="tasks">
+                <ion-card-content>
+                  <ion-card-title>
+                      Tasks
+                  </ion-card-title>
+                </ion-card-content>
+              </ion-card>
+              <span *ngIf="restCall.notifications">
+                <span *ngIf="restCall.notifications[3].Status != 0">
+                  <p class="notifications" >{{restCall.notifications[3].Status}}</p>
+                </span>
+              </span>
+            </ion-col>
+            <!-- <ion-col col-6 text-center>
               <ion-card style="border-radius: 10px;" class="shadow" (click)="Scanner()">
                   <img src="../../assets/imgs/barcode.svg" alt="Scanner">
                 <ion-card-content>
@@ -163,7 +178,7 @@
                   </ion-card-title>
                 </ion-card-content>
               </ion-card>
-            </ion-col>
+            </ion-col> -->
         </ion-row>
       
       <!-- <ion-fab bottom right>
@@ -265,20 +280,22 @@
                     </ion-card>
                   </ion-col>
                     
-                  <!-- <ion-col col-6 text-center *ngIf = "currentuser.UserType == 'ADMIN'">
-                    <ion-card style="border-radius: 10px;" class="shadow" (click)="SalaryPaySlips()">
-                        <img src="../../assets/imgs/bills.svg" alt="Bills">
+                  <ion-col col-6 text-center *ngIf = "currentuser.UserType == 'ADMIN'">
+                    <ion-card style="border-radius: 10px;" class="shadow" (click)="Tasks()">
+                        <img src="../../assets/imgs/tasks.svg" alt="tasks">
                       <ion-card-content>
                         <ion-card-title>
-                            Salary
+                            Tasks
                         </ion-card-title>
                       </ion-card-content>
                     </ion-card>
-                  </ion-col> -->
+                    <span *ngIf="restCall.notifications">
+                      <span *ngIf="restCall.notifications[3].Status != 0">
+                        <p class="notifications" >{{restCall.notifications[3].Status}}</p>
+                      </span>
+                    </span>
+                  </ion-col>
         </ion-row>
-        <button ion-button (click)="sendNotification()">
-          Send Notification
-        </button>
 </ion-content> 
 <ion-footer>
     <ion-toolbar>

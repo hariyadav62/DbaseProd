@@ -46,6 +46,10 @@ import { ModalratingPage } from '../pages/modalrating/modalrating';
 import { BarcodescannerPage } from '../pages/barcodescanner/barcodescanner';
 import { SalaryPage } from '../pages/salary/salary';
 import { DatePipe } from '@angular/common';
+import { TasksPage } from '../pages/tasks/tasks';
+import { TabsTaskPage } from '../pages/tabs-tasks/tabstask';
+import { TasksCompletedPage } from '../pages/tasks-completed/tasks-completed';
+import { TasksPendingPage } from '../pages/tasks-pending/tasks-pending';
 @NgModule({ 
   declarations: [
     MyApp,
@@ -69,6 +73,7 @@ import { DatePipe } from '@angular/common';
     MyTeamPage, 
     WorkSubmissionAllPage,
     TabsWorkPage,
+    TabsTaskPage,
     InvoicePage,
     EmpCheckInsPage ,
     AnnouncementsPage,  
@@ -78,6 +83,9 @@ import { DatePipe } from '@angular/common';
     ModalratingPage,
     DropdownComponent,
     SalaryPage,
+    TasksPage,
+    TasksCompletedPage,
+    TasksPendingPage,
     BarcodescannerPage
   ],
   imports: [ 
@@ -118,9 +126,13 @@ import { DatePipe } from '@angular/common';
     MyTeamPage,
     WorkSubmissionAllPage,
     TabsWorkPage, 
+    TabsTaskPage,
     InvoicePage,
     EmpCheckInsPage ,
-    AnnouncementsPage,
+    AnnouncementsPage,   
+    TasksPage,
+    TasksCompletedPage,
+    TasksPendingPage,
     BarcodescannerPage
   ],
   providers: [

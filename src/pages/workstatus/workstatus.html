@@ -39,7 +39,7 @@
     </form>
   </div>
   <div class="filters">
-    <ion-item class="employeeSelect" *ngIf="restCall.currentuser.UserType=='ADMIN'">
+    <ion-item class="employeeSelect">
       <ion-select placeholder="Employee" [(ngModel)]="empcode" name="empcode" (ionChange)="SearchByCode()">
         <ion-option value="All">All Employees</ion-option>
         <ion-option value="Team">Team Leaders</ion-option>

@@ -7,8 +7,8 @@ import { OneSignal } from '@ionic-native/onesignal';
 import { Storage } from '@ionic/storage';
 @Injectable() 
 export class RestcallsProvider {   
-   _HOST2 : string =	"http://app.dbasesolutions.in/api/dbaseapi";  
-  // _HOST2: string = "http://localhost:21249/api/dbaseapi";  
+  //  _HOST2 : string =	"http://app.dbasesolutions.in/api/dbaseapi";  
+  _HOST2: string = "http://localhost:21249/api/dbaseapi";  
   userLoggedIn: boolean = false;
   isAdmin: boolean = false;
   totalPendingLeaves: any = [];
@@ -71,7 +71,9 @@ export class RestcallsProvider {
   barcodes:any;
   salPaySlip: any;
   monthSalDetails: any;
-  constructor(public http: HttpClient, public _TOAST: ToastController, public app: App, platform: Platform, private storage: Storage, public loadingController: LoadingController,public alertCtrl: AlertController,private oneSignal: OneSignal) {
+  bundleId: any;
+  allTasks: any;
+  constructor(public http: HttpClient, public _TOAST: ToastController, public app: App, platform: Platform, public storage: Storage, public loadingController: LoadingController,public alertCtrl: AlertController,private oneSignal: OneSignal) {
     storage.get('id').then((id) => {
       if (id != null) {
         storage.get('pass').then((pass) => {
@@ -175,6 +177,24 @@ export class RestcallsProvider {
       return promise;
 
   }
+  AssignBarcodeBundle(empid: string){
+    let promise = new Promise((resolve, reject) => {
+      this.http
+        .get(this._HOST2 + '/AssignBarcodeBundle?empid=' + empid)
+        .subscribe((data: any) => {
+          this.bundleId = data;
+          resolve();
+        },
+          (error: any) => {
+            console.dir(error);
+          });
+    });
+    return promise;
+  }
+  // Barcodes End
+
+
+
   SetToday() {
     let date = new Date();
     this.today = date.getFullYear() + '-' + (("0" + (date.getMonth() + 1)).slice(-2)) + '-' + (("0" + date.getDate()).slice(-2));
@@ -2067,5 +2087,86 @@ export class RestcallsProvider {
     });
     return promise;
   }
+  // Payslips end
+
+
+  // Tasks
+  LoadAllTasks(empid:string,status:string){
+    let loader = this.loadingController.create({
+      content: "Loading All Tasks"
+    });
+    loader.present();
+    let promise = new Promise((resolve, reject) => {
+      this.http
+        .get(this._HOST2 + '/LoadAllTasks?empid='+empid+'&status='+status)
+        .subscribe((data: any) => {
+          this.allTasks = data;
+          loader.dismiss();
+          resolve();
+        },
+        (error: any) => {
+          console.dir(error);
+          loader.dismiss();
+        });
+    });
+    return promise;
+  }
+  LoadAllTasksById(empid:string){
+    let loader = this.loadingController.create({
+      content: "Loading.."
+    });
+    loader.present();
+    let promise = new Promise((resolve, reject) => {
+      this.http
+        .get(this._HOST2 + '/LoadTasksById?empid='+empid)
+        .subscribe((data: any) => {
+          this.allTasks = data;
+          loader.dismiss();
+          resolve();
+        },
+        (error: any) => {
+          console.dir(error);
+          loader.dismiss();
+        });
+    });
+    return promise;
+  }
+  UpdateTask(task){
+    let promise = new Promise((resolve, reject) => {
+      let headers: any = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' })
+      this.http
+        .put(this._HOST2 + '/UpdateTask', task, headers)
+        .subscribe((data: any) => {
+          //this.LoadAllTasks();
+          resolve();
+        },
+        (error: any) => {
+          console.log(error);
+        });
+    });
+    return promise;
+  }
+  CreateTask(task){
+    let promise = new Promise((resolve, reject) => {
+      let headers: any = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' })
+      this.http
+          .post(this._HOST2 + "/CreateTask", task, headers)
+          .subscribe((data: any) => {
+            this.displayNotification('Task Created');
+            resolve();
+          },
+          (error: any) => {
+            this.displayNotification(error);
+          });
+    });
+      return promise;
+  }
+
+
+  // Tasks End
+
+
+
+
 
 }
