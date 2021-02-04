@@ -11,24 +11,6 @@
 
 <ion-content padding> 
   <div *ngIf = "restCall.todayEmployeeReportings" >
-  <!-- <ion-card class="card-details"[ngClass]="{'approve-border': item.Report_Staus == 'Approved', 'rejected-border': item.Report_Staus == 'Rejected','pending-border': item.Report_Staus == 'Pending'}" *ngFor = "let item of restCall.todayEmployeeReportings">
-    <ion-item [ngClass]="{'approve': item.Report_Staus == 'Approved', 'rejected': item.Report_Staus == 'Rejected','pending': item.Report_Staus == 'Pending'}">
-      <h2 text-center class="card-point">{{item.Emp_Name}}</h2>
-      <div item-start text-center>
-        <p *ngIf = "item.Time">{{item.Time}}</p>
-      </div>
-      <div item-end text-center *ngIf = "item.Report_Staus == 'Pending' ">
-        <button ion-button color="secondary" outline (click)="respondToReport(item,'Approved')">Approve</button>
-        <button ion-button color="danger" outline (click)="respondToReport(item,'Rejected')">Reject</button>
-      </div>
-      <div item-end text-center *ngIf = "item.Report_Staus == 'Approved'">
-        <button ion-button color="secondary" clear (click)="UpdateStatus(item)">Approved</button>
-      </div>
-      <div item-end text-center *ngIf = "item.Report_Staus == 'Rejected'">
-        <button ion-button color="danger" clear (click)="UpdateStatus(item)">Rejected</button>
-      </div>
-    </ion-item>
-  </ion-card> -->
   <h5 *ngIf="recheck">Recheckins</h5>
   <span *ngFor = "let item of restCall.todayEmployeeReportings">
     <span *ngIf="item.Report_Staus == 'Recheckin'">
@@ -91,4 +73,7 @@
 <div *ngIf = "restCall.todayEmployeeReportings">
   <p *ngIf = "restCall.todayEmployeeReportings.length==0" class="no-data"> No Data to Show </p>
 </div>
+<ion-fab center bottom *ngIf = "restCall.todayEmployeeReportings && restCall.todayEmployeeReportings.length != 0">
+  <button ion-fab color="primary" (click)="ApproveAllPending(restCall.todayEmployeeReportings[0].Date)"><ion-icon name="checkmark"></ion-icon></button>
+</ion-fab>
 </ion-content>

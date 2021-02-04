@@ -1,0 +1,12 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Enable Checkins</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-item class="activeCheck" *ngFor="let employee of restCall.employeeList, let i = index"> 
+    <ion-label>{{employee.EmpCode}} {{employee.EmpName}}</ion-label>
+    <ion-checkbox color="primary" (ionChange)="EnableCheckin($event,employee)" [checked]="emps.includes(employee.EmpCode)"></ion-checkbox>
+  </ion-item>
+</ion-content>

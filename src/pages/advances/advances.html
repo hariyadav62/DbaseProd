@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Advances</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-card>
+    <ion-item> 
+      <p item-start>Total</p> 
+      <p item-end class="" *ngIf="advanceTotal"><span>&#8377;</span> {{advanceTotal}}</p> 
+    </ion-item>
+  </ion-card> 
+  <div *ngFor="let adv of restCall.advancesAll" >
+    <ion-card *ngIf="adv.Advance != 0" (click)="LoadAdvancesInCreditsPage(adv.empid)">
+      <ion-item [ngClass]="{'negative': adv.Advance < 0, 'positive': adv.Advance > 0}">
+        <p item-start class="CihCard">{{adv.empid}} {{adv.EmpName}}</p> 
+        <p item-end  [ngClass]="{'green':adv.Advance > 0,'red':adv.Advance < 0}"><span>&#8377;</span> {{adv.Advance - adv.AdvanceRepayment}}</p> 
+      </ion-item> 
+    </ion-card> 
+  </div>
+</ion-content>

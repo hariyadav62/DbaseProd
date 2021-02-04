@@ -5,9 +5,11 @@ import { ToastController, App, Platform, LoadingController, AlertController } fr
 // import { FCM } from '@ionic-native/fcm';
 import { OneSignal } from '@ionic-native/onesignal';
 import { Storage } from '@ionic/storage';
+import { BarcodescannerPage } from '../../pages/barcodescanner/barcodescanner';
 @Injectable() 
 export class RestcallsProvider {   
   //  _HOST2 : string =	"http://app.dbasesolutions.in/api/dbaseapi";  
+  //  _HOST2 : string =	"https://29c52dabe211.ngrok.io/api/dbaseapi";  
   _HOST2: string = "http://localhost:21249/api/dbaseapi";  
   userLoggedIn: boolean = false;
   isAdmin: boolean = false;
@@ -73,6 +75,14 @@ export class RestcallsProvider {
   monthSalDetails: any;
   bundleId: any;
   allTasks: any;
+  bundleCount: any;
+  scanUsers: any;
+  barcodeAdmin: boolean = false;
+  barcodeAdminData: any;
+  universities: any;
+  selectedUniversity:string;
+  selectedCourseType:string;
+  advancesAll:any;
   constructor(public http: HttpClient, public _TOAST: ToastController, public app: App, platform: Platform, public storage: Storage, public loadingController: LoadingController,public alertCtrl: AlertController,private oneSignal: OneSignal) {
     storage.get('id').then((id) => {
       if (id != null) {
@@ -138,10 +148,39 @@ export class RestcallsProvider {
   }
 
   // Barcodes
-  LoadTodayScannedBarcodes(empid: string) {
+  LoadUniversities(){
     let promise = new Promise((resolve, reject) => {
       this.http
-        .get(this._HOST2 + '/LoadTodayScannedBarcodes?empid=' + empid)
+        .get(this._HOST2 + '/LoadUniversities')
+        .subscribe((data: any) => {
+          this.universities = data;
+          resolve();
+        },
+          (error: any) => {
+            console.dir(error);
+          });
+    });
+    return promise;
+  }
+  
+  LoadScanUsers(university:string){
+    let promise = new Promise((resolve, reject) => {
+      this.http
+        .get(this._HOST2 + '/LoadScanUsers?university='+university)
+        .subscribe((data: any) => {
+          this.scanUsers = data;
+          resolve();
+        },
+          (error: any) => {
+            console.dir(error);
+          });
+    });
+    return promise;
+  }
+  LoadTodayScannedBarcodes(bundleId: number,coursetype) {
+    let promise = new Promise((resolve, reject) => {
+      this.http
+        .get(this._HOST2 + '/LoadTodayScannedBarcodes?bundleId=' + bundleId +'&coursetype='+coursetype)
         .subscribe((data: any) => {
           this.barcodes = data;
           resolve();
@@ -152,35 +191,110 @@ export class RestcallsProvider {
     });
     return promise;
   }
+  LoadTodayScannedBarcodes_brau(bundleId: number,coursetype) {
+    let promise = new Promise((resolve, reject) => {
+      this.http
+        .get(this._HOST2 + '/LoadTodayScannedBarcodes_brau?bundleId=' + bundleId +'&coursetype='+coursetype)
+        .subscribe((data: any) => {
+          this.barcodes = data;
+          resolve();
+        },
+          (error: any) => {
+            console.dir(error);
+          });
+    });
+    return promise;
+  }
+  BarcodeAdminTable(){
+    let promise = new Promise((resolve, reject) => {
+      this.http
+        .get(this._HOST2 + '/BarcodeAdminTable')
+        .subscribe((data: any) => {
+          this.barcodeAdminData = data;
+          resolve();
+        },
+          (error: any) => {
+            console.dir(error);
+          });
+    });
+    return promise;
+  }
+  BarcodeAdminTable_brau(){
+    let promise = new Promise((resolve, reject) => {
+      this.http
+        .get(this._HOST2 + '/BarcodeAdminTable_brau')
+        .subscribe((data: any) => {
+          this.barcodeAdminData = data;
+          resolve();
+        },
+          (error: any) => {
+            console.dir(error);
+          });
+    });
+    return promise;
+  }
   AddBarcode(barcode) {
-    // let loader = this.loadingController.create({
-    //   content: "Loading.."
-    // });
-    // loader.present();
     let promise = new Promise((resolve,reject)=>{
     let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' })
     let resp: any;
     this.http
       .post(this._HOST2 + "/AddBarcode", barcode, headers)
       .subscribe((data: any) => {
-        // this.displayNotification('Barcode Scanned');
-        // loader.dismiss();
-        //return data;
-        //console.log(data);
         resolve(data);
       },
         (error: any) => {
           this.displayNotification(error);
-          // loader.dismiss();
         });
       })
       return promise;
-
   }
-  AssignBarcodeBundle(empid: string){
+  AddBarcode_brau(barcode) {
+    let promise = new Promise((resolve,reject)=>{
+    let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' })
+    let resp: any;
+    this.http
+      .post(this._HOST2 + "/AddBarcode_brau", barcode, headers)
+      .subscribe((data: any) => {
+        resolve(data);
+      },
+        (error: any) => {
+          this.displayNotification(error);
+        });
+      })
+      return promise;
+  }
+  GetBundleCount(bundleid,coursetype,university){
     let promise = new Promise((resolve, reject) => {
       this.http
-        .get(this._HOST2 + '/AssignBarcodeBundle?empid=' + empid)
+        .get(this._HOST2 + '/GetBundleCount?bundleid=' + bundleid+'&coursetype='+coursetype+'&university='+university)
+        .subscribe((data: any) => {
+          this.bundleCount = data;
+          resolve();
+        },
+          (error: any) => {
+            console.dir(error);
+          });
+    });
+    return promise;
+  }
+  AssignBarcodeBundle(empid: string,coursetype:string){
+    let promise = new Promise((resolve, reject) => {
+      this.http
+        .get(this._HOST2 + '/AssignBarcodeBundle?empid=' + empid+'&coursetype='+coursetype)
+        .subscribe((data: any) => {
+          this.bundleId = data;
+          resolve();
+        },
+          (error: any) => {
+            console.dir(error);
+          });
+    });
+    return promise;
+  }
+  AssignBarcodeBundle_brau(empid: string,coursetype:string){
+    let promise = new Promise((resolve, reject) => {
+      this.http
+        .get(this._HOST2 + '/AssignBarcodeBundle_brau?empid=' + empid+'&coursetype='+coursetype)
         .subscribe((data: any) => {
           this.bundleId = data;
           resolve();
@@ -200,6 +314,29 @@ export class RestcallsProvider {
     this.today = date.getFullYear() + '-' + (("0" + (date.getMonth() + 1)).slice(-2)) + '-' + (("0" + date.getDate()).slice(-2));
     console.log(this.today);
   }
+  BarcodeAdminLogin(id, pass){
+    let loader = this.loadingController.create({
+      content: "Loading.."
+    });
+    loader.present();
+    let promise = new Promise((resolve,reject)=>{
+    this.http
+      .get(this._HOST2 + "/BarcodeAdminLogin?userName=" + id + "&pwd=" + pass)
+      .subscribe((data: any) => {
+        this.barcodeAdmin = true;
+        //let nav = this.app.getActiveNav();
+        //nav.setRoot(BarcodescannerPage); 
+        loader.dismiss();
+        resolve()
+      } ,
+        (error: any) => {
+          this.barcodeAdmin = false;
+          loader.dismiss();
+          this.displayNotification(error.error);
+        });
+      });
+      return promise;
+  }
   loginFunction(id, pass) {
     let loader = this.loadingController.create({
       content: "Loading.."
@@ -213,9 +350,9 @@ export class RestcallsProvider {
         this.currentuser = data;
         this.oneSignal.getIds().then((users)=> {
           this.currentuser.DeviceId = users.userId;
+          this.SetDeviceId();
         });
         // if(this.currentuser.DeviceId != null && this.currentuser.DeviceId != undefined){
-          this.SetDeviceId();
           this.storage.set('id', id);
           this.storage.set('pass', pass);
           loader.dismiss();
@@ -235,6 +372,7 @@ export class RestcallsProvider {
   logOut() {
     this.storage.clear();
     this.userLoggedIn = false;
+    this.barcodeAdmin = false
     let nav = this.app.getActiveNav();
     nav.setRoot('LoginPage');
   }
@@ -611,6 +749,24 @@ export class RestcallsProvider {
       this.http.get(this._HOST2 + '/LoadAdvances?EmpId=' + empid+'&FYear='+FYear+'&FMonth='+FMonth).subscribe((data: any) => {
         this.transactions = data;
         console.log(this.transactions)
+        loader.dismiss();
+        resolve();
+      },
+        (error: any) => {
+          console.dir(error);
+          loader.dismiss();
+        });
+    });
+    return promise;
+  }
+  LoadAdvancesAll() {
+    let loader = this.loadingController.create({
+      content: "Loading.."
+    });
+    loader.present();
+    let promise = new Promise((resolve, reject) => {
+      this.http.get(this._HOST2 + '/LoadAdvancesAll').subscribe((data: any) => {
+        this.advancesAll = data;
         loader.dismiss();
         resolve();
       },
@@ -1283,7 +1439,8 @@ export class RestcallsProvider {
     loader.present();
     let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' })
     let resp: any;
-    this.http
+    let promise = new Promise((resolve,reject)=>{
+       this.http
       .post(this._HOST2 + "/CreditVoucher", credit, headers)
       .subscribe((data: any) => {
         this.displayNotification('Money Transffered');
@@ -1298,15 +1455,22 @@ export class RestcallsProvider {
           type:'Transaction',
           Body:`You have Recieved ${credittype} amount of Rs${credit.Amount}/- from ${this.currentuser.EmpCode} ${this.currentuser.EmpName} through ${credit.TransferType}`
         }
+        if(credit.TransferType == 'DBS Mobile'){
+          notify.Body = `You have Recieved ${credittype} amount of Rs${credit.Amount}/- from ${credit.SenderEmpId} through ${credit.TransferType}`
+        }
         this.sendNotification(notify);
         this.retrieveCashInHand(this.currentuser.EmpCode)
         console.log(data);
+        resolve(true);
       },
         (error: any) => {
           this.displayNotification(error);
           loader.dismiss();
+          reject(false);
         });
-  }
+    })
+    return promise;
+    }
 
   UnseenCreditToZero(empcode) {
     let loader = this.loadingController.create({
@@ -1786,7 +1950,21 @@ export class RestcallsProvider {
     return promise;
   }
 
-
+  ApproveAllPendingCheckins(date: string) {
+    let promise = new Promise((resolve, reject) => {
+      let headers: any = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' })
+      this.http
+        .put(this._HOST2 + '/ApproveAllPendingCheckins', date, headers)
+        .subscribe((resp: any) => {
+          this.displayNotification(resp);
+          resolve();
+        },
+          (error: any) => {
+            this.displayNotification(error);
+          });
+    })
+    return promise;
+  }
 
 
 
@@ -1998,11 +2176,11 @@ export class RestcallsProvider {
    return promise;
   }
   SetDeviceId() {
-    let promise = new Promise((data)=>{
-      console.log(this.currentuser.DeviceId)
+    let promise = new Promise((resolve, reject)=>{
       this.http
         .get(this._HOST2 + '/SetDeviceId?EmpCode='+ this.currentuser.EmpCode +'&DeviceId='+this.currentuser.DeviceId)
         .subscribe((data: any) => {
+          resolve();
         },
         (error: any) => {
           this.displayNotification(error);

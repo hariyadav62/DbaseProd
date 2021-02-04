@@ -6,25 +6,58 @@
 
 <ion-content padding>
   <!-- <button style="margin-top: 350px" ion-button (click)="Addbar()">Stop Scan</button> -->
-  <ion-item style="margin-top: 320px">
-    <!-- <ion-label floating>Username</ion-label> -->
-    <ion-input type="number" [(ngModel)]="bundleNumber" placeholder="Bundle Number"></ion-input>
+  <!-- <ion-item style="margin-top: 320px">
+    <ion-input type="number" [(ngModel)]="bundleNumber" placeholder="Bundle Number" disabled></ion-input>
+  </ion-item> -->
+  <div *ngIf="!restCall.barcodeAdmin">
+    <ion-item class="user-course">
+      <div item-end>  
+        <p *ngIf="restCall.selectedCourseType">Courese Type: {{restCall.selectedCourseType}}</p>
+      </div>
+      <div item-start>  
+        <p *ngIf="scannerId">User: {{scannerId}}</p>
+      </div>
+    </ion-item> 
+  
+  <ion-item >
+  <ion-label>Bundle Number</ion-label>
+  <ion-input type="number" [(ngModel)]="bundleNumber" placeholder="Bundle Number" disabled></ion-input>
   </ion-item>
-  <ion-item class="">
-    <p item-start>Today Scan Count</p>
-    <p item-end *ngIf="scanCount"> <span></span> {{scanCount}}</p>
-    <p item-end *ngIf="!scanCount"> <span></span> 0 </p>
+  <ion-item >
+  <ion-label>Bundle Count</ion-label>
+  <ion-input type="number" [(ngModel)]="bundlecount" placeholder="Bundle Count" disabled></ion-input>
+  </ion-item>
+  <!-- <ion-item >
+    <p item-start *ngIf="bundleNumber">Bundle Number: {{bundleNumber}}</p>
+    <p item-end *ngIf="bundlecount">Bundle Count: {{bundlecount}}</p>
+  </ion-item> -->
+  <table style="width: 100%;">
+    <tr>
+      <th text-center>Barcode</th>
+      <th text-center>Course Type</th>
+    </tr>
+    <tr *ngFor = "let item of barcode">
+      <td text-center ><span *ngIf = "item.BARCODE">{{item.BARCODE}}</span></td>
+      <td text-center ><span *ngIf = "item.COURSETYPE">{{item.COURSETYPE}}</span></td>
+    </tr>
+  </table>
+</div>
+<div *ngIf="restCall.barcodeAdmin && (restCall.barcodeAdminData != undefined && restCall.barcodeAdminData != null)">
+  <ion-item style="padding-bottom: 20px;">
+    <p item-start>Total Scan Count: </p>
+    <p item-end *ngIf="restCall.barcodeAdminData.length > 0">{{restCall.barcodeAdminData[0].Total_Count}}</p>
   </ion-item>
   <table style="width: 100%;">
     <tr>
-      <th text-center>USERID</th> 
-      <th text-center>BARCODE</th>
-      <th text-center>DATETIME</th>
+      <th text-center>UserId</th>
+      <th text-center>Completed Bundles</th>
+      <th text-center>Scan Count</th>
     </tr>
-    <tr *ngFor = "let item of barcode">
-      <td text-center><span *ngIf = "item.USERID" >{{item.USERID}}</span></td>
-      <td text-center ><span *ngIf = "item.BARCODE">{{item.BARCODE}}</span></td>
-      <td text-center><span *ngIf = "item.DATETIME">{{item.DATETIME.substring(0, 10)}}</span></td>
+    <tr *ngFor = "let item of restCall.barcodeAdminData">
+      <td text-center ><span *ngIf = "item.userid">{{item.userid}}</span></td>
+      <td text-center ><span *ngIf = "item.Completed_Bundles">{{item.Completed_Bundles}}</span></td>
+      <td text-center ><span *ngIf = "item.Scan_Count !=0">{{item.Scan_Count}}</span><span *ngIf = "item.Scan_Count == 0">0</span></td>
     </tr>
   </table>
+</div>
 </ion-content>

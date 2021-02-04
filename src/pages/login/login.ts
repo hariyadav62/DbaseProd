@@ -12,7 +12,25 @@ import { BarcodescannerPage } from '../barcodescanner/barcodescanner';
 export class LoginPage {  
   username:any; 
   password:any; 
+  scanusers:any;
+  user:any;
+  barcodeusername: any;
+  barcodepassword: any;
+  universities: any;
+  selectedUniversity: string;
+  selectedCourseType: string;
   constructor(public navCtrl: NavController, public navParams: NavParams, public restCall: RestcallsProvider) {
+
+  }
+  ionViewWillEnter(){
+    // this.restCall.LoadUniversities().then(()=> this.universities = this.restCall.universities)
+  }
+  LoadScanUsers(){
+    this.restCall.selectedUniversity = this.selectedUniversity;
+    this.restCall.LoadScanUsers(this.selectedUniversity).then(()=> this.scanusers = this.restCall.scanUsers)
+  }
+  SelectCourseType(){
+    this.restCall.selectedCourseType = this.selectedCourseType;
   }
   login(){ 
     if(this.username != undefined && this.password != undefined){
@@ -22,15 +40,26 @@ export class LoginPage {
     }
   }
   BarcodeScan(){
-    this.restCall.storage.get('scannerId').then((id)=>{
-      if(id != null || id != undefined){
-        this.navCtrl.push(BarcodescannerPage);
-      }else{
-        let scannerId = Date.now();
-        console.log(scannerId)
-        this.restCall.storage.set('scannerId',scannerId)
-        this.navCtrl.push(BarcodescannerPage);  
-      }
-    })
+    if(this.user != undefined && this.selectedCourseType != undefined && this.selectedUniversity != undefined){
+      let scannerId = this.user;
+      console.log(scannerId)
+      this.restCall.storage.set('scannerId',scannerId)
+      this.navCtrl.push(BarcodescannerPage);  
+    }else{
+      this.restCall.displayNotification("Please select University, course type, user");
+    }
+  }
+  async BarcodeAdminLogin(){
+    if(this.barcodeusername != undefined && this.barcodepassword != undefined){
+      this.restCall.BarcodeAdminLogin(this.barcodeusername, this.barcodepassword).then(()=>{
+        if(this.restCall.barcodeAdmin){
+          console.log(this.restCall.barcodeAdmin)
+          this.navCtrl.push(BarcodescannerPage);
+        }
+      });
+      
+    }else{
+      this.restCall.displayNotification("Please use Valid Credentials");
+    }
   }
 }

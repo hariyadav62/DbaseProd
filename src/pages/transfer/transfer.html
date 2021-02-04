@@ -20,7 +20,8 @@
       </ion-select>
     </ion-item>
     <span *ngIf="RecieverEmpId">
-      <p class="info" text-center *ngIf="RecieverEmpId.substring(0,4) != '1501' && RecieverEmpId.substring(0,4) != '1531'" (click)="ChangeLimitPopup(RecieverEmpId.substring(0,4))">
+      <!-- <p class="info" text-center *ngIf="RecieverEmpId.substring(0,4) != '1501' && RecieverEmpId.substring(0,4) != '1531'" (click)="ChangeLimitPopup(RecieverEmpId.substring(0,4))"> -->
+      <p class="info" text-center *ngIf="RecieverEmpId.substring(0,4) != '1501' && RecieverEmpId.substring(0,4) != '1534'">
         <ion-icon name="information-circle"></ion-icon> Maximum <span>&#8377;</span> {{UpdatedLimit}} can be transferred
       </p>
     </span>

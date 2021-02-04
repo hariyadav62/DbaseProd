@@ -8,7 +8,6 @@ import { RestcallsProvider } from '../../providers/restcalls/restcalls';
 })
 export class TransferPage {
   RecieverEmpId:any; 
-  AccountEmpId:any = '1509';
   amount: any;
   Tid: any;
   voucherReason: any;
@@ -33,7 +32,7 @@ export class TransferPage {
     if(this.RecieverEmpId != null && this.RecieverEmpId != undefined){
       console.log(this.RecieverEmpId.substring(0,4));
       this.UpdatedLimit = this.RecieverEmpId.substring(5);
-      if(this.RecieverEmpId.substring(0,4) == '1501' || this.RecieverEmpId.substring(0,4) == '1531'){
+      if(this.RecieverEmpId.substring(0,4) == '1501' || this.RecieverEmpId.substring(0,4) == '1534'){
        await this.restCall.LoadAdvances(this.restCall.currentuser.EmpCode,'All','All').then(()=>{
           console.log(this.restCall.transactions.length);
           if(this.restCall.transactions.length != 0){
@@ -127,7 +126,6 @@ export class TransferPage {
                     {
                       text: 'Cancel',
                       handler: () => {
-                        //this.navCtrl.push(EmpCheckInsPage);
                       }
                     },
                     {
@@ -155,7 +153,7 @@ export class TransferPage {
       }
       else{
         console.log(this.RecieverEmpId)
-        if(this.RecieverEmpId.substring(0,4) == '1531'){
+        if(this.RecieverEmpId.substring(0,4) == '1534'){
           let credit:any ={
             Amount : this.amount,
             RecieverEmpId: this.RecieverEmpId.substring(0,4),
@@ -173,8 +171,7 @@ export class TransferPage {
             this.creditremarks = null;
             this.TransferType = null;
             this.viewCtrl.dismiss();
-          }
-          else{
+          }else{
             if(this.amount < this.restCall.cashinhand[0].CASHINHAND){
               let trans = await this.restCall.TransferAmount(credit);
               this.amount = null;
@@ -269,7 +266,26 @@ export class TransferPage {
           }
         }
         else{
-          alert(this.amount+" Please Enter amount between Rs.0/- and Rs."+this.UpdatedLimit+"/-");
+          if(this.restCall.currentuser.UserType == 'ADMIN'){
+          let credit:any ={
+            Amount : this.amount,
+            RecieverEmpId: this.RecieverEmpId.substring(0,4),
+            SenderEmpId: this.restCall.currentuser.EmpCode,
+            CDescription: "Amount transferred to "+this.RecieverEmpId.substring(0,4)+",through "+this.TransferType+" __ "+this.creditremarks, 
+            Date:new Date().toLocaleString(),
+            TransferType: this.TransferType,
+            SALorAdv : 'Credit' 
+          }
+          let trans = await this.restCall.TransferAmount(credit);
+          this.amount = null;
+          this.RecieverEmpId = null;
+          this.remarks = null;
+          this.creditremarks = null; 
+          this.TransferType = null;
+          this.viewCtrl.dismiss();
+          }else{
+            alert(this.amount+" Please Enter amount between Rs.0/- and Rs."+this.UpdatedLimit+"/-");
+          }
         }
       }
     }else{

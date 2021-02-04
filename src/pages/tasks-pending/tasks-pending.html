@@ -37,7 +37,7 @@
     <ion-card-content class="taskpendingCard">
       <ion-item>
         <p>{{item.CreatedOn.substring(0, 10)}}</p>
-        <p item-end>{{item.CreatedOn.substring(0, 10)}}</p>
+        <p item-end *ngIf="item.CompletedOn">{{item.CompletedOn.substring(0, 10)}}</p>
       </ion-item>
       <div style="display: flex;align-items: center;justify-content: center;">
         <p style="width: 87%;display: inline-block;text-align: justify;">{{item.TaskText}}</p>

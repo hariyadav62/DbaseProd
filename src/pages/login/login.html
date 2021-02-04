@@ -11,6 +11,26 @@
     <br> 
     <img src="../../assets/imgs/DBSHead.png" alt="" width="70%">  
   </div>
+
+  <!-- <div>
+    <ion-list>
+      <ion-item>
+        <ion-label>Select University</ion-label>
+        <ion-select [(ngModel)]="selectedUniversity" required (ionChange)="LoadScanUsers()">
+          <ion-option *ngFor="let x of universities" [value]="x.UNIVERSITYNAME">{{x.UNIVERSITYNAME}}</ion-option>
+        </ion-select>
+      </ion-item>
+    </ion-list>
+    <ion-list>
+      <ion-item>
+        <ion-label>Select Course Type</ion-label>
+        <ion-select [(ngModel)]="selectedCourseType" required (ionChange)="SelectCourseType()">
+          <ion-option  value="UG">UG</ion-option>
+          <ion-option  value="PG">PG</ion-option>
+        </ion-select>
+      </ion-item>
+    </ion-list>
+  </div> -->
     <ion-list>
       <ion-item>
         <ion-label floating>Username</ion-label>
@@ -23,8 +43,29 @@
     </ion-list>
   
   <button ion-button block (click)="login()" >sign in</button>
-  <!-- <br>
+  <!-- <br> -->
+
+<!-- 
+  <ion-list>
+    <ion-item>
+      <ion-label floating>Username</ion-label>
+      <ion-input type="text" [(ngModel)]="barcodeusername"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Password</ion-label>
+      <ion-input type="password" [(ngModel)]="barcodepassword"></ion-input>
+    </ion-item>
+  </ion-list>
+  <button ion-button block (click)="BarcodeAdminLogin()" >sign in</button>
   <br>
   <br>
+  <ion-list>
+    <ion-item>
+      <ion-label>Select User</ion-label>
+      <ion-select [(ngModel)]="user" (ionChange)="SelectCourseType()">
+        <ion-option *ngFor="let x of scanusers" [value]="x.ScanUser">{{x.ScanUser}}</ion-option>
+      </ion-select>
+    </ion-item>
+  </ion-list>
   <button ion-button block color="dark" (click)="BarcodeScan()" >Barcode Scanner</button> -->
 </ion-content>

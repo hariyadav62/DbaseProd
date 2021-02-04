@@ -1,304 +1,253 @@
 <ion-header>
   <ion-navbar>
     <div class="logo-wrapper">
-      <img src="../../assets/imgs/dbaselogo.png" alt="" class="logo"> 
+      <img src="../../assets/imgs/dbaselogo.png" alt="" class="logo">
       <div class="shape2"></div>
     </div>
-      <!-- <svg *ngIf = "currentuser.UserType != 'ADMIN'" class="logout" height="50pt" (click)="restCall.logOut()" viewBox="0 0 464 464" width="50pt" xmlns="http://www.w3.org/2000/svg"><path d="m232 216c8.835938 0 16-7.164062 16-16v-144c0-8.835938-7.164062-16-16-16s-16 7.164062-16 16v144c0 8.835938 7.164062 16 16 16zm0 0" fill="#f1f2f2"/><path d="m303.273438 97.726562c-4.429688-2.394531-9.726563-2.582031-14.3125-.503906-4.585938 2.082032-7.933594 6.1875-9.050782 11.097656v.105469c-1.546875 7.039063 1.808594 14.246094 8.195313 17.597657 48.75 25.773437 73.660156 81.457031 60.382812 134.980468-13.277343 53.523438-61.324219 91.109375-116.46875 91.109375s-103.191406-37.585937-116.46875-91.109375c-13.277343-53.523437 11.632813-109.207031 60.386719-134.980468 6.386719-3.347657 9.742188-10.554688 8.199219-17.597657v-.097656c-1.105469-4.902344-4.433594-9.007813-9.007813-11.09375-4.570312-2.089844-9.851562-1.921875-14.28125.453125-61.667968 32.71875-93.121094 103.234375-76.265625 170.976562 16.855469 67.746094 77.691407 115.296876 147.503907 115.296876 69.808593 0 130.644531-47.550782 147.5-115.296876 16.855468-67.742187-14.597657-138.257812-76.265626-170.976562zm0 0" fill="#f1f2f2"/><path d="m232 0v40c8.835938 0 16 7.164062 16 16v144c0 8.835938-7.164062 16-16 16v135.832031c1.960938 0 3.886719.121094 5.863281 0 53.96875-2.632812 99.515625-41.023437 111.242188-93.769531 11.730469-52.742188-13.257813-106.816406-61.027344-132.070312-6.382813-3.351563-9.738281-10.558594-8.191406-17.601563v-.101563c1.117187-4.910156 4.464843-9.019531 9.050781-11.097656s9.882812-1.894531 14.308594.503906c61.707031 32.703126 93.1875 103.242188 76.324218 171.011719-16.863281 67.765625-77.734374 115.324219-147.570312 115.292969v80c128.128906 0 232-103.871094 232-232s-103.871094-232-232-232zm0 0" fill="#ff4764"/><path d="m214.59375 383.03125c-66.179688-7.59375-119.703125-57.390625-132.042969-122.851562-12.339843-65.457032 19.378907-131.324219 78.25-162.492188 4.425781-2.375 9.710938-2.542969 14.28125-.453125 4.570313 2.085937 7.902344 6.191406 9.007813 11.09375v.097656c1.542968 7.042969-1.8125 14.25-8.203125 17.597657-48.726563 25.738281-73.625 81.386718-60.332031 134.871093 13.289062 53.480469 61.335937 91.003907 116.445312 90.9375v-135.832031c-8.835938 0-16-7.164062-16-16v-144c0-8.835938 7.164062-16 16-16v-40c-128.128906 0-232 103.871094-232 232s103.871094 232 232 232v-80c-5.816406-.003906-11.628906-.324219-17.40625-.96875zm0 0" fill="#ff3051"/></svg> -->
-      <!-- <svg xmlns="http://www.w3.org/2000/svg" (click)="dropdown()" version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 511.998 511.998" xml:space="preserve" class="logout drpdwn" height="35pt" width="35pt">
-        <g>
-          <g>
-            <path d="M509.04,131.296c-4.063-4.24-10.802-4.406-15.083-0.333L255.999,358.577L18.04,130.962    c-4.271-4.094-11.021-3.927-15.083,0.333c-4.073,4.26-3.917,11.01,0.333,15.083l245.333,234.667    c2.063,1.969,4.719,2.958,7.375,2.958s5.313-0.99,7.375-2.958l245.333-234.667C512.957,142.306,513.113,135.556,509.04,131.296z"/>
-          </g>
-        </g>
-      </svg> -->
-      <!-- <div class="drpbox">
-        <li class="links">Settings</li>
-        <li class="links">Logout</li>
-      </div> -->
-      <ion-buttons end>
-        <button ion-button icon-only (click)="dropdown($event)">
-          <ion-icon name="more"></ion-icon>
-        </button>
-      </ion-buttons>
-     
+    <ion-buttons end>
+      <button ion-button icon-only (click)="dropdown($event)">
+        <ion-icon name="more"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
-</ion-header> 
+</ion-header>
 
 <ion-content padding>
-<div class="shape">
-  <ion-grid style="position: absolute;
+  <div class="shape">
+    <ion-grid style="position: absolute;
     top: -20px;
     left: 18%;">
       <ion-row>
-        <ion-col col-10> 
-            <ion-card style="border-radius: 10px; background: none;overflow: visible; box-shadow: none; padding-top:5px;height: auto; ">
-              <ion-card-content class="dp-card">
-                <ion-card-title>
-                    {{currentuser.EmpCode}}-{{currentuser.EmpName}} 
-                </ion-card-title> 
-                 <p> {{currentuser.Designation}}</p>
-              </ion-card-content>
-            </ion-card> 
+        <ion-col col-10>
+          <ion-card
+            style="border-radius: 10px; background: none;overflow: visible; box-shadow: none; padding-top:5px;height: auto; ">
+            <ion-card-content class="dp-card">
+              <ion-card-title>
+                {{currentuser.EmpCode}}-{{currentuser.EmpName}}
+              </ion-card-title>
+              <p> {{currentuser.Designation}}</p>
+            </ion-card-content>
+          </ion-card>
         </ion-col>
       </ion-row>
+    </ion-grid>
+
+  </div>
+  <ion-grid>
+    <div *ngIf="currentuser.UserType != 'ADMIN'">
+      <ion-row class="home-buttons">
+        <ion-col col-6 text-center>
+          <ion-card style="border-radius: 10px;" class="shadow" (click)="GoToMyProfile()">
+            <img src="../../assets/imgs/user.svg" alt="">
+            <ion-card-content>
+              <ion-card-title>
+                My Profile
+              </ion-card-title>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+        <ion-col col-6 text-center (click)="TimeReport()">
+          <ion-card style="border-radius: 10px;" class="shadow check-in">
+            <span *ngIf="restCall.employeeReportingsByDate">
+              <span *ngFor="let item of restCall.employeeReportingsByDate">
+                <p *ngIf="item.Report_Staus == 'Pending' || item.Report_Staus == 'Approved'"
+                  [ngClass]="{'red':item.Report_Staus == 'Pending', 'green':item.Report_Staus == 'Approved'}"
+                  (click)="EmployeeAllCheckins()"> {{item.Time}}</p>
+              </span>
+              <p class="blue" *ngIf="restCall.employeeReportingsByDate.length == 0"> {{time}}</p>
+            </span>
+            <ion-card-content>
+              <ion-card-title>
+                Check-In
+              </ion-card-title>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+        <ion-col col-6 text-center>
+          <ion-card style="border-radius: 10px;" (click)="employeeTimings()" class="shadow">
+            <img src="../../assets/imgs/EmpTimings.svg" alt="">
+            <ion-card-content>
+              <ion-card-title>
+                Timings
+              </ion-card-title>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+        <ion-col col-6 text-center>
+          <ion-card class="shadow" style="border-radius: 10px;" (click)="workStatus()">
+            <img src="../../assets/imgs/workReport.svg" alt="">
+            <ion-card-content>
+              <ion-card-title>
+                Work Report
+              </ion-card-title>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+        <ion-col col-6 text-center>
+          <ion-card class="shadow" style="border-radius: 10px;" (click)="applyLeave()">
+            <img src="../../assets/imgs/ApplyLeave.svg" alt="">
+            <ion-card-content>
+              <ion-card-title>
+                Apply Leave
+              </ion-card-title>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+        <ion-col col-6 text-center *ngIf="currentuser.UserType == 'TEAMLEADER' || currentuser.UserType == 'MANAGER'">
+          <ion-card style="border-radius: 10px;" (click)="MyTeam()" class="shadow">
+            <img src="../../assets/imgs/team.svg" alt="">
+            <ion-card-content>
+              <ion-card-title>
+                My Team
+              </ion-card-title>
+            </ion-card-content>
+          </ion-card>
+          <span *ngIf="restCall.notifications">
+            <span *ngIf="restCall.notifications[0].Status != 0 || restCall.notifications[1].Status != 0">
+              <p class="notifications">{{restCall.notifications[0].Status + restCall.notifications[1].Status}}</p>
+            </span>
+          </span>
+        </ion-col>
+        <ion-col col-6 text-center>
+          <ion-card style="border-radius: 10px;" (click)="GoToVouchers()" class="shadow">
+            <img src="../../assets/imgs/Vouchers.svg" alt="Vouchers">
+            <ion-card-content>
+              <ion-card-title>
+                Vouchers
+              </ion-card-title>
+            </ion-card-content>
+          </ion-card>
+          <span *ngIf="creditcounts != 0">
+            <p class="notifications credit">+Rs.{{creditcounts}}/-</p>
+          </span>
+        </ion-col>
+        <ion-col col-6 text-center>
+          <ion-card style="border-radius: 10px;" class="shadow" (click)="Tasks()">
+            <img src="../../assets/imgs/tasks.svg" alt="tasks">
+            <ion-card-content>
+              <ion-card-title>
+                Tasks
+              </ion-card-title>
+            </ion-card-content>
+          </ion-card>
+          <span *ngIf="restCall.notifications">
+            <span *ngIf="restCall.notifications[3].Status != 0">
+              <p class="notifications">{{restCall.notifications[3].Status}}</p>
+            </span>
+          </span>
+        </ion-col>
+      </ion-row>
+    </div>
   </ion-grid>
-  
-</div>
-    <ion-grid>
-      <div *ngIf = "currentuser.UserType != 'ADMIN'">
-        <!-- <span *ngIf="restCall.empAnnouncements">
-          <ion-row *ngIf="restCall.empAnnouncements.length != 0" style="position: relative;z-index: 11;">
-            <ion-col col-12>
-              <ion-card style="border-radius: 10px;" class="shadow announcements" [ngClass]="{'active': activeCard}" (click)="!activeCard?ExpandAnnouncements(): HideAnnouncements()">
-                <ion-card-content>
-                  <ion-card-title text-center style="color: blue;">
-                      Announcements
-                  </ion-card-title> 
-                  <div class="announceContent">
-                    <p *ngFor="let item of restCall.empAnnouncements;let i = index">
-                     {{i+1}}. {{item.Message}}
-                    </p>
-                  </div>
-                </ion-card-content>
-              </ion-card>  
-            </ion-col>
-          </ion-row>
-        </span> -->
-        <ion-row class="home-buttons">
-            <ion-col col-6 text-center>
-                <ion-card style="border-radius: 10px;" class="shadow" (click)="GoToMyProfile()">
-                    <img src="../../assets/imgs/user.svg" alt="">
-                  <ion-card-content>
-                    <ion-card-title>
-                        My Profile
-                    </ion-card-title> 
-                  </ion-card-content>
-                </ion-card>  
-              </ion-col> 
-              <ion-col col-6 text-center (click)="TimeReport()">
-                <ion-card style="border-radius: 10px;" class="shadow check-in"> 
-                    <span *ngIf = "restCall.employeeReportingsByDate">
-                      <span *ngFor = "let item of restCall.employeeReportingsByDate">
-                        <p *ngIf = "item.Report_Staus == 'Pending' || item.Report_Staus == 'Approved'" 
-                        [ngClass]="{'red':item.Report_Staus == 'Pending', 'green':item.Report_Staus == 'Approved'}" (click)="EmployeeAllCheckins()"> {{item.Time}}</p>
-                      </span>
-                        <p class="blue" *ngIf = "restCall.employeeReportingsByDate.length == 0"> {{time}}</p>
-                      </span>
-                    
-                  <ion-card-content>
-                    <ion-card-title>
-                        Check-In
-                    </ion-card-title>
-                  </ion-card-content>
-                </ion-card>
-              </ion-col>
-              <ion-col col-6 text-center>
-                <ion-card style="border-radius: 10px;" (click)="employeeTimings()" class="shadow">
-                   <img src="../../assets/imgs/EmpTimings.svg" alt="">
-                  <ion-card-content>
-                    <ion-card-title>
-                        Timings
-                    </ion-card-title> 
-                  </ion-card-content>
-                </ion-card> 
-              </ion-col> 
-              <ion-col col-6 text-center>
-                <ion-card  class="shadow" style="border-radius: 10px;" (click)="workStatus()">
-                   <img src="../../assets/imgs/workReport.svg" alt="">
-                  <ion-card-content>
-                    <ion-card-title>
-                        Work Report
-                    </ion-card-title> 
-                  </ion-card-content>
-                </ion-card> 
-                <!-- <span *ngIf="notifications">
-                  <p class="notifications" >{{notifications[0].Status}}</p>
-                </span> -->
-              </ion-col> 
-            <ion-col col-6 text-center>
-              <ion-card  class="shadow" style="border-radius: 10px;" (click)="applyLeave()">
-                  <img src="../../assets/imgs/ApplyLeave.svg" alt="">
-                <ion-card-content>
-                  <ion-card-title>
-                      Apply Leave
-                  </ion-card-title> 
-                </ion-card-content>
-              </ion-card> 
-            </ion-col> 
-            <ion-col col-6 text-center *ngIf = "currentuser.UserType == 'TEAMLEADER' || currentuser.UserType == 'MANAGER'">
-              <ion-card style="border-radius: 10px;" (click)="MyTeam()" class="shadow">
-                 <img src="../../assets/imgs/team.svg" alt="">
-                <ion-card-content>
-                  <ion-card-title>
-                      My Team
-                  </ion-card-title>
-                </ion-card-content>
-              </ion-card>
-              <span *ngIf="restCall.notifications">
-                <span *ngIf="restCall.notifications[0].Status != 0 || restCall.notifications[1].Status != 0">
-                <p class="notifications" >{{restCall.notifications[0].Status + restCall.notifications[1].Status}}</p>
-                </span>
-              </span>
-            </ion-col>
-            <ion-col col-6 text-center>
-              <ion-card style="border-radius: 10px;" (click)="GoToVouchers()" class="shadow">
-                  <img src="../../assets/imgs/Vouchers.svg" alt="Vouchers">
-                <ion-card-content>
-                  <ion-card-title>
-                      Vouchers
-                  </ion-card-title>
-                </ion-card-content>
-              </ion-card>
-              <span *ngIf="creditcounts != 0">
-                <p class="notifications credit" >+Rs.{{creditcounts}}/-</p>
-              </span>
-            </ion-col>
-            <ion-col col-6 text-center>
-              <ion-card style="border-radius: 10px;" class="shadow" (click)="Tasks()">
-                  <img src="../../assets/imgs/tasks.svg" alt="tasks">
-                <ion-card-content>
-                  <ion-card-title>
-                      Tasks
-                  </ion-card-title>
-                </ion-card-content>
-              </ion-card>
-              <span *ngIf="restCall.notifications">
-                <span *ngIf="restCall.notifications[3].Status != 0">
-                  <p class="notifications" >{{restCall.notifications[3].Status}}</p>
-                </span>
-              </span>
-            </ion-col>
-            <!-- <ion-col col-6 text-center>
-              <ion-card style="border-radius: 10px;" class="shadow" (click)="Scanner()">
-                  <img src="../../assets/imgs/barcode.svg" alt="Scanner">
-                <ion-card-content>
-                  <ion-card-title>
-                      Scanner
-                  </ion-card-title>
-                </ion-card-content>
-              </ion-card>
-            </ion-col> -->
-        </ion-row>
-      
-      <!-- <ion-fab bottom right>
-        <button ion-fab color="secondary" [disabled]="restCall.disableTimeReport" (click)="TimeReport()"><ion-icon name="clock"></ion-icon></button>
-      </ion-fab> -->
-        <!-- <span *ngIf = "restCall.employeeReportingsByDate">
-          <span *ngFor = "let item of restCall.employeeReportingsByDate">
-          <p *ngIf = "item.Report_Staus == 'Pending' || item.Report_Staus == 'Approved'">{{item.Time}}</p></span>
-        </span> -->
-      </div>
-    </ion-grid> 
-        <ion-row *ngIf = "currentuser.UserType == 'ADMIN'" class="home-buttons">
-            <ion-col col-6 text-center>
-                <ion-card style="border-radius: 10px;" (click)="employeeList()" class="shadow">
-                   <img src="../../assets/imgs/UserList.svg" alt="">
-                  <ion-card-content>
-                    <ion-card-title>
-                        Employee List
-                    </ion-card-title>
-                  </ion-card-content>
-                </ion-card>
-              </ion-col>
-              <ion-col col-6 text-center>
-                  <ion-card style="border-radius: 10px;" (click)="employeeReportings()" class="shadow">
-                     <img src="../../assets/imgs/TimeReport.svg" alt="">
-                    <ion-card-content>
-                      <ion-card-title>
-                          Check-Ins
-                      </ion-card-title>
-                    </ion-card-content>
-                  </ion-card>
-                  <span *ngIf="restCall.notifications">
-                    <span *ngIf="restCall.notifications[2].Status != 0">
-                      <p class="notifications" >{{restCall.notifications[2].Status}}</p>
-                    </span>
-                  </span>
-                </ion-col>
-                  <ion-col col-6 text-center>
-                    <ion-card style="border-radius: 10px;" (click)="employeeTimings()" class="shadow">
-                       <img src="../../assets/imgs/EmpTimings.svg" alt="">
-                      <ion-card-content>
-                        <ion-card-title>
-                            Timings
-                        </ion-card-title> 
-                      </ion-card-content>
-                    </ion-card> 
-                  </ion-col> 
-                  <ion-col col-6 text-center>
-                      <ion-card style="border-radius: 10px;" (click)="leaveRequests()" class="shadow">
-                          <img src="../../assets/imgs/LeavesList.svg" alt="">
-                        <ion-card-content>
-                          <ion-card-title>
-                              Requests
-                          </ion-card-title> 
-                        </ion-card-content>
-                      </ion-card> 
-                      <span *ngIf="restCall.notifications">
-                        <span *ngIf="restCall.notifications[1].Status != 0">
-                          <p class="notifications" >{{restCall.notifications[1].Status}}</p>
-                        </span>
-                      </span>
-                    </ion-col> 
-                  <ion-col col-6 text-center>
-                    <ion-card style="border-radius: 10px;" (click)="GoToVouchers()" class="shadow">
-                        <img src="../../assets/imgs/Vouchers.svg" alt="Vouchers">
-                      <ion-card-content>
-                        <ion-card-title> 
-                            Transactions
-                        </ion-card-title>
-                      </ion-card-content>
-                    </ion-card>
-                    <span *ngIf="creditcounts != 0">
-                      <p class="notifications credit" >+Rs{{creditcounts}}/-</p>
-                    </span>
-                  </ion-col>
-                  <ion-col col-6 text-center *ngIf = "currentuser.UserType == 'ADMIN'">
-                    <ion-card style="border-radius: 10px;" class="shadow" (click)="GoToWorkReports()">
-                        <img src="../../assets/imgs/TeamReport.svg" alt="Bills">
-                      <ion-card-content>
-                        <ion-card-title>
-                            Work Reports
-                        </ion-card-title>
-                      </ion-card-content>
-                    </ion-card>
-                    <span *ngIf="restCall.notifications">
-                      <span *ngIf="restCall.notifications[0].Status != 0">
-                        <p class="notifications" >{{restCall.notifications[0].Status}}</p>
-                      </span>
-                    </span>
-                  </ion-col>
-                  <ion-col col-6 text-center *ngIf = "currentuser.UserType == 'ADMIN'">
-                    <ion-card style="border-radius: 10px;" class="shadow" (click)="GoToBills()">
-                        <img src="../../assets/imgs/bills.svg" alt="Bills">
-                      <ion-card-content>
-                        <ion-card-title>
-                            Invoices
-                        </ion-card-title>
-                      </ion-card-content>
-                    </ion-card>
-                  </ion-col>
-                    
-                  <ion-col col-6 text-center *ngIf = "currentuser.UserType == 'ADMIN'">
-                    <ion-card style="border-radius: 10px;" class="shadow" (click)="Tasks()">
-                        <img src="../../assets/imgs/tasks.svg" alt="tasks">
-                      <ion-card-content>
-                        <ion-card-title>
-                            Tasks
-                        </ion-card-title>
-                      </ion-card-content>
-                    </ion-card>
-                    <span *ngIf="restCall.notifications">
-                      <span *ngIf="restCall.notifications[3].Status != 0">
-                        <p class="notifications" >{{restCall.notifications[3].Status}}</p>
-                      </span>
-                    </span>
-                  </ion-col>
-        </ion-row>
-</ion-content> 
+  <ion-row *ngIf="currentuser.UserType == 'ADMIN'" class="home-buttons">
+    <ion-col col-6 text-center>
+      <ion-card style="border-radius: 10px;" (click)="employeeList()" class="shadow">
+        <img src="../../assets/imgs/UserList.svg" alt="">
+        <ion-card-content>
+          <ion-card-title>
+            Employee List
+          </ion-card-title>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+    <ion-col col-6 text-center>
+      <ion-card style="border-radius: 10px;" (click)="employeeReportings()" class="shadow">
+        <img src="../../assets/imgs/TimeReport.svg" alt="">
+        <ion-card-content>
+          <ion-card-title>
+            Check-Ins
+          </ion-card-title>
+        </ion-card-content>
+      </ion-card>
+      <span *ngIf="restCall.notifications">
+        <span *ngIf="restCall.notifications[2].Status != 0">
+          <p class="notifications">{{restCall.notifications[2].Status}}</p>
+        </span>
+      </span>
+    </ion-col>
+    <ion-col col-6 text-center>
+      <ion-card style="border-radius: 10px;" (click)="employeeTimings()" class="shadow">
+        <img src="../../assets/imgs/EmpTimings.svg" alt="">
+        <ion-card-content>
+          <ion-card-title>
+            Timings
+          </ion-card-title>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+    <ion-col col-6 text-center>
+      <ion-card style="border-radius: 10px;" (click)="leaveRequests()" class="shadow">
+        <img src="../../assets/imgs/LeavesList.svg" alt="">
+        <ion-card-content>
+          <ion-card-title>
+            Requests
+          </ion-card-title>
+        </ion-card-content>
+      </ion-card>
+      <span *ngIf="restCall.notifications">
+        <span *ngIf="restCall.notifications[1].Status != 0">
+          <p class="notifications">{{restCall.notifications[1].Status}}</p>
+        </span>
+      </span>
+    </ion-col>
+    <ion-col col-6 text-center>
+      <ion-card style="border-radius: 10px;" (click)="GoToVouchers()" class="shadow">
+        <img src="../../assets/imgs/Vouchers.svg" alt="Vouchers">
+        <ion-card-content>
+          <ion-card-title>
+            Transactions
+          </ion-card-title>
+        </ion-card-content>
+      </ion-card>
+      <span *ngIf="creditcounts != 0">
+        <p class="notifications credit">+Rs{{creditcounts}}/-</p>
+      </span>
+    </ion-col>
+    <ion-col col-6 text-center *ngIf="currentuser.UserType == 'ADMIN'">
+      <ion-card style="border-radius: 10px;" class="shadow" (click)="GoToWorkReports()">
+        <img src="../../assets/imgs/TeamReport.svg" alt="Bills">
+        <ion-card-content>
+          <ion-card-title>
+            Work Reports
+          </ion-card-title>
+        </ion-card-content>
+      </ion-card>
+      <span *ngIf="restCall.notifications">
+        <span *ngIf="restCall.notifications[0].Status != 0">
+          <p class="notifications">{{restCall.notifications[0].Status}}</p>
+        </span>
+      </span>
+    </ion-col>
+    <ion-col col-6 text-center *ngIf="currentuser.UserType == 'ADMIN'">
+      <ion-card style="border-radius: 10px;" class="shadow" (click)="GoToBills()">
+        <img src="../../assets/imgs/bills.svg" alt="Bills">
+        <ion-card-content>
+          <ion-card-title>
+            Invoices
+          </ion-card-title>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+
+    <ion-col col-6 text-center *ngIf="currentuser.UserType == 'ADMIN'">
+      <ion-card style="border-radius: 10px;" class="shadow" (click)="Tasks()">
+        <img src="../../assets/imgs/tasks.svg" alt="tasks">
+        <ion-card-content>
+          <ion-card-title>
+            Tasks
+          </ion-card-title>
+        </ion-card-content>
+      </ion-card>
+      <span *ngIf="restCall.notifications">
+        <span *ngIf="restCall.notifications[3].Status != 0">
+          <p class="notifications">{{restCall.notifications[3].Status}}</p>
+        </span>
+      </span>
+    </ion-col>
+  </ion-row>
+</ion-content>
 <ion-footer>
-    <ion-toolbar>
-        <ion-title text-center>Copyright &#169; 2020, D Base Solutions</ion-title>
-    </ion-toolbar>
+  <ion-toolbar>
+    <ion-title text-center>Copyright &#169; 2020, D Base Solutions</ion-title>
+  </ion-toolbar>
 </ion-footer>

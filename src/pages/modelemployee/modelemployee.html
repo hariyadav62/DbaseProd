@@ -82,6 +82,11 @@
           </ion-select>
         </ion-item>
 
+        <ion-item *ngIf="restCall.currentuser.UserType == 'ADMIN'">
+          <ion-label>Enable Checkin</ion-label>
+          <ion-checkbox color="primary" name="enableCheckin" [(ngModel)]="enableCheckin" checked="false" (ionChange)="EnableCheckin()"></ion-checkbox>
+        </ion-item>
+        
       </ion-list>
     </div>
     <div *ngIf="restCall.currentuser.UserType == 'ADMIN'">

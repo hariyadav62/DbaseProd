@@ -146,7 +146,7 @@ export class AddvoucherPage {
   }
   getBlob (b64Data) {
     let loader = this.loadingController.create({
-      content: "B64 to BLOB.."
+      content: "B64 to BLOB.." 
     });
     loader.present();
     let contentType = 'image/png';

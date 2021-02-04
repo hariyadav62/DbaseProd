@@ -14,9 +14,9 @@
         <ion-option value="Permission">Permission</ion-option>
       </ion-select>
     </ion-item>
-    <ion-item> 
+    <ion-item>  
       <ion-label>From Date</ion-label>
-      <ion-datetime (ionChange)="calTotalDays()" displayFormat="MMM DD, YYYY" pickerFormat="MMM DD, YYYY" [(ngModel)]="startingDate" name="startingDate"></ion-datetime>
+      <ion-datetime (ionChange)="calTotalDays()" displayFormat="MMM DD, YYYY" pickerFormat="MMM DD, YYYY" [min]="restCall.today" [(ngModel)]="startingDate" name="startingDate"></ion-datetime>
     </ion-item>
     <span *ngIf = "!permission && !halfday">
       <ion-item>

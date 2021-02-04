@@ -50,6 +50,7 @@ import { TasksPage } from '../pages/tasks/tasks';
 import { TabsTaskPage } from '../pages/tabs-tasks/tabstask';
 import { TasksCompletedPage } from '../pages/tasks-completed/tasks-completed';
 import { TasksPendingPage } from '../pages/tasks-pending/tasks-pending';
+import { AdvancesPage } from '../pages/advances/advances';
 @NgModule({ 
   declarations: [
     MyApp,
@@ -86,6 +87,7 @@ import { TasksPendingPage } from '../pages/tasks-pending/tasks-pending';
     TasksPage,
     TasksCompletedPage,
     TasksPendingPage,
+    AdvancesPage,
     BarcodescannerPage
   ],
   imports: [ 
@@ -102,6 +104,7 @@ import { TasksPendingPage } from '../pages/tasks-pending/tasks-pending';
     MyApp,
     AboutPage,
     HolidaysPage,
+    AdvancesPage,
     AnnouncementpopupComponent,
     SalaryPage,
     DropdownComponent,

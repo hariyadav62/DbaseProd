@@ -52,5 +52,15 @@
         </ion-card-content>
       </ion-card> 
     </ion-col> 
+    <ion-col col-6 text-center *ngIf = "restCall.currentuser.UserType == 'ADMIN' || restCall.currentuser.UserType=='ACCOUNTANT'">
+      <ion-card style="border-radius: 10px;" (click)="AllAdvances()">
+          <p class="home-card-p"></p>
+        <ion-card-content>
+          <ion-card-title>
+            Advances
+          </ion-card-title> 
+        </ion-card-content>
+      </ion-card> 
+    </ion-col>
   </ion-row>
 </ion-content>

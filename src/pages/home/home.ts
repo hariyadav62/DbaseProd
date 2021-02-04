@@ -22,7 +22,7 @@ import { TabsTaskPage } from '../tabs-tasks/tabstask';
 export class HomePage {
 currentuser:any;
   reportStatus: any;
-  timer: number;
+  timer: any;
   time: string; 
   creditcounts: any;
   notifications:any;

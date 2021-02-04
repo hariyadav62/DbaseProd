@@ -100,30 +100,18 @@ export class TasksPage {
       CreatedOn: ''
     }
     console.log(task);
-    this.restCall.UpdateTask(task).then(()=>loader.dismiss())
-    // let headers: any = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' })
-    // this.http.put(this._HOST2 + '/UpdateAnnouncement', announce, headers)
-    //   .subscribe((data: any) => {
-    //     this.LoadAllAnnouncements();
-    //     loader.dismiss();
-    //   },
-    //   (error: any) => {
-    //     console.log(error);
-    //     loader.dismiss();
-    //   });
+    this.restCall.UpdateTask(task).then(()=>{this.restCall.LoadAllTasks('All','All');loader.dismiss()})
   }
   async UpdateTask(task){
     let loader = this.loadingController.create({
       content: "Updating.."
     });
     loader.present();
-    let ids = await task.EmpIds.split(',');    
-    // if(task.IsActive == 'true'){
-    //   task.IsActive = 'false'
-    // }else{ 
-    //   task.IsActive = 'true'
-    // }
-    this.restCall.UpdateTask(task).then(()=>loader.dismiss())
+    let ids = await task.EmpIds.split(','); 
+    this.restCall.UpdateTask(task).then(()=>{
+      this.restCall.LoadAllTasks('All','All');
+      loader.dismiss()
+    })
   }
 
   displayNotification(message: string): void {
@@ -134,99 +122,6 @@ export class TasksPage {
     toast.present();
   }
  
-  // async UpdateAnnouncement(announce){
-  //   console.log('2');
-  //   console.log(announce);
-  //   let loader = this.loadingController.create({
-  //     content: "Updating.."
-  //   });
-  //   loader.present();
-  //   let ids = await announce.EmpIds.split(',');    
-  //   if(announce.IsActive == 'true'){
-  //     announce.IsActive = 'false'
-  //   }else{ 
-  //     announce.IsActive = 'true'
-  //   }
-  //   // let headers: any = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' })
-  //   // this.http.put(this._HOST2 + '/UpdateAnnouncement', announce, headers)
-  //   //   .subscribe(async (data: any) => {
-  //   //     this.LoadAllAnnouncements();
-  //   //     if(ids.includes('All')){
-  //   //       let notify = {
-  //   //         SendTo: 'All',
-  //   //         Title: "New Announcement",
-  //   //         Body:`New Announcement from DBase Solutions`
-  //   //       }
-  //   //       this.sendNotification(notify);
-  //   //     }else{
-  //   //       let registrationIds = [];
-  //   //       await this.employeeList.forEach(x => {
-  //   //         if(ids.includes(x.EmpCode)){
-  //   //           registrationIds.push(x.DeviceId)
-  //   //         }
-  //   //       });
-  //   //       console.log(registrationIds);
-  //   //       let notify = {
-  //   //         SendTo: registrationIds,
-  //   //         Title: "New Announcement",
-  //   //         Body:`New Announcement from DBase Solutions`
-  //   //       }
-  //   //       this.sendNotification(notify);
-  //   //     }
-  //   //     loader.dismiss();
-  //   //   },
-  //   //   (error: any) => {
-  //   //     console.log(error);
-  //   //     loader.dismiss();
-  //   //   });
-    
-  // }
-  
-  // Announcement(announce) {
-  //   let loader = this.loadingController.create({
-  //     content: "Creating.."
-  //   });
-  //   loader.present();
-  //   let promise = new Promise((resolve,rejct)=>{
-    // let headers: any = new HttpHeaders({ 'Content-Type': 'application/json' })
-    // this.http
-    //   .post(this._HOST2 + "/CreateTask", announce, headers)
-    //   .subscribe(async (data: any) => {
-    //     this.displayNotification('Announcement Created');
-    //     loader.dismiss();
-    //     if(this.createemps.includes('All')){
-    //         let notify = {
-    //           SendTo: 'All',
-    //           Title: "New Announcement",
-    //           Body:`New Announcement from DBase Solutions`
-    //         }
-    //         this.sendNotification(notify);
-    //     }
-    //     if(!this.createemps.includes('All')){
-    //       let registrationIds = [];
-    //       await this.employeeList.forEach(x => {
-    //         if(this.createemps.includes(x.EmpCode)){
-    //           registrationIds.push(x.DeviceId)
-    //         }
-    //       });
-    //       console.log(registrationIds);
-    //       let notify = {
-    //         SendTo: registrationIds,
-    //         Title: "New Announcement",
-    //         Body:`New Announcement from DBase Solutions`
-    //       }
-    //       this.sendNotification(notify);
-    //     }
-    //     resolve();
-    //   },
-    //   (error: any) => {
-    //     this.displayNotification(error);
-    //     loader.dismiss();
-    //   });
-  //   });
-  //   return promise;
-  // }
-  
   async sendNotification(notify) {
   //   let promise = new Promise((resolve,reject)=>{
   //     let body = {};

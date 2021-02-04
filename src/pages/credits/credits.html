@@ -33,18 +33,18 @@
     <div class="dateFilter" *ngIf="!adv">
       <ion-item class="search_date"> 
         <ion-label>Search by Year</ion-label>
-          <ion-select (ionChange)="SearchByYear()" class="" placeholder="Search by Year" [(ngModel)]="selectedYear" name="selectedYear" style="padding: 5px 3px;">
-            <ion-option value="All">All</ion-option>
-            <ion-option *ngFor="let year of restCall.FYears " value="{{year.FINANCIALYEAR}}">{{year.FINANCIALYEAR}}</ion-option>
-          </ion-select>
-        </ion-item>
-        <ion-item class="Search_Month"> 
-          <ion-label>Search by Month</ion-label>
-          <ion-select (ionChange)="SearchByMonth()" class="" placeholder="Search by Month" [(ngModel)]="selectedMonth" name="selectedMonth" style="padding: 5px 3px;">
-            <ion-option value="All">All</ion-option>
-            <ion-option *ngFor="let month of selMonths" value="{{month}}">{{month}}</ion-option>
-          </ion-select>
-        </ion-item>
+        <ion-select (ionChange)="SearchByYear()" class="" placeholder="Search by Year" [(ngModel)]="selectedYear" name="selectedYear" style="padding: 5px 3px;">
+          <ion-option value="All">All</ion-option>
+          <ion-option *ngFor="let year of restCall.FYears " value="{{year.FINANCIALYEAR}}">{{year.FINANCIALYEAR}}</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item class="Search_Month"> 
+        <ion-label>Search by Month</ion-label>
+        <ion-select (ionChange)="SearchByMonth()" class="" placeholder="Search by Month" [(ngModel)]="selectedMonth" name="selectedMonth" style="padding: 5px 3px;">
+          <ion-option value="All">All</ion-option>
+          <ion-option *ngFor="let month of selMonths" value="{{month}}">{{month}}</ion-option>
+        </ion-select>
+      </ion-item>
     </div>
   </div>
   <span *ngIf="!adv"> 
@@ -52,7 +52,7 @@
   <ion-item *ngIf="restCall.loadEmpAllTransactions[0].TOTALAMOUNT != 0">
     <div item-start>  
       <p class="">Total</p>
-    </div>
+    </div> 
     <div item-end>  
       <p class="TotalAmount"><span>&#8377;</span> {{restCall.loadEmpAllTransactions[0].TOTALAMOUNT}}</p>
     </div>
@@ -75,7 +75,7 @@
             <div *ngIf="item.TRANSACTIONTYPE == 'Advance Repayment'">Sent to - {{item.SENDER}} {{item.EMPNAME}}</div>
             <div *ngIf="item.SENDER != '' && item.TRANSACTIONTYPE != 'Advance Repayment' && item.TRANSACTIONTYPE != 'Transfer'">Sender - {{item.SENDER}} {{item.EMPNAME}}</div>
             <div *ngIf="item.SENDER != '' && item.TRANSACTIONTYPE != 'Advance Repayment' && item.TRANSACTIONTYPE == 'Transfer'">Sent to - {{item.SENDER}} {{item.EMPNAME}}</div>
-            <div *ngIf="(item.TRANSACTIONTYPE == 'Advance Repayment' || item.TRANSACTIONTYPE == 'Transfer') && item.REMARKS.includes(' __ ')">{{item.REMARKS.split(' __ ').pop()}}</div>
+            <div *ngIf="(item.TRANSACTIONTYPE == 'Advance Repayment' || item.TRANSACTIONTYPE == 'Transfer' || item.TRANSACTIONTYPE == 'Credit') && item.REMARKS.includes(' __ ')">{{item.REMARKS.split(' __ ').pop()}}</div>
           </ion-card-content>
           <span class="moredetails" *ngIf="item.TRANSACTIONTYPE == 'Voucher'">
             <img class="vimg" *ngIf="item.FNAME && item.FNAME != ''" src="http://app.dbasesolutions.in/Image/{{item.FNAME}}" alt="">
@@ -97,7 +97,7 @@
             <tr>
               <th text-center>Date</th>
               <th text-center>Advance</th>
-              <th text-center>Repayment</th>
+              <th text-center class="repaymentLink" (click)="AdvanceRepayment()">Repayment</th>
             </tr>
             <tr *ngFor = "let item of restCall.transactions">
               <td text-center><span *ngIf = "item.DATE" >{{item.DATE.substring(0, 10)}}</span></td>

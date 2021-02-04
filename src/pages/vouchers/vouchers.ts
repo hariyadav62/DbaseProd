@@ -1,3 +1,4 @@
+import { AdvancesPage } from './../advances/advances';
 import { RestcallsProvider } from './../../providers/restcalls/restcalls';
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
@@ -18,6 +19,9 @@ export class VouchersPage {
   ionViewWillEnter() { 
     this.currentuser = this.restCall.currentuser;
     let cin = this.restCall.retrieveCashInHand(this.restCall.currentuser.EmpCode)
+  }
+  AllAdvances(){
+    this.navCtrl.push(AdvancesPage);
   }
   GoToTransfer(){ 
     this.navCtrl.push('TransferPage');  

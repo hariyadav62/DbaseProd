@@ -59,7 +59,15 @@ ApproveReport(report:any,x:string){
     this.ionViewWillEnter();
   }); 
 }
-
+ApproveAllPending(date:string){
+  console.log(date);
+  // this.restCall.ApproveAllPendingCheckins(date).then(()=>{
+  //   this.recheck = false;
+  //   this.pendin = false;
+  //   this.respond = false;
+  //   this.ionViewWillEnter();
+  // }); 
+}
   ionViewWillEnter(){
     this.restCall.TodayEmployeeReportings().then(()=>{
       this.restCall.todayEmployeeReportings.forEach(element => {

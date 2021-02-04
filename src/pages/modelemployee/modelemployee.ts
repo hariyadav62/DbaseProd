@@ -24,6 +24,7 @@ export class ModelemployeePage {
   oldPassword: any;
   password: any;
   newpassword: any;
+  enableCheckin: any;
   constructor(public navCtrl: NavController, public restCall: RestcallsProvider, public navParams: NavParams, public viewCtrl : ViewController,public app: App) {
   }
   public closeModal(){
@@ -108,7 +109,8 @@ export class ModelemployeePage {
       Email:this.Email,
       isActive: this.isActive,
       MaxTransferAmount:this.MaximumTransferAmount,
-      RequestTo:this.RequestTo
+      RequestTo:this.RequestTo,
+      EnableCheckin: this.enableCheckin
     }
     await this.restCall.AsyncUpdateEmployeeData(employe); 
     this.restCall.retrieveEmployeeByStatus(status);
@@ -129,6 +131,7 @@ export class ModelemployeePage {
       this.RequestTo = this.navParams.data.record.RequestTo;
       this.isActive = this.navParams.data.record.isActive;
       this.password = this.navParams.data.record.PassWord;
+      this.enableCheckin = this.navParams.data.record.EnableCheckin;
     }
   }
 }

@@ -8,7 +8,9 @@
   <div class="overlay" text-center>
     <button class="btns viewclose" ion-button color="danger" icon-only (click)="close()"><ion-icon name="close"></ion-icon></button> 
     <p text-center class="vmount top"><span>&#8377;</span>{{vamount}}</p>
-    <p text-center *ngIf="!isOpenVoucherVerified" (click)="VerifyVoucher(openedVoucher)" class="vmount verify bottombtn">Verify</p>
+    <span *ngIf="!isOpenVoucherVerified && openedVoucher">
+      <p text-center *ngIf="(restCall.currentuser.EmpCode != openedVoucher.EmpId)" (click)="VerifyVoucher(openedVoucher)" class="vmount verify bottombtn">Verify</p>
+    </span>
     <ion-slides [zoom]='true' [slidesPerView]="1" [initialSlide]="1" [ngClass]="{'multiSlide':billImg}">
       <ion-slide>
         <div class="swiper-zoom-container">
@@ -118,7 +120,7 @@
                   </div>
                   <div class="verifybtn"> 
                     <ion-input type="number" [(ngModel)]="this.updateamount" name="this.updateamount" class="updateamount"></ion-input>
-                    <button ion-button color="primary" clear (click)="VerifyVoucher(vou)">
+                    <button ion-button color="primary" clear (click)="VerifyVoucher(vou)" *ngIf="restCall.currentuser.EmpCode != vou.EmpId">
                       <span *ngIf="vou.IsVerified=='N'">Verify</span> 
                       <span *ngIf="vou.IsVerified=='Y' || vou.IsVerified=='U'">Update</span> 
                     </button>
