@@ -1,5 +1,10 @@
 <ion-header>
   <ion-navbar>
+    <ion-buttons left margin-horizontal>
+      <button ion-button icon-only (click)="onClickCancel()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </button>
+    </ion-buttons>
     <ion-title>Enable Checkins</ion-title>
   </ion-navbar>
 </ion-header>
@@ -7,6 +12,6 @@
 <ion-content padding>
   <ion-item class="activeCheck" *ngFor="let employee of restCall.employeeList, let i = index"> 
     <ion-label>{{employee.EmpCode}} {{employee.EmpName}}</ion-label>
-    <ion-checkbox color="primary" (ionChange)="EnableCheckin($event,employee)" [checked]="emps.includes(employee.EmpCode)"></ion-checkbox>
+    <ion-checkbox color="primary" (ionChange)="EnableCheckin($event,employee)" [checked]="employee.IsChekin_Enable"></ion-checkbox>
   </ion-item>
 </ion-content>

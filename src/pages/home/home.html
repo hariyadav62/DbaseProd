@@ -46,7 +46,7 @@
             </ion-card-content>
           </ion-card>
         </ion-col>
-        <ion-col col-6 text-center (click)="TimeReport()">
+        <ion-col col-6 text-center (click)="TimeReport()" *ngIf = "currentuser.IsChekin_Enable">
           <ion-card style="border-radius: 10px;" class="shadow check-in">
             <span *ngIf="restCall.employeeReportingsByDate">
               <span *ngFor="let item of restCall.employeeReportingsByDate">

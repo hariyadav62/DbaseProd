@@ -51,6 +51,7 @@ import { TabsTaskPage } from '../pages/tabs-tasks/tabstask';
 import { TasksCompletedPage } from '../pages/tasks-completed/tasks-completed';
 import { TasksPendingPage } from '../pages/tasks-pending/tasks-pending';
 import { AdvancesPage } from '../pages/advances/advances';
+import { EnablecheckinsPage } from '../pages/enablecheckins/enablecheckins';
 @NgModule({ 
   declarations: [
     MyApp,
@@ -88,7 +89,8 @@ import { AdvancesPage } from '../pages/advances/advances';
     TasksCompletedPage,
     TasksPendingPage,
     AdvancesPage,
-    BarcodescannerPage
+    BarcodescannerPage,
+    EnablecheckinsPage
   ],
   imports: [ 
     BrowserModule,
@@ -136,7 +138,8 @@ import { AdvancesPage } from '../pages/advances/advances';
     TasksPage,
     TasksCompletedPage,
     TasksPendingPage,
-    BarcodescannerPage
+    BarcodescannerPage,
+    EnablecheckinsPage
   ],
   providers: [
     StatusBar,
