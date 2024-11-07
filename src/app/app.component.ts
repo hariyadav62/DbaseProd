@@ -43,7 +43,7 @@ export class MyApp {
   sendNotification() 
   {  
   let body = {
-    "to" : "frPH2zPuyC8:APA91bF5MNPINigdHR4U94wHWBjZL4gzWYqE-rbNLBimPut2GWgEjHc77qu9C4qjgtju2aryjoHE5pWsiF6TGYA8ZYGEX_xA2oQxfU1ukzh5bNxTJZAv7dp8JM-vHOX5VwNDI_2JhJoh",
+    "to" : "",
       "notification":{
         "title":"New Notification has arrived",
         "body":"Notification Body",
@@ -60,7 +60,7 @@ export class MyApp {
     }
     let options = new HttpHeaders().set('Content-Type','application/json');
     this.http.post("https://fcm.googleapis.com/fcm/send",body,{
-      headers: options.set('Authorization', 'key=AAAAF6SCHfs:APA91bFzPumiOnin4U4c_UM0qGfz1PbQqUwZr8Mo8JEBjJX18kI14NwqtCbgtCyK_xjqumwJLb0Vclh833F-k7VcviJ4taXSVu1YqFfhvraRTTvtBYSur2pQ6feggy3pvdDQWFTRz9Wp'),
+      headers: options.set('Authorization', 'key='),
     })
       .subscribe();
   }
